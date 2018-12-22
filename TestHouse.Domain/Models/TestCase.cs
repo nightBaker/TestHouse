@@ -4,13 +4,16 @@ using System.Text;
 
 namespace TestHouse.Domain.Models
 {
+    /// <summary>
+    /// Test case 
+    /// </summary>
     public class TestCase
     {
         public TestCase(string name, string description,string expectedResult, Suit suit)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Name is not specified", "name");
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrEmpty(expectedResult))
                 throw new ArgumentException("Expected result is not specified", "expectedResult");
 
             Name = name;

@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TestHouse.Domain.Models
 {
+    /// <summary>
+    /// Project - parent of all suites
+    /// </summary>
     public class Project
     {        
         /// <summary>

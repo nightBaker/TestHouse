@@ -5,11 +5,13 @@ using System.Text;
 namespace TestHouse.Domain.Enums
 {
     /// <summary>
-    /// History type
+    /// Step status
     /// </summary>
-    public enum RunHistoryType
+    public enum StepRunStatus
     {
-        Status,
-        Comment
+        None,
+        Done,
+        Failed,
+        Blocked
     }
 }

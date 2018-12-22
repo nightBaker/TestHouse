@@ -2,7 +2,7 @@ using System;
 using TestHouse.Domain.Models;
 using Xunit;
 
-namespace TestHouse.Domain.Tests
+namespace TestHouse.Domain.Tests.Models
 {
     public class ProjectTests
     {
@@ -12,19 +12,18 @@ namespace TestHouse.Domain.Tests
             var project = new Project("test name", "test description");
 
             Assert.NotNull(project);
-
+            var except = false;
             try
             {
                 var incorect = new Project(null, null);
             }
             catch (ArgumentException)
             {
-                Assert.True(true);
+                
+                except = true;
             }
-            catch (Exception e)
-            {
-                Assert.True(false);
-            }
+
+            Assert.True(except);
         }
     }
 }
