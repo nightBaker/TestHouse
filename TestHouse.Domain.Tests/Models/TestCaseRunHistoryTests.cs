@@ -25,30 +25,8 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(testRun);
             Assert.NotNull(testHistory);
 
-            var except = false;
-            try
-            {
-                var incorect = new TestCaseRunHistory(Enums.RunHistoryType.Status, "", testCaseRun);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
-
-
-            except = false;
-            try
-            {
-                var incorect = new TestCaseRunHistory(Enums.RunHistoryType.Status, "message", null);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
+            Assert.Throws<ArgumentException>(() => new TestCaseRunHistory(Enums.RunHistoryType.Status, "", testCaseRun));
+            Assert.Throws<ArgumentException>(() => new TestCaseRunHistory(Enums.RunHistoryType.Status, "message", null));            
         }
     }
 }

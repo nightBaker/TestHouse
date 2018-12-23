@@ -22,18 +22,7 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(testCase);
             Assert.NotNull(testRun);
 
-            var except = false;
-            try
-            {
-                var incorect = new TestRun("","descr", new List<TestCaseRun>());
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
-            
+            Assert.Throws<ArgumentException>(() => new TestRun("", "descr", new List<TestCaseRun>()));                        
         }
     }
 }

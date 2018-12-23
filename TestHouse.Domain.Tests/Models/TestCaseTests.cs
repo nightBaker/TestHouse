@@ -19,42 +19,9 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(project);
             Assert.NotNull(testCase);
 
-            var except = false;
-            try
-            {
-                var incorect = new TestCase("","descr","result",suit);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
-
-            except = false;
-            try
-            {
-                var incorect = new TestCase("name", "descr","", suit);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
-
-
-            except = false;
-            try
-            {
-                var incorect = new TestCase("name", "descr", "result", null);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
+            Assert.Throws<ArgumentException>(() => new TestCase("", "descr", "result", suit));
+            Assert.Throws<ArgumentException>(() => new TestCase("name", "descr", "", suit));
+            Assert.Throws<ArgumentException>(() => new TestCase("name", "descr", "result", null));            
         }
     }
 }

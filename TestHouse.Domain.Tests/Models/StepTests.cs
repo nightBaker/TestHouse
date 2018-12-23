@@ -13,18 +13,7 @@ namespace TestHouse.Domain.Tests.Models
         {
             var step = new Step(1, "description", "result");
             Assert.NotNull(step);
-
-            var except = false;
-            try
-            {
-                var incorect = new Step(0, "", "result");
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
+            Assert.Throws<ArgumentException>(() => new Step(0, "", "result"));           
         }
     }
 }

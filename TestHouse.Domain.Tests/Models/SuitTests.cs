@@ -16,29 +16,9 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(suit);
             Assert.NotNull(project);
 
-            var except = false;
-            try
-            {
-                var incorect = new Suit("","descr", project);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
-
-            except = false;
-            try
-            {
-                var incorect = new Suit("name", "descr", null);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
+            Assert.Throws<ArgumentException>(() => new Suit("", "descr", project));
+            Assert.Throws<ArgumentException>(() => new Suit("name", "descr", null));
+        
         }
     }
 }
