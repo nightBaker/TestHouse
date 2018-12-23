@@ -16,17 +16,7 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(step);
             Assert.NotNull(stepRun);
 
-            var except = false;
-            try
-            {
-                var incorect = new StepRun(null);
-            }
-            catch (ArgumentException)
-            {
-                except = true;
-            }
-
-            Assert.True(except);
+            Assert.Throws<ArgumentException>(() => new StepRun(null));            
         }
     }
 }

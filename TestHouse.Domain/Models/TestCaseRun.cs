@@ -10,6 +10,9 @@ namespace TestHouse.Domain.Models
     /// </summary>
     public class TestCaseRun
     {
+        //for ef core
+        private TestCaseRun() { }
+
         public TestCaseRun(TestCase testCase, List<StepRun> steps, TestRun testRun)
         {
             TestCase = testCase ?? throw new ArgumentException("Test case is not specified", "testCase");            
