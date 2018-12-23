@@ -4,6 +4,9 @@ using System.Text;
 
 namespace TestHouse.Domain.Models
 {
+    /// <summary>
+    /// Test case step
+    /// </summary>
     public class Step
     {
         public Step(int order, string description, string expectedResult)
