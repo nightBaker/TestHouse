@@ -29,6 +29,10 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public DateTime CreatedAt { get; private set; }
 
+        /// <summary>
+        /// Root suit 
+        /// </summary>
+        public Suit RootSuit { get; private set; }
 
         public Project(string name, string description)
         {
@@ -37,6 +41,8 @@ namespace TestHouse.Domain.Models
             Name = name;
             Description = description;
             CreatedAt = DateTime.UtcNow;
+
+            RootSuit = new Suit("root", "root", 0, this);
         }
     }
 }

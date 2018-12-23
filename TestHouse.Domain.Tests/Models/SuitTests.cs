@@ -12,12 +12,12 @@ namespace TestHouse.Domain.Tests.Models
         public void Creation()
         {
             var project = new Project("name", "description");
-            var suit = new Suit("name", "description",project);
+            var suit = new Suit("name", "description",0,project);
             Assert.NotNull(suit);
             Assert.NotNull(project);
 
-            Assert.Throws<ArgumentException>(() => new Suit("", "descr", project));
-            Assert.Throws<ArgumentException>(() => new Suit("name", "descr", null));
+            Assert.Throws<ArgumentException>(() => new Suit("", "descr",0, project));
+            Assert.Throws<ArgumentException>(() => new Suit("name", "descr",0, null));
         
         }
     }

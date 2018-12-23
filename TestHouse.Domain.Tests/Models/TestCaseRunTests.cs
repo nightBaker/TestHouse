@@ -12,9 +12,9 @@ namespace TestHouse.Domain.Tests.Models
         public void Creation()
         {
             var project = new Project("name", "description");
-            var suit = new Suit("name", "description", project);
-            var testCase = new TestCase("name", "description", "expectedResult", suit);
-            var testRun = new TestRun("name", "description", new List<TestCaseRun>());
+            var suit = new Suit("name", "description",0, project);
+            var testCase = new TestCase("name", "description", "expectedResult", suit, 0);
+            var testRun = new TestRun("name", "description", project , new List<TestCaseRun>());
             var testCaseRun = new TestCaseRun(testCase, null, testRun);
 
             Assert.NotNull(suit);
