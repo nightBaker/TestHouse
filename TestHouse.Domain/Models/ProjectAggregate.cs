@@ -7,8 +7,10 @@ namespace TestHouse.Domain.Models
     /// <summary>
     /// Project - parent of all suites
     /// </summary>
-    public class Project
-    {        
+    public class ProjectAggregate
+    {
+        private List<TestRun> _testRuns;
+
         /// <summary>
         /// Project id
         /// </summary>
@@ -34,7 +36,12 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public Suit RootSuit { get; private set; }
 
-        public Project(string name, string description)
+        /// <summary>
+        /// Test runs
+        /// </summary>
+        public IReadOnlyCollection<TestRun> TestRuns => _testRuns; 
+
+        public ProjectAggregate(string name, string description)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Name is not specified", "name");
 
@@ -43,6 +50,7 @@ namespace TestHouse.Domain.Models
             CreatedAt = DateTime.UtcNow;
 
             RootSuit = new Suit("root", "root", 0, this);
+            _testRuns = new List<TestRun>();
         }
     }
 }
