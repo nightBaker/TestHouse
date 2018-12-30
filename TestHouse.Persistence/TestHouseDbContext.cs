@@ -9,5 +9,9 @@ namespace TestHouse.Persistence
         public DbSet<Project> Projects { get; set; }
         public DbSet<Suit> Suits { get; set; }
         public DbSet<TestCase> TestCases { get; set; }
+
+        public DbSet<TestRun> TestRuns { get; set; }
+
+        public DbSet<TestRunCase> TestRunCases { get; set; }
     }
 }

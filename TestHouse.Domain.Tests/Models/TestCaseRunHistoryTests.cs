@@ -14,9 +14,9 @@ namespace TestHouse.Domain.Tests.Models
             var project = new Project("name", "description");
             var suit = new Suit("name", "description",0,project);
             var testCase = new TestCase("name", "description", "expectedResult", suit, 0);
-            var testRun = new TestRun("name", "description", project,new List<TestCaseRun>());
-            var testCaseRun = new TestCaseRun(testCase, null, testRun);
-            var testHistory = new TestCaseRunHistory(Enums.RunHistoryType.Status, "message", testCaseRun);
+            var testRun = new TestRun("name", "description", project,new List<TestRunCase>());
+            var testCaseRun = new TestRunCase(testCase, null, testRun);
+            var testHistory = new TestRunCaseHistory(Enums.RunHistoryType.Status, "message", testCaseRun);
 
             Assert.NotNull(suit);
             Assert.NotNull(project);
@@ -25,8 +25,8 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(testRun);
             Assert.NotNull(testHistory);
 
-            Assert.Throws<ArgumentException>(() => new TestCaseRunHistory(Enums.RunHistoryType.Status, "", testCaseRun));
-            Assert.Throws<ArgumentException>(() => new TestCaseRunHistory(Enums.RunHistoryType.Status, "message", null));            
+            Assert.Throws<ArgumentException>(() => new TestRunCaseHistory(Enums.RunHistoryType.Status, "", testCaseRun));
+            Assert.Throws<ArgumentException>(() => new TestRunCaseHistory(Enums.RunHistoryType.Status, "message", null));            
         }
     }
 }

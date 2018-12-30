@@ -6,7 +6,7 @@ namespace TestHouse.Domain.Models
     /// <summary>
     /// Change history of test case run
     /// </summary>
-    public class TestCaseRunHistory
+    public class TestRunCaseHistory
     {        
         /// <summary>
         /// test case run history id
@@ -31,10 +31,10 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Parent test case run
         /// </summary>
-        public TestCaseRun TestCaseRun { get; private set; }
+        public TestRunCase TestCaseRun { get; private set; }
 
 
-        public TestCaseRunHistory(RunHistoryType type, string message, TestCaseRun testCaseRun)
+        public TestRunCaseHistory(RunHistoryType type, string message, TestRunCase testCaseRun)
         {
             if (string.IsNullOrEmpty(message))
                 throw new ArgumentException("Message is not specified", "message");

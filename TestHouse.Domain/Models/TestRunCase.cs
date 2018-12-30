@@ -8,18 +8,23 @@ namespace TestHouse.Domain.Models
     /// <summary>
     /// Test case run - extended test case for run
     /// </summary>
-    public class TestCaseRun
+    public class TestRunCase
     {
         //for ef core
-        private TestCaseRun() { }
+        private TestRunCase() { }
 
-        public TestCaseRun(TestCase testCase, List<StepRun> steps, TestRun testRun)
+        public TestRunCase(TestCase testCase, List<StepRun> steps, TestRun testRun)
         {
             TestCase = testCase ?? throw new ArgumentException("Test case is not specified", "testCase");            
             Steps = steps;
             Status = TestCaseStatus.None;
             TestRun = testRun ?? throw new ArgumentException("Test run is not specified", "testRun");
         }
+
+        /// <summary>
+        /// Test run case id
+        /// </summary>
+        public long Id { get; private set; }
 
         /// <summary>
         /// Test case
@@ -29,7 +34,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Status
         /// </summary>
-        public TestCaseStatus Status { get; private set; }
+        public TestCaseStatus Status { get; set; }
 
         /// <summary>
         /// Steps

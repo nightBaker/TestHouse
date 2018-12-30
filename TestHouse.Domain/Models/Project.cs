@@ -34,6 +34,8 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public Suit RootSuit { get; private set; }
 
+
+
         public Project(string name, string description)
         {
             if (string.IsNullOrEmpty(name)) throw new ArgumentException("Name is not specified", "name");
