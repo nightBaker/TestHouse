@@ -9,7 +9,9 @@ namespace TestHouse.Domain.Models
     /// </summary>
     public class TestCase
     {
-        public TestCase(string name, string description,string expectedResult, Suit suit, uint order)
+        private List<Step> _steps;
+
+        public TestCase(string name, string description, string expectedResult, Suit suit, uint order)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Name is not specified", "name");
@@ -20,10 +22,10 @@ namespace TestHouse.Domain.Models
             Description = description;
             CreatedAt = DateTime.UtcNow;
             ExpectedResult = expectedResult;
-            Steps = new List<Step>();
+            _steps = new List<Step>();
 
-            Suit = suit ?? throw new ArgumentException("Test case must belogs to suit","suit");
-            
+            Suit = suit ?? throw new ArgumentException("Test case must belogs to suit", "suit");
+
         }
 
         /// <summary>
@@ -64,7 +66,12 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Test case steps
         /// </summary>
-        public List<Step> Steps { get; private set; }
+        public IReadOnlyCollection<Step> Steps => _steps;
+
+        public void AddStep(Step step)
+        {
+            _steps.Add(step);
+        }
 
     }
 }

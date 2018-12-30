@@ -64,11 +64,11 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Add new suit to the project
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="description"></param>
-        /// <param name="order"></param>
-        /// <param name="parentSuitId"></param>
-        public Suit AddSuit(string name, string description, long? parentSuitId = null)
+        /// <param name="name">suit name</param>
+        /// <param name="description">suit description</param>
+        /// <param name="order">suit order</param>
+        /// <param name="parentSuitId">parent suit id, if it is not specified then root suit</param>
+        public void AddSuit(string name, string description, long? parentSuitId = null)
         {
             var parentSuit = parentSuitId.HasValue
                             ? _suits.FirstOrDefault(s => s.Id == parentSuitId)
@@ -78,9 +78,29 @@ namespace TestHouse.Domain.Models
                     ? _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1
                     : 0;
             var suit = new Suit(name, description, order, parentSuit);
-            _suits.Add(suit);
+            _suits.Add(suit);           
+        }
 
-            return suit;
+        /// <summary>
+        /// Add new test case to specified suit in the project
+        /// </summary>
+        /// <param name="name">test case name</param>
+        /// <param name="description">test case description</param>
+        /// <param name="expectedResult">test case expected result</param>
+        /// <param name="suitId">test case suit id</param>
+        /// <param name="steps">test case steps</param>
+        public void AddTestCase(string name, string description, string expectedResult, long suitId, List<Step> steps)
+        {
+            var suit = _suits.FirstOrDefault(s => s.Id == suitId) ?? throw new ArgumentException("Suit is not found with specified suitId", nameof(suitId));
+            var order = suit.TestCases.Any() ? suit.TestCases.Max(tc => tc.Order) + 1 : 0;
+            var testCase = new TestCase(name, description, expectedResult, suit, order);
+
+            foreach(var step in steps)
+            {
+                testCase.AddStep(step);
+            }
+
+            suit.TestCases.Add(testCase);
         }
     }
 }
