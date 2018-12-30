@@ -5,7 +5,7 @@ namespace TestHouse.Domain.Models
 {
     public class Suit
     {
-        public Suit(string name, string description,uint order, Project project)
+        public Suit(string name, string description,uint order, ProjectAggregate project)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Name is not specified", "name");
@@ -18,7 +18,7 @@ namespace TestHouse.Domain.Models
             TestCases = new List<TestCase>();
         }
 
-        public Suit(string name, string description, uint order, Project project, Suit parent)
+        public Suit(string name, string description, uint order, ProjectAggregate project, Suit parent)
             :this(name,description,order,project)
         {
             ParentSuit = parent;
@@ -42,7 +42,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Parent project
         /// </summary>
-        public Project Project { get; private set; }
+        public ProjectAggregate Project { get; private set; }
 
         /// <summary>
         /// Suit Order

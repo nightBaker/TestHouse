@@ -16,9 +16,9 @@ namespace TestHouse.Application.Services
             _projectDbContext = projectDbContext;
         }
 
-        public async Task<Project> AddProject(string name, string description)
+        public async Task<ProjectAggregate> AddProject(string name, string description)
         {
-            var project = new Project(name, description);
+            var project = new ProjectAggregate(name, description);
 
             _projectDbContext.Projects.Add(project);
             await _projectDbContext.SaveChangesAsync();

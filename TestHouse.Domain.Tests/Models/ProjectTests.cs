@@ -9,11 +9,11 @@ namespace TestHouse.Domain.Tests.Models
         [Fact]
         public void Creation()
         {
-            var project = new Project("test name", "test description");
+            var project = new ProjectAggregate("test name", "test description");
 
             Assert.NotNull(project);
 
-            Assert.Throws<ArgumentException>(() => new Project(null, null));            
+            Assert.Throws<ArgumentException>(() => new ProjectAggregate(null, null));            
         }
     }
 }

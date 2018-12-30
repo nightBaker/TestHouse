@@ -11,7 +11,7 @@ namespace TestHouse.Domain.Tests.Models
         [Fact]
         public void Creation()
         {
-            var project = new Project("name", "description");
+            var project = new ProjectAggregate("name", "description");
             var suit = new Suit("name", "description",0,project);
             Assert.NotNull(suit);
             Assert.NotNull(project);

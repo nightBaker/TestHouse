@@ -6,7 +6,7 @@ namespace TestHouse.Domain.Models
 {
     public class TestRun
     {
-        public TestRun(string name, string description, Project project, List<TestRunCase> testCases = null)
+        public TestRun(string name, string description, ProjectAggregate project, List<TestCaseRun> testCases = null)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Name is not specified", "name");            
@@ -41,6 +41,6 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Project
         /// </summary>
-        public Project Project { get; private set; }
+        public ProjectAggregate Project { get; private set; }
     }
 }
