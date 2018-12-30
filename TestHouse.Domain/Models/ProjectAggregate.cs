@@ -74,7 +74,9 @@ namespace TestHouse.Domain.Models
                             ? _suits.FirstOrDefault(s => s.Id == parentSuitId)
                             : RootSuit
                             ?? throw new ArgumentException("Project does not have suit with specified parentSuitId", nameof(parentSuitId));
-            var order = _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1;
+            var order = _suits.Any(s => s.Id == parentSuit.Id) 
+                    ? _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1
+                    : 0;
             var suit = new Suit(name, description, order, parentSuit);
             _suits.Add(suit);
 
