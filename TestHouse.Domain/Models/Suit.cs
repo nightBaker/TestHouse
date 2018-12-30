@@ -5,23 +5,23 @@ namespace TestHouse.Domain.Models
 {
     public class Suit
     {
-        public Suit(string name, string description,uint order, ProjectAggregate project)
+        public Suit(string name, string description,uint order)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentException("Name is not specified", "name");
+                throw new ArgumentException("Name is not specified", nameof(name));
 
             Name = name;
             Description = description;
             Order = order;
-            Project = project ?? throw new ArgumentException("Suit must belogs to project", "project");
-            Childs = new List<Suit>();
+            //Project = project ?? throw new ArgumentException("Suit must belogs to project", "project");
+            //Childs = new List<Suit>();
             TestCases = new List<TestCase>();
         }
 
-        public Suit(string name, string description, uint order, ProjectAggregate project, Suit parent)
-            :this(name,description,order,project)
+        public Suit(string name, string description, uint order, Suit parent)
+            :this(name,description,order)
         {
-            ParentSuit = parent;
+            ParentSuit = parent ?? throw new ArgumentException("Parent suit is not specified", nameof(parent));
         }
 
         /// <summary>
@@ -39,10 +39,10 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public string Description { get; private set; }
 
-        /// <summary>
-        /// Parent project
-        /// </summary>
-        public ProjectAggregate Project { get; private set; }
+        ///// <summary>
+        ///// Parent project
+        ///// </summary>
+        //public ProjectAggregate Project { get; private set; }
 
         /// <summary>
         /// Suit Order
@@ -54,10 +54,10 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public Suit ParentSuit { get; private set; }
 
-        /// <summary>
-        /// Childs
-        /// </summary>
-        public List<Suit> Childs { get; private set; }
+        ///// <summary>
+        ///// Childs
+        ///// </summary>
+        //public List<Suit> Childs { get; private set; }
 
         /// <summary>
         /// Test cases in the suit
