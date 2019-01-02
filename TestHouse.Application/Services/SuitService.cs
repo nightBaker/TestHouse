@@ -32,7 +32,7 @@ namespace TestHouse.Application.Services
                         ?? throw new ArgumentException("Project with specified id is not found", "projectId");
 
 
-            var suit = project.AddSuit(name, description, parentId);
+            project.AddSuit(name, description, parentId);
 
             await _projectRepository.SaveAsync();            
         }

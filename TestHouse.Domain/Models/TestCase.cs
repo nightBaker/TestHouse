@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using System.Text;
 
+[assembly: InternalsVisibleTo("TestHouse.Domain.Tests")]
 namespace TestHouse.Domain.Models
 {
     /// <summary>
@@ -20,6 +22,7 @@ namespace TestHouse.Domain.Models
 
             Name = name;
             Description = description;
+            Order = order;
             CreatedAt = DateTime.UtcNow;
             ExpectedResult = expectedResult;
             _steps = new List<Step>();
@@ -31,7 +34,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Test case id
         /// </summary>
-        public long Id { get; private set; }
+        public long Id { get; internal set; }
 
         /// <summary>
         /// Test case name
@@ -68,9 +71,22 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public IReadOnlyCollection<Step> Steps => _steps;
 
+        /// <summary>
+        /// Add step
+        /// </summary>
+        /// <param name="step"></param>
         public void AddStep(Step step)
         {
             _steps.Add(step);
+        }
+
+        /// <summary>
+        /// Add steps
+        /// </summary>
+        /// <param name="steps"></param>
+        public void AddSteps(IEnumerable<Step> steps)
+        {
+            _steps.AddRange(steps);
         }
 
     }

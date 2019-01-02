@@ -33,7 +33,7 @@ namespace TestHouse.Application.Services
                 .FirstOrDefaultAsync(s => s.Id == testCaseId)
                 ?? throw new ArgumentException("Test case with specified id is not found", nameof(testCaseId));
 
-            testCase.Steps.AddRange(steps);
+            testCase.AddSteps(steps);
 
             return testCase;
         }

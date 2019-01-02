@@ -36,7 +36,7 @@ namespace TestHouse.Application.Services
             var order = suit.TestCases.Max(t => t.Order) + 1;
             var testCase = new TestCase(name, description, expectedResult, suit, order);
 
-            if(steps != null) testCase.Steps.AddRange(steps);
+            if(steps != null) testCase.AddSteps(steps);
 
             _dbContext.TestCases.Add(testCase);
 

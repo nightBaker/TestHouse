@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("TestHouse.Domain.Tests")]
 namespace TestHouse.Domain.Models
-{
+{    
     public class Suit
     {
         public Suit(string name, string description,uint order)
@@ -26,8 +28,8 @@ namespace TestHouse.Domain.Models
 
         /// <summary>
         /// Suit id
-        /// </summary>
-        public long Id { get; private set; }
+        /// </summary>        
+        public long Id { get; internal set; }
 
         /// <summary>
         /// Suit name

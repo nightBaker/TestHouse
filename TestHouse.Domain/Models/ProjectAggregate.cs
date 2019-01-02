@@ -102,5 +102,27 @@ namespace TestHouse.Domain.Models
 
             suit.TestCases.Add(testCase);
         }
+
+        /// <summary>
+        /// Add step to test case
+        /// </summary>
+        /// <param name="testCaseId"></param>
+        /// <param name="step"></param>
+        public void AddStep(long testCaseId, Step step)
+        {
+            var testCase = _findTestCase(testCaseId);
+            testCase.AddStep(step);
+        }
+
+        /// <summary>
+        /// Look for test case in all suits
+        /// </summary>
+        /// <param name="id">Test case id</param>
+        /// <returns></returns>
+        private TestCase _findTestCase(long id)
+        {
+            return _suits.Select(s => s.TestCases.FirstOrDefault(tc => tc.Id == id))
+                        .FirstOrDefault(tc => tc != null);
+        }
     }
 }
