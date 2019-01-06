@@ -14,8 +14,8 @@ namespace TestHouse.Domain.Tests.Models
             var project = new ProjectAggregate("name", "description");
             var suit = new Suit("name", "description",0);
             var testCase = new TestCase("name", "description", "expectedResult", suit, 0);
-            var testRun = new TestRun("name", "description", project,new List<TestRunCase>());
-            var testCaseRun = new TestRunCase(testCase, null, testRun);
+            var testRun = new TestRun("name", "description",new List<TestRunCase>());
+            var testCaseRun = new TestRunCase(testCase, new List<StepRun>());
             var testHistory = new TestRunCaseHistory(Enums.RunHistoryType.Status, "message", testCaseRun);
 
             Assert.NotNull(suit);

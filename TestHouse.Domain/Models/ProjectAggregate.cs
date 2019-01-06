@@ -115,14 +115,72 @@ namespace TestHouse.Domain.Models
         }
 
         /// <summary>
+        /// Add test run
+        /// </summary>
+        /// <param name="name">Name of the run</param>
+        /// <param name="description">Description of the run</param>
+        /// <param name="testCaseIds">Test cases to include into the run</param>
+        public void AddTestRun(string name, string description, HashSet<long> testCaseIds)
+        {
+            if (testCaseIds == null) throw new ArgumentNullException(nameof(testCaseIds));
+
+            var testCases = _getAllTestCases(tc => testCaseIds.Contains(tc.Id));
+
+            var testRunCases = testCases.Select(tc =>
+                new TestRunCase(tc, tc.Steps.Select(s => new StepRun(s)).ToList()))
+                    .ToList() ;
+
+            var testRun = new TestRun(name, description, testRunCases);
+            _testRuns.Add(testRun);
+        }
+
+        /// <summary>
+        /// Add test cases to test run
+        /// </summary>
+        /// <param name="testCaseIds">Test cases ids to add</param>
+        /// <param name="testRunId">Test run id</param>
+        public void AddTestCasesToRun(HashSet<long> testCaseIds, long testRunId)
+        {
+            var testRun = _testRuns.FirstOrDefault(tr => tr.Id == testRunId)
+                ?? throw new ArgumentException("Test run is not fount with specified id", nameof(testRunId));
+
+            var testRunCases = _getAllTestCases(tc => testCaseIds.Contains(tc.Id))
+                            .Except(testRun.TestCases.Select(trc => trc.TestCase)) //except already added
+                            .Select(tc => new TestRunCase(tc, tc.Steps.Select(s => new StepRun(s)).ToList()));
+
+            testRun.TestCases.AddRange(testRunCases);            
+        }
+
+
+        /// <summary>
         /// Look for test case in all suits
         /// </summary>
         /// <param name="id">Test case id</param>
         /// <returns></returns>
         private TestCase _findTestCase(long id)
         {
-            return _suits.Select(s => s.TestCases.FirstOrDefault(tc => tc.Id == id))
-                        .FirstOrDefault(tc => tc != null);
+            foreach (var suit in _suits)
+            {
+                var testCase =suit.TestCases.FirstOrDefault(tc=>tc.Id == id);
+                if (testCase != null) return testCase;
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// All test cases from all suits by predicate
+        /// </summary>
+        /// <param name="predicate">Predicate</param>
+        /// <returns>List of matches testCases</returns>
+        private IEnumerable<TestCase> _getAllTestCases(Predicate<TestCase> predicate)
+        {
+            var testCases = new List<TestCase>();
+            foreach(var suit in _suits)
+            {
+                testCases.AddRange(suit.TestCases);
+            }
+            return testCases.Where(t=> predicate(t));
         }
     }
 }

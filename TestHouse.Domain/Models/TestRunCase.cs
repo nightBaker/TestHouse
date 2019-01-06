@@ -13,12 +13,11 @@ namespace TestHouse.Domain.Models
         //for ef core
         private TestRunCase() { }
 
-        public TestRunCase(TestCase testCase, List<StepRun> steps, TestRun testRun)
+        public TestRunCase(TestCase testCase, List<StepRun> steps)
         {
-            TestCase = testCase ?? throw new ArgumentException("Test case is not specified", "testCase");            
-            Steps = steps;
-            Status = TestCaseStatus.None;
-            TestRun = testRun ?? throw new ArgumentException("Test run is not specified", "testRun");
+            TestCase = testCase ?? throw new ArgumentNullException("Test case is not specified", nameof(testCase));
+            Steps = steps ?? throw new ArgumentNullException(nameof(steps));
+            Status = TestCaseStatus.None;            
         }
 
         /// <summary>
@@ -40,10 +39,6 @@ namespace TestHouse.Domain.Models
         /// Steps
         /// </summary>
         public List<StepRun> Steps { get; private set; }
-
-        /// <summary>
-        /// Parent test run
-        /// </summary>
-        public TestRun TestRun { get; private set; }
+        
     }
 }

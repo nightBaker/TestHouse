@@ -33,7 +33,7 @@ namespace TestHouse.Application.Services
             var project = await _dbContext.Projects.FirstOrDefaultAsync()
                             ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
 
-            var testRun = new TestRun(name, description, project);
+            var testRun = new TestRun(name, description, new List<TestRunCase>());
             var testRunCases = await _getTestRunCases(testCasesIds, testRun);
 
             testRun.TestCases.AddRange(testRunCases);
@@ -80,8 +80,7 @@ namespace TestHouse.Application.Services
 
             var testRunCases = testCases.Select(tc =>
                     new TestRunCase(tc,
-                        tc.Steps.Select(s => new StepRun(s)).ToList(),
-                        testRun));
+                        tc.Steps.Select(s => new StepRun(s)).ToList()));
             return testRunCases;
         }
 

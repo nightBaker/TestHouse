@@ -14,7 +14,7 @@ namespace TestHouse.Domain.Tests.Models
             var project = new ProjectAggregate("name", "description");
             var suit = new Suit("name", "description",0);
             var testCase = new TestCase("name", "description", "expectedResult", suit,0);
-            var testRun = new TestRun("name", "description",project, new List<TestRunCase>());
+            var testRun = new TestRun("name", "description", new List<TestRunCase>());
             
 
             Assert.NotNull(suit);
@@ -22,8 +22,8 @@ namespace TestHouse.Domain.Tests.Models
             Assert.NotNull(testCase);
             Assert.NotNull(testRun);
 
-            Assert.Throws<ArgumentException>(() => new TestRun("", "descr",project, new List<TestRunCase>()));
-            Assert.Throws<ArgumentException>(() => new TestRun("name", "descr", null, new List<TestRunCase>()));
+            Assert.Throws<ArgumentException>(() => new TestRun("", "descr", new List<TestRunCase>()));
+            Assert.Throws<ArgumentNullException>(() => new TestRun("name", "descr",null));
         }
     }
 }
