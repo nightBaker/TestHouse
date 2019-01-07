@@ -9,6 +9,9 @@ namespace TestHouse.Domain.Models
     /// </summary>
     public class Step
     {
+        //for ef
+        private Step() { }
+
         public Step(int order, string description, string expectedResult)
         {
             if (string.IsNullOrEmpty(description)) throw new ArgumentException("Description is not specified", "description");

@@ -8,6 +8,9 @@ namespace TestHouse.Domain.Models
     /// </summary>
     public class StepRun
     {
+        // for ef
+        private StepRun() { }
+
         public StepRun(Step step)
         {
             Step = step ?? throw new ArgumentException("Step is not specified", "step");

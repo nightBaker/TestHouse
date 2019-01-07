@@ -6,6 +6,9 @@ namespace TestHouse.Domain.Models
 {
     public class TestRun
     {
+        //for ef
+        private TestRun() { }
+
         public TestRun(string name, string description, List<TestRunCase> testCases)
         {
             if (string.IsNullOrEmpty(name))

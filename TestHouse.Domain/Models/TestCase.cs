@@ -13,6 +13,9 @@ namespace TestHouse.Domain.Models
     {
         private List<Step> _steps;
 
+        //for ef
+        private TestCase() { }
+
         public TestCase(string name, string description, string expectedResult, Suit suit, uint order)
         {
             if (string.IsNullOrEmpty(name))

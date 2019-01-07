@@ -33,6 +33,8 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public TestRunCase TestCaseRun { get; private set; }
 
+        //for ef
+        private TestRunCaseHistory() { }
 
         public TestRunCaseHistory(RunHistoryType type, string message, TestRunCase testCaseRun)
         {

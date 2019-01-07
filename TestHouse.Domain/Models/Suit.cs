@@ -7,6 +7,9 @@ namespace TestHouse.Domain.Models
 {    
     public class Suit
     {
+        //for ef
+        private Suit() { }
+
         public Suit(string name, string description,uint order)
         {
             if (string.IsNullOrEmpty(name))

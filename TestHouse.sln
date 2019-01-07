@@ -15,9 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHouse.Infrastructure", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHouse.Infrastructure.Tests", "TestHouse.Infrastructure.Tests\TestHouse.Infrastructure.Tests.csproj", "{783EF9B7-38B3-4FCF-883A-A276DC413826}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHouse.Application", "TestHouse.Application\TestHouse.Application.csproj", "{57F2F806-2F3E-4FA6-9B39-41C82AD5FBB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHouse.Application", "TestHouse.Application\TestHouse.Application.csproj", "{57F2F806-2F3E-4FA6-9B39-41C82AD5FBB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHouse.Persistence", "TestHouse.Persistence\TestHouse.Persistence.csproj", "{65FBC7E3-2BEC-4E77-A30E-F8A98593EFAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestHouse.Persistence", "TestHouse.Persistence\TestHouse.Persistence.csproj", "{65FBC7E3-2BEC-4E77-A30E-F8A98593EFAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestHouse.Application.Tests", "TestHouse.Application.Tests\TestHouse.Application.Tests.csproj", "{6003A0DC-951B-4FE0-AD45-3C4140A609C1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,6 +55,10 @@ Global
 		{65FBC7E3-2BEC-4E77-A30E-F8A98593EFAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FBC7E3-2BEC-4E77-A30E-F8A98593EFAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FBC7E3-2BEC-4E77-A30E-F8A98593EFAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6003A0DC-951B-4FE0-AD45-3C4140A609C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6003A0DC-951B-4FE0-AD45-3C4140A609C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6003A0DC-951B-4FE0-AD45-3C4140A609C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6003A0DC-951B-4FE0-AD45-3C4140A609C1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,6 +66,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{664FD46A-8B85-4DD4-A554-76B8588929F5} = {8D8FD911-5775-414B-B4D0-FCB05B65D2E7}
 		{783EF9B7-38B3-4FCF-883A-A276DC413826} = {8D8FD911-5775-414B-B4D0-FCB05B65D2E7}
+		{6003A0DC-951B-4FE0-AD45-3C4140A609C1} = {8D8FD911-5775-414B-B4D0-FCB05B65D2E7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {3A556000-BA02-4F1F-8592-CD6E278561B6}
