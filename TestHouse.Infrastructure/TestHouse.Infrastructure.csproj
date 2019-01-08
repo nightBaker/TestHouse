@@ -9,6 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TestHouse.Application\TestHouse.Application.csproj" />
     <ProjectReference Include="..\TestHouse.Domain\TestHouse.Domain.csproj" />
   </ItemGroup>
 

@@ -14,10 +14,12 @@ namespace TestHouse.Domain.Tests.Models
         {
             var project = new ProjectAggregate("test name", "test description");
 
-            Assert.NotNull(project);
-            Assert.NotNull(project.RootSuit);
+            Assert.NotNull(project);            
             Assert.NotNull(project.Suits);
+            Assert.Empty(project.Suits);
             Assert.NotNull(project.TestRuns);
+            Assert.NotNull(project.RootSuit);
+
 
             Assert.Throws<ArgumentException>(() => new ProjectAggregate(null, null));
         }
@@ -29,11 +31,18 @@ namespace TestHouse.Domain.Tests.Models
 
             project.AddSuit("order0", "description");
             project.AddSuit("order1", "description1");
-            
-            Assert.NotNull(project.RootSuit);
-            Assert.NotNull(project.Suits);            
-            
-            Assert.Collection(project.Suits, 
+                        
+            Assert.NotNull(project.Suits);
+            Assert.NotEmpty(project.Suits);
+
+            Assert.Collection(project.Suits,
+            //item =>
+            //{
+            //    Assert.Contains("root", item.Name);
+            //    Assert.Contains("root", item.Description);
+            //    Assert.Null(item.ParentSuit);
+            //    Assert.Equal<uint>(0, item.Order);                
+            //},
                 item =>
             {
                 Assert.Contains("order0", item.Name);

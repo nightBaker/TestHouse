@@ -78,7 +78,7 @@ namespace TestHouse.Domain.Models
         /// Add step
         /// </summary>
         /// <param name="step"></param>
-        public void AddStep(Step step)
+        internal void AddStep(Step step)
         {
             _steps.Add(step);
         }
@@ -87,7 +87,7 @@ namespace TestHouse.Domain.Models
         /// Add steps
         /// </summary>
         /// <param name="steps"></param>
-        public void AddSteps(IEnumerable<Step> steps)
+        internal void AddSteps(IEnumerable<Step> steps)
         {
             _steps.AddRange(steps);
         }

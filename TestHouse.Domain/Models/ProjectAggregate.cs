@@ -41,12 +41,15 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Test runs
         /// </summary>
-        public IReadOnlyCollection<TestRun> TestRuns => _testRuns;
+        public List<TestRun> TestRuns => _testRuns;
 
         /// <summary>
         /// Project suits
         /// </summary>
-        public IReadOnlyCollection<Suit> Suits => _suits;
+        public List<Suit> Suits => _suits;
+
+        // for ef core
+        private ProjectAggregate() { }
 
         public ProjectAggregate(string name, string description)
         {
@@ -58,7 +61,7 @@ namespace TestHouse.Domain.Models
 
             RootSuit = new Suit("root", "root", 0);
             _testRuns = new List<TestRun>();
-            _suits = new List<Suit>();
+            _suits = new List<Suit>() { };
         }
 
         /// <summary>
@@ -67,8 +70,9 @@ namespace TestHouse.Domain.Models
         /// <param name="name">suit name</param>
         /// <param name="description">suit description</param>
         /// <param name="order">suit order</param>
-        /// <param name="parentSuitId">parent suit id, if it is not specified then root suit</param>
-        public void AddSuit(string name, string description, long? parentSuitId = null)
+        /// <param name="parentSuitId">parent suit id, if it is not specified then root suit</param>                        
+        /// <returns>Added suit</returns>
+        public Suit AddSuit(string name, string description, long? parentSuitId = null)
         {
             var parentSuit = parentSuitId.HasValue
                             ? _suits.FirstOrDefault(s => s.Id == parentSuitId)
@@ -78,7 +82,9 @@ namespace TestHouse.Domain.Models
                     ? _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1
                     : 0;
             var suit = new Suit(name, description, order, parentSuit);
-            _suits.Add(suit);           
+            _suits.Add(suit);
+
+            return suit;
         }
 
         /// <summary>

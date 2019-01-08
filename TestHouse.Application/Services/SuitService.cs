@@ -6,7 +6,6 @@ using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Domain.Models;
-using TestHouse.Persistence;
 
 namespace TestHouse.Application.Services
 {
@@ -26,15 +25,17 @@ namespace TestHouse.Application.Services
         /// <param name="projectId">Parent project id</param>
         /// <param name="parentId">Parent suit id</param>
         /// <returns>Added suit</returns>
-        public async Task AddSuit(string name, string description, long projectId, long? parentId = null)
+        public async Task<Suit> AddSuitAsync(string name, string description, long projectId, long? parentId = null)
         {
             var project = await _projectRepository.GetAsync(projectId)
                         ?? throw new ArgumentException("Project with specified id is not found", "projectId");
 
 
-            project.AddSuit(name, description, parentId);
+            var suit = project.AddSuit(name, description, parentId);
 
-            await _projectRepository.SaveAsync();            
+            await _projectRepository.SaveAsync();
+
+            return suit;
         }
     }
 }

@@ -4,19 +4,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Domain.Enums;
 using TestHouse.Domain.Models;
-using TestHouse.Persistence;
 
 namespace TestHouse.Application.Services
 {
     public class TestCaseRunService
     {
-        private readonly TestHouseDbContext _dbContext;
+        private readonly IProjectRepository _repository;
 
-        public TestCaseRunService(TestHouseDbContext dbContext)
+        public TestCaseRunService(IProjectRepository repository)
         {
-            _dbContext = dbContext;
+            _repository = repository;
         }
 
         /// <summary>
@@ -25,13 +25,13 @@ namespace TestHouse.Application.Services
         /// <param name="testRunCaseId">Test run case id</param>
         /// <param name="status">New status</param>
         /// <returns>Test run case with new status</returns>
-        public async Task<TestRunCase> ChangeStatus(long testRunCaseId, TestCaseStatus status)
+        public async Task ChangeStatus(long testRunCaseId, TestCaseStatus status)
         {
-            var testRunCase = await _dbContext.TestRunCases.Where(trc => trc.Id == testRunCaseId).SingleOrDefaultAsync();
+            //var testRunCase = await _repository.TestRunCases.Where(trc => trc.Id == testRunCaseId).SingleOrDefaultAsync();
 
-            testRunCase.Status = status;
+            //testRunCase.Status = status;
 
-            return testRunCase;
+            //return testRunCase;
         }
     }
 }

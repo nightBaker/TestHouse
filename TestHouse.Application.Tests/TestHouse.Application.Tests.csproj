@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TestHouse.Application\TestHouse.Application.csproj" />
+    <ProjectReference Include="..\TestHouse.Infrastructure\TestHouse.Infrastructure.csproj" />
     <ProjectReference Include="..\TestHouse.Persistence\TestHouse.Persistence.csproj" />
   </ItemGroup>
 

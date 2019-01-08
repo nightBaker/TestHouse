@@ -4,38 +4,34 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Domain.Models;
-using TestHouse.Persistence;
 
 namespace TestHouse.Application.Services
 {
     public class StepService
     {
-        private readonly TestHouseDbContext _dbContext;
+        private readonly IProjectRepository _projectRepository;
 
-        public StepService(TestHouseDbContext dbContext)
+        public StepService(IProjectRepository projectRepository)
         {
-            _dbContext = dbContext;
+            _projectRepository = projectRepository;
         }
-
         /// <summary>
         /// Add new steps to existing test case
         /// </summary>
-        /// <param name="steps">Steps for adding</param>
+        /// <param name="projectId">Project id</param>
         /// <param name="testCaseId">Test case id</param>
-        /// <returns>Test case</returns>
-        public async Task<TestCase> AddSteps(List<Step> steps, long testCaseId)
+        /// <param name="step">Step to add</param>
+        /// <returns></returns>
+        public async Task AddStep(long projectId, long testCaseId, Step step)
         {
-            if (steps == null || !steps.Any()) throw new ArgumentException("Steps are not specified", nameof(steps));
+            if (step == null) throw new ArgumentNullException("Step is not specified", nameof(step));
 
-            var testCase = await _dbContext.TestCases
-                .Include(s => s.Steps)
-                .FirstOrDefaultAsync(s => s.Id == testCaseId)
-                ?? throw new ArgumentException("Test case with specified id is not found", nameof(testCaseId));
+            var project = await _projectRepository.GetAsync(projectId) 
+                    ?? throw new ArgumentException("Project is not found with specified id", nameof(projectId)) ;
 
-            testCase.AddSteps(steps);
-
-            return testCase;
+            project.AddStep(testCaseId, step);            
         }
     }
 }
