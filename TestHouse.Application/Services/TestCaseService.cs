@@ -27,21 +27,17 @@ namespace TestHouse.Application.Services
         /// <param name="expectedResult">expected result of the test case</param>
         /// <param name="suitId">parent suit id</param>
         /// <returns>created test case</returns>
-        public async Task AddTestCase(string name, string description, string expectedResult, long suitId, List<Step> steps)
+        public async Task<TestCase> AddTestCase(string name, string description, string expectedResult,long projectId, long suitId, List<Step> steps)
         {
-            //var suit = await _repository.Suits
-            //    .Include(s=>s.TestCases)
-            //    .FirstOrDefaultAsync(s=>s.Id == suitId)
-            //    ?? throw new ArgumentException("Suit with specified id is not found", nameof(suitId));
+            var project = await _repository.GetAsync(projectId)
+                ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
 
-            //var order = suit.TestCases.Max(t => t.Order) + 1;
-            //var testCase = new TestCase(name, description, expectedResult, suit, order);
 
-            //if(steps != null) testCase.AddSteps(steps);
+            var testCase = project.AddTestCase(name, description, expectedResult, suitId, steps);
 
-            //_dbContext.TestCases.Add(testCase);
+            await _repository.SaveAsync();
 
-            //return testCase;
+            return testCase;
         }        
 
     }
