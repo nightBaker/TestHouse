@@ -11,7 +11,6 @@ namespace TestHouse.Domain.Models
     /// </summary>
     public class TestCase
     {
-        private List<Step> _steps;
 
         //for ef
         private TestCase() { }
@@ -28,7 +27,7 @@ namespace TestHouse.Domain.Models
             Order = order;
             CreatedAt = DateTime.UtcNow;
             ExpectedResult = expectedResult;
-            _steps = new List<Step>();
+            Steps = new List<Step>();
 
             Suit = suit ?? throw new ArgumentException("Test case must belogs to suit", "suit");
 
@@ -72,7 +71,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Test case steps
         /// </summary>
-        public IReadOnlyCollection<Step> Steps => _steps;
+        public List<Step> Steps { get; private set; }
 
         /// <summary>
         /// Add step
@@ -80,7 +79,7 @@ namespace TestHouse.Domain.Models
         /// <param name="step"></param>
         internal void AddStep(Step step)
         {
-            _steps.Add(step);
+            Steps.Add(step);
         }
 
         /// <summary>
@@ -89,7 +88,7 @@ namespace TestHouse.Domain.Models
         /// <param name="steps"></param>
         internal void AddSteps(IEnumerable<Step> steps)
         {
-            _steps.AddRange(steps);
+            Steps.AddRange(steps);
         }
 
     }

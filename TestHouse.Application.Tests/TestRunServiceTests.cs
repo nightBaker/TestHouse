@@ -1,0 +1,161 @@
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using TestHouse.Application.Infastructure.Repositories;
+using TestHouse.Application.Services;
+using TestHouse.Domain.Enums;
+using TestHouse.Domain.Models;
+using TestHouse.Infrastructure.Repositories;
+using TestHouse.Persistence;
+using Xunit;
+
+namespace TestHouse.Application.Tests
+{
+    public class TestRunServiceTests
+    {
+        [Fact]
+        public async Task AddTestRunTest()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<ProjectRespository>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                long projectId = 0;
+                long rootSuitId = 0;
+                long suitId = 0;                
+                // Create the schema in the database
+                using (var context = new ProjectRespository(options))
+                {
+                    context.Database.EnsureCreated();
+
+                    var projectService = new ProjectService(context);
+                    var project = await projectService.AddProject("test name", "test description");
+                    projectId = project.Id;
+                    rootSuitId = project.RootSuit.Id;
+
+                    var suitService = new SuitService(context);
+                    var suit = await suitService.AddSuitAsync("suit name", "suit description", projectId);
+                    suitId = suit.Id;
+
+                    var testCaseService = new TestCaseService(context);
+
+                    var testCase = await testCaseService.AddTestCase(
+                        "name0", "description0", "expected0", projectId, rootSuitId,
+                        new List<Step> { new Step(0, "description", "expectedResult") });
+                    
+                    var testCase1 = await testCaseService.AddTestCase(
+                        "name1", "description1", "expected1", projectId, rootSuitId, null);
+                                      
+                    var testCase2 = await testCaseService.AddTestCase(
+                        "name2", "description2", "expected2", projectId, suitId, new List<Step> { new Step(1, "description", "expectedResult") });
+
+                    var testCase3 = await testCaseService.AddTestCase(
+                        "name3", "description3", "expected3", projectId, suitId, null);
+                }
+
+                // Run the test against one instance of the context                
+                using (var repository = new ProjectRespository(options))
+                {
+                    var testRunService = new TestRunService(repository);
+                    var testRun = await testRunService.AddTestRunAsync(projectId, "first test run",
+                                                "first description", new HashSet<long> { 2, 1 });
+
+                    var testRun2 = await testRunService.AddTestRunAsync(projectId, "second test run",
+                                                "second description", new HashSet<long> { 2, 1,4 });
+                }
+
+                // Use a separate instance of the context to verify correct data was saved to database
+                using (var context = new ProjectRespository(options))
+                {
+                    // 2 + root suit                    
+                    Assert.Equal(2, context.TestRuns.Count());
+                    Assert.Equal(5, context.TestRunCases.Count());
+                    Assert.Equal(2, context.TestRunSteps.Count());
+
+                    var project = await context.GetAsync(projectId);
+                    Assert.Collection(project.TestRuns, item =>
+                    {
+                        Assert.Equal("first test run", item.Name);
+                        Assert.Equal("first description", item.Description);
+                        Assert.NotNull(item.TestCases);
+                        Assert.NotEmpty(item.TestCases);
+                        
+                        Assert.Collection(item.TestCases, testCase =>
+                        {
+                            Assert.NotNull(testCase.TestCase);
+                            Assert.Equal(1, testCase.TestCase.Id);
+                            Assert.Equal(TestCaseStatus.None, testCase.Status);
+                            Assert.NotNull(testCase.Steps);
+                            Assert.NotEmpty(testCase.Steps);
+
+                            Assert.Collection(testCase.Steps, step =>
+                            {
+                                Assert.NotNull(step.Step);
+                                Assert.Equal(StepRunStatus.None, step.Status);
+                            });
+                        },
+                        testCase =>
+                        {
+                            Assert.NotNull(testCase.TestCase);
+                            Assert.Equal(2, testCase.TestCase.Id);
+                            Assert.Equal(TestCaseStatus.None, testCase.Status);
+                            Assert.NotNull(testCase.Steps);
+                            Assert.Empty(testCase.Steps);                            
+                        });
+                    }, 
+                    item =>
+                    {
+                        Assert.Equal("second test run", item.Name);
+                        Assert.Equal("second description", item.Description);
+                        Assert.NotNull(item.TestCases);
+                        Assert.NotEmpty(item.TestCases);
+
+                        Assert.Collection(item.TestCases, testCase =>
+                        {
+                            Assert.NotNull(testCase.TestCase);
+                            Assert.Equal(1, testCase.TestCase.Id);
+                            Assert.Equal(TestCaseStatus.None, testCase.Status);
+                            Assert.NotNull(testCase.Steps);
+                            Assert.NotEmpty(testCase.Steps);
+
+                            Assert.Collection(testCase.Steps, step =>
+                            {
+                                Assert.NotNull(step.Step);
+                                Assert.Equal(StepRunStatus.None, step.Status);
+                            });
+                        },
+                        testCase =>
+                        {
+                            Assert.NotNull(testCase.TestCase);
+                            Assert.Equal(2, testCase.TestCase.Id);
+                            Assert.Equal(TestCaseStatus.None, testCase.Status);
+                            Assert.NotNull(testCase.Steps);
+                            Assert.Empty(testCase.Steps);
+                        },
+                        testCase =>
+                        {
+                            Assert.NotNull(testCase.TestCase);
+                            Assert.Equal(4, testCase.TestCase.Id);
+                            Assert.Equal(TestCaseStatus.None, testCase.Status);
+                            Assert.NotNull(testCase.Steps);
+                            Assert.Empty(testCase.Steps);
+                        });
+                    });                   
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
+    }
+}

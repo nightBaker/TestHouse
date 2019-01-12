@@ -46,6 +46,9 @@ namespace TestHouse.Application.Tests
                     Assert.NotEqual(0, suit.Id);
 
                     var child = await suitService.AddSuitAsync("child name", "child description", projectId, suit.Id);
+
+                    await Assert.ThrowsAsync<ArgumentException>(async () =>
+                        await suitService.AddSuitAsync("child name", "child description", 5, suit.Id));
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -60,14 +63,14 @@ namespace TestHouse.Application.Tests
                         Assert.Equal("suit name", item.Name);
                         Assert.Equal("suit description", item.Description);
                         Assert.NotNull(item.ParentSuit);
+                        Assert.Equal(item.ParentSuit, project.RootSuit);
                     },
                     item =>
                     {
                         Assert.Equal("child name", item.Name);
                         Assert.Equal("child description", item.Description);
                         Assert.NotNull(item.ParentSuit);
-                    });
-                    
+                    });                                        
                 }
             }
             finally

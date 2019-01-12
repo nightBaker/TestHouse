@@ -27,21 +27,15 @@ namespace TestHouse.Application.Services
         /// <param name="description">Run description</param>
         /// <param name="testCasesIds">Test cases which is included in test run</param>
         /// <returns>New test run</returns>
-        public async Task AddTestRun(long projectId, string name, string description, HashSet<long> testCasesIds)
+        public async Task<TestRun> AddTestRunAsync(long projectId, string name, string description, HashSet<long> testCasesIds)
         {
+            var project = await _repository.GetAsync(projectId);
 
-            //var project = await _dbContext.Projects.FirstOrDefaultAsync()
-            //                ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
+            var testRun = project.AddTestRun(name, description, testCasesIds);
 
-            //var testRun = new TestRun(name, description, new List<TestRunCase>());
-            //var testRunCases = await _getTestRunCases(testCasesIds, testRun);
+            await _repository.SaveAsync();
 
-            //testRun.TestCases.AddRange(testRunCases);
-
-            //_dbContext.TestRuns.Add(testRun);
-            //await _dbContext.SaveChangesAsync();
-
-            //return testRun;
+            return testRun;
         }
         
         /// <summary>

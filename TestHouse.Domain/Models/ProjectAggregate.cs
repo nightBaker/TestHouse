@@ -77,7 +77,7 @@ namespace TestHouse.Domain.Models
             var parentSuit = parentSuitId.HasValue
                             ? _suits.FirstOrDefault(s => s.Id == parentSuitId)
                             : RootSuit
-                            ?? throw new ArgumentException("Project does not have suit with specified parentSuitId", nameof(parentSuitId));
+                            ?? RootSuit; // by default root
             var order = _suits.Any(s => s.Id == parentSuit.Id) 
                     ? _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1
                     : 0;
@@ -95,18 +95,27 @@ namespace TestHouse.Domain.Models
         /// <param name="expectedResult">test case expected result</param>
         /// <param name="suitId">test case suit id</param>
         /// <param name="steps">test case steps</param>
-        public void AddTestCase(string name, string description, string expectedResult, long suitId, List<Step> steps)
+        public TestCase AddTestCase(string name, string description, string expectedResult, long suitId, List<Step> steps)
         {
-            var suit = _suits.FirstOrDefault(s => s.Id == suitId) ?? throw new ArgumentException("Suit is not found with specified suitId", nameof(suitId));
+            var suit = RootSuit.Id == suitId 
+                    ? RootSuit 
+                    : _suits.FirstOrDefault(s => s.Id == suitId) 
+                    ?? RootSuit; // by default root
+
             var order = suit.TestCases.Any() ? suit.TestCases.Max(tc => tc.Order) + 1 : 0;
             var testCase = new TestCase(name, description, expectedResult, suit, order);
 
-            foreach(var step in steps)
+            if (steps != null)
             {
-                testCase.AddStep(step);
+                foreach (var step in steps)
+                {
+                    testCase.AddStep(step);
+                }
             }
 
             suit.TestCases.Add(testCase);
+
+            return testCase;
         }
 
         /// <summary>
@@ -126,7 +135,7 @@ namespace TestHouse.Domain.Models
         /// <param name="name">Name of the run</param>
         /// <param name="description">Description of the run</param>
         /// <param name="testCaseIds">Test cases to include into the run</param>
-        public void AddTestRun(string name, string description, HashSet<long> testCaseIds)
+        public TestRun AddTestRun(string name, string description, HashSet<long> testCaseIds)
         {
             if (testCaseIds == null) throw new ArgumentNullException(nameof(testCaseIds));
 
@@ -138,6 +147,8 @@ namespace TestHouse.Domain.Models
 
             var testRun = new TestRun(name, description, testRunCases);
             _testRuns.Add(testRun);
+
+            return testRun;
         }
 
         /// <summary>
@@ -180,11 +191,11 @@ namespace TestHouse.Domain.Models
         /// <param name="predicate">Predicate</param>
         /// <returns>List of matches testCases</returns>
         private IEnumerable<TestCase> _getAllTestCases(Predicate<TestCase> predicate)
-        {
-            var testCases = new List<TestCase>();
+        {            
+            var testCases = new List<TestCase>(RootSuit.TestCases.Where(t => predicate(t)));
             foreach(var suit in _suits)
             {
-                testCases.AddRange(suit.TestCases);
+                testCases.AddRange(suit.TestCases.Where(t => predicate(t)));
             }
             return testCases.Where(t=> predicate(t));
         }

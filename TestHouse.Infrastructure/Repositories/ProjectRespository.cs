@@ -27,6 +27,10 @@ namespace TestHouse.Infrastructure.Repositories
 
         public DbSet<TestRunCase> TestRunCases { get; set; }
 
+        public DbSet<Step> Steps { get; set; }
+
+        public DbSet<StepRun> TestRunSteps { get; set; }
+
         public void Add(ProjectAggregate project)
         {
             Projects.Add(project);
@@ -35,12 +39,20 @@ namespace TestHouse.Infrastructure.Repositories
         public async Task<ProjectAggregate> GetAsync(long id)
         {
             return await Projects.Include(p=>p.RootSuit)
+                                    .ThenInclude(rootSuit => rootSuit.TestCases)
+                                        .ThenInclude(testCase=>testCase.Steps)
                                 .Include(project => project.Suits)
                                     .ThenInclude(suit => suit.TestCases)
+                                        .ThenInclude(testCase=> testCase.Steps)
                                 .Include(project => project.TestRuns)
                                     .ThenInclude(testRun => testRun.TestCases)
+                                        .ThenInclude(testRunCase => testRunCase.Steps )
+                                            .ThenInclude(runStep => runStep.Step)
+                                .Include(project => project.TestRuns)
+                                    .ThenInclude(testRun => testRun.TestCases)
+                                        .ThenInclude(testRunCase => testRunCase.TestCase)
                                 .Where(p => p.Id == id)
-                                .SingleAsync();
+                                .SingleOrDefaultAsync();
         }
 
         public Task SaveAsync()

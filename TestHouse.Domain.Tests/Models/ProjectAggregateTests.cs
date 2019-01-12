@@ -75,12 +75,12 @@ namespace TestHouse.Domain.Tests.Models
             var id = 0;
             foreach(var suit in project.Suits)
             {
-                suit.Id = id++;
+                suit.Id = ++id;
             }
 
             var steps = new List<Step> { new Step(0, "descr", "expectedStep"), new Step(1, "descr", "expectedStep") };
-            project.AddTestCase("testcase0", "descr0", "expected 0", 0, steps);
-            project.AddTestCase("testcase1", "descr1", "expected 1", 0, steps);
+            project.AddTestCase("testcase0", "descr0", "expected 0", 1, steps);
+            project.AddTestCase("testcase1", "descr1", "expected 1", 1, steps);
 
             var suit0 = project.Suits.ToList()[0];
             var suit1 = project.Suits.ToList()[1];
@@ -91,6 +91,8 @@ namespace TestHouse.Domain.Tests.Models
                    Assert.Contains("testcase0", item.Name);
                    Assert.Contains("descr0", item.Description);
                    Assert.NotNull(item.Steps);
+                   Assert.NotEmpty(item.Steps);
+                   Assert.Equal(2, item.Steps.Count);
                    Assert.NotNull(item.Suit);
                    Assert.Equal<uint>(0, item.Order);                   
                },
@@ -99,6 +101,8 @@ namespace TestHouse.Domain.Tests.Models
                    Assert.Contains("testcase1", item.Name);
                    Assert.Contains("descr1", item.Description);
                    Assert.NotNull(item.Steps);
+                   Assert.NotEmpty(item.Steps);
+                   Assert.Equal(2, item.Steps.Count);
                    Assert.NotNull(item.Suit);
                    Assert.Equal<uint>(1, item.Order);
                });
