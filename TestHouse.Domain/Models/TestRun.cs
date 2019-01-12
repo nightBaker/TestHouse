@@ -22,7 +22,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Test run id
         /// </summary>
-        public long Id { get; private set; }
+        public long Id { get; internal set; }
 
         /// <summary>
         /// Test run name

@@ -156,7 +156,7 @@ namespace TestHouse.Domain.Models
         /// </summary>
         /// <param name="testCaseIds">Test cases ids to add</param>
         /// <param name="testRunId">Test run id</param>
-        public void AddTestCasesToRun(HashSet<long> testCaseIds, long testRunId)
+        public IEnumerable<TestRunCase> AddTestCasesToRun(HashSet<long> testCaseIds, long testRunId)
         {
             var testRun = _testRuns.FirstOrDefault(tr => tr.Id == testRunId)
                 ?? throw new ArgumentException("Test run is not fount with specified id", nameof(testRunId));
@@ -165,7 +165,9 @@ namespace TestHouse.Domain.Models
                             .Except(testRun.TestCases.Select(trc => trc.TestCase)) //except already added
                             .Select(tc => new TestRunCase(tc, tc.Steps.Select(s => new StepRun(s)).ToList()));
 
-            testRun.TestCases.AddRange(testRunCases);            
+            testRun.TestCases.AddRange(testRunCases);
+
+            return testRunCases;
         }
 
 

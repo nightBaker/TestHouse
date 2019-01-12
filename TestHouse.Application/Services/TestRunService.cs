@@ -44,39 +44,15 @@ namespace TestHouse.Application.Services
         /// <param name="testCasesIds">Test cases ids</param>
         /// <param name="testRunId">Test run id</param>
         /// <returns>Test run with added test cases</returns>
-        public async Task AddTestCases(HashSet<long> testCasesIds, long testRunId)
+        public async Task AddTestCases(long projectId, long testRunId, HashSet<long> testCasesIds)
         {
-            //var testRun = await _dbContext.TestRuns.Include(tr => tr.TestCases)
-            //                                .Where(tr => tr.Id == testRunId)
-            //                                .SingleOrDefaultAsync()
-            //            ?? throw new ArgumentException("Test run with specified id is not found", nameof(testRunId));
+            var project = await _repository.GetAsync(projectId)
+                        ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
 
 
-            //var testRunCases = await _getTestRunCases(testCasesIds, testRun);
-            //if (!testRunCases.Any())
-            //{
-            //    throw new ArgumentException("Test cases with provided ids are not found", nameof(testCasesIds));
-            //}
+            project.AddTestCasesToRun(testCasesIds, testRunId);
 
-            //testRun.TestCases.AddRange(testRunCases);
-
-            //await _dbContext.SaveChangesAsync();
-
-            //return testRun;
-        }        
-
-        private async Task _getTestRunCases(HashSet<long> testCasesIds, TestRun testRun)
-        {
-            //var testCases = await _dbContext.TestCases
-            //                                    .Include(tc => tc.Steps)
-            //                                    .Where(tc => testCasesIds.Contains(tc.Id))
-            //                                    .ToListAsync();
-
-            //var testRunCases = testCases.Select(tc =>
-            //        new TestRunCase(tc,
-            //            tc.Steps.Select(s => new StepRun(s)).ToList()));
-            //return testRunCases;
-        }
-
+            await _repository.SaveAsync();
+        }               
     }
 }

@@ -119,5 +119,197 @@ namespace TestHouse.Domain.Tests.Models
             project.AddTestCase("testcase0", "descr0", "expected 0", 0, steps);
             project.AddTestCase("testcase1", "descr1", "expected 1", 0, steps);
         }
+
+        [Fact]
+        public void AddRun()
+        {
+            var project = new ProjectAggregate("name", "description");
+
+            project.AddSuit("order0", "description");
+            project.AddSuit("order1", "description1");
+
+            var id = 0;
+            foreach (var suit in project.Suits)
+            {
+                suit.Id = ++id;
+            }
+
+            var steps = new List<Step> { new Step(0, "descr", "expectedStep"), new Step(1, "descr2", "expectedStep2") };
+            project.AddTestCase("testcase0", "descr0", "expected 0", 1, steps);
+            project.AddTestCase("testcase1", "descr1", "expected 1", 1, steps);
+
+            var suit0 = project.Suits.ToList()[0];            
+            foreach(var testCase in suit0.TestCases)
+            {
+                testCase.Id = ++id;
+            }
+
+            project.AddTestRun("first test run", "test run description", new HashSet<long> { 3, 4 });
+            project.AddTestRun("second test run", "2 description", new HashSet<long>());
+
+            Assert.Collection(project.TestRuns, testRun =>
+            {
+                Assert.Equal("first test run", testRun.Name);
+                Assert.Equal("test run description", testRun.Description);
+                Assert.NotNull(testRun.TestCases);
+                Assert.NotEmpty(testRun.TestCases);
+                Assert.Collection(testRun.TestCases, testCase =>
+                {
+                    Assert.NotNull(testCase.TestCase);
+                    Assert.Equal(3, testCase.TestCase.Id);
+                    Assert.NotNull(testCase.Steps);
+                    Assert.NotEmpty(testCase.Steps);
+                    Assert.Collection(testCase.Steps, step=>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(0, step.Step.Order);
+                        Assert.Equal("descr", step.Step.Description);
+                        Assert.Equal("expectedStep", step.Step.ExpectedResult);
+                    },
+                    step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(1, step.Step.Order);
+                        Assert.Equal("descr2", step.Step.Description);
+                        Assert.Equal("expectedStep2", step.Step.ExpectedResult);
+                    });
+                },
+                 testCase =>
+                 {
+                     Assert.NotNull(testCase.TestCase);
+                     Assert.Equal(4, testCase.TestCase.Id);
+                     Assert.NotNull(testCase.Steps);
+                     Assert.NotEmpty(testCase.Steps);
+                     Assert.Collection(testCase.Steps, step =>
+                     {
+                         Assert.NotNull(step.Step);
+                         Assert.Equal(0, step.Step.Order);
+                         Assert.Equal("descr", step.Step.Description);
+                         Assert.Equal("expectedStep", step.Step.ExpectedResult);
+                     },
+                    step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(1, step.Step.Order);
+                        Assert.Equal("descr2", step.Step.Description);
+                        Assert.Equal("expectedStep2", step.Step.ExpectedResult);
+                    });
+                 });
+            },
+            testRun =>
+            {
+                Assert.Equal("second test run", testRun.Name);
+                Assert.Equal("2 description", testRun.Description);
+                Assert.NotNull(testRun.TestCases);
+                Assert.Empty(testRun.TestCases);
+                
+            });
+
+            Assert.Throws<ArgumentNullException>(() => project.AddTestRun("name", "description", null));
+        }
+
+        [Fact]
+        public void AddTestCasesToRun()
+        {
+            var project = new ProjectAggregate("name", "description");
+
+            project.AddSuit("order0", "description");
+            project.AddSuit("order1", "description1");
+
+            var id = 0;
+            foreach (var suit in project.Suits)
+            {
+                suit.Id = ++id;
+            }
+
+            var steps = new List<Step> { new Step(0, "descr", "expectedStep"), new Step(1, "descr2", "expectedStep2") };
+            project.AddTestCase("testcase0", "descr0", "expected 0", 1, steps);
+            project.AddTestCase("testcase1", "descr1", "expected 1", 1, steps);
+
+            var suit0 = project.Suits.ToList()[0];
+            foreach (var testCase in suit0.TestCases)
+            {
+                testCase.Id = ++id;
+            }            
+            project.AddTestRun("second test run", "2 description", new HashSet<long>());
+
+            project.TestRuns[0].Id = 1;
+
+            project.AddTestCasesToRun(new HashSet<long> { 3 }, 1);
+
+            Assert.Collection(project.TestRuns, testRun =>
+            {
+                Assert.Collection(testRun.TestCases, testCase =>
+                {
+                    Assert.NotNull(testCase.TestCase);
+                    Assert.Equal(3, testCase.TestCase.Id);
+                    Assert.NotNull(testCase.Steps);
+                    Assert.NotEmpty(testCase.Steps);
+                    Assert.Collection(testCase.Steps, step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(0, step.Step.Order);
+                        Assert.Equal("descr", step.Step.Description);
+                        Assert.Equal("expectedStep", step.Step.ExpectedResult);
+                    },
+                    step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(1, step.Step.Order);
+                        Assert.Equal("descr2", step.Step.Description);
+                        Assert.Equal("expectedStep2", step.Step.ExpectedResult);
+                    });
+                });
+            });
+
+            project.AddTestCasesToRun(new HashSet<long> { 4 }, 1);
+
+            Assert.Collection(project.TestRuns, testRun =>
+            {               
+                Assert.Collection(testRun.TestCases, testCase =>
+                {
+                    Assert.NotNull(testCase.TestCase);
+                    Assert.Equal(3, testCase.TestCase.Id);
+                    Assert.NotNull(testCase.Steps);
+                    Assert.NotEmpty(testCase.Steps);
+                    Assert.Collection(testCase.Steps, step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(0, step.Step.Order);
+                        Assert.Equal("descr", step.Step.Description);
+                        Assert.Equal("expectedStep", step.Step.ExpectedResult);
+                    },
+                    step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(1, step.Step.Order);
+                        Assert.Equal("descr2", step.Step.Description);
+                        Assert.Equal("expectedStep2", step.Step.ExpectedResult);
+                    });
+                },
+                 testCase =>
+                 {
+                     Assert.NotNull(testCase.TestCase);
+                     Assert.Equal(4, testCase.TestCase.Id);
+                     Assert.NotNull(testCase.Steps);
+                     Assert.NotEmpty(testCase.Steps);
+                     Assert.Collection(testCase.Steps, step =>
+                     {
+                         Assert.NotNull(step.Step);
+                         Assert.Equal(0, step.Step.Order);
+                         Assert.Equal("descr", step.Step.Description);
+                         Assert.Equal("expectedStep", step.Step.ExpectedResult);
+                     },
+                    step =>
+                    {
+                        Assert.NotNull(step.Step);
+                        Assert.Equal(1, step.Step.Order);
+                        Assert.Equal("descr2", step.Step.Description);
+                        Assert.Equal("expectedStep2", step.Step.ExpectedResult);
+                    });
+                 });
+            });
+        }
+
     }
 }
