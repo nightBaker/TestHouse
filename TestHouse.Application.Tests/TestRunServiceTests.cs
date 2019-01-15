@@ -39,7 +39,7 @@ namespace TestHouse.Application.Tests
                     var projectService = new ProjectService(context);
                     var project = await projectService.AddProjectAsync("test name", "test description");
                     projectId = project.Id;
-                    rootSuitId = project.RootSuit.Id;
+                    rootSuitId = 1;
 
                     var suitService = new SuitService(context);
                     var suit = await suitService.AddSuitAsync("suit name", "suit description", projectId);
@@ -183,7 +183,7 @@ namespace TestHouse.Application.Tests
                     var projectService = new ProjectService(context);
                     var project = await projectService.AddProjectAsync("test name", "test description");
                     projectId = project.Id;
-                    rootSuitId = project.RootSuit.Id;
+                    rootSuitId = 1;
 
                     var suitService = new SuitService(context);
                     var suit = await suitService.AddSuitAsync("suit name", "suit description", projectId);
