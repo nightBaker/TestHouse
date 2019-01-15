@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
 using TestHouse.Infrastructure.Repositories;
-using TestHouse.Persistence;
 using Xunit;
 
 namespace TestHouse.Application.Tests
@@ -36,7 +35,7 @@ namespace TestHouse.Application.Tests
                 using (var repository = new ProjectRespository(options))
                 {                    
                     var projectService = new ProjectService(repository);
-                    var project = await projectService.AddProject("test name", "test description");
+                    var project = await projectService.AddProjectAsync("test name", "test description");
 
                     Assert.NotEqual(0, project.Id);
                 }

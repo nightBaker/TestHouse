@@ -36,6 +36,11 @@ namespace TestHouse.Infrastructure.Repositories
             Projects.Add(project);
         }
 
+        public async Task<List<ProjectAggregate>> GetAllAsync()
+        {
+            return await Projects.ToListAsync();
+        }
+
         public async Task<ProjectAggregate> GetAsync(long id)
         {
             return await Projects.Include(p=>p.RootSuit)

@@ -11,5 +11,6 @@ namespace TestHouse.Application.Infastructure.Repositories
         Task<ProjectAggregate> GetAsync(long id);
         Task SaveAsync();
         void Add(ProjectAggregate project);
+        Task<List<ProjectAggregate>> GetAllAsync();
     }
 }

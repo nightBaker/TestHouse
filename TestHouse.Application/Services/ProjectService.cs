@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
+using TestHouse.Application.Models;
 using TestHouse.Domain.Models;
 
 
@@ -17,14 +18,30 @@ namespace TestHouse.Application.Services
             _projectRepository = projectRepository;
         }
 
-        public async Task<ProjectAggregate> AddProject(string name, string description)
+        /// <summary>
+        /// Add new project
+        /// </summary>
+        /// <param name="name">Name of the project</param>
+        /// <param name="description">Description of the project</param>
+        /// <returns>Created project dto</returns>
+        public async Task<ProjectDto> AddProjectAsync(string name, string description)
         {
             var project = new ProjectAggregate(name, description);
 
             _projectRepository.Add(project);
             await _projectRepository.SaveAsync();
 
-            return project;
+            return project.ToProjectDto();
+        }
+
+        /// <summary>
+        /// Get all existing projects
+        /// </summary>
+        /// <returns>List of projects dto</returns>
+        public async Task<IEnumerable<ProjectDto>> GetAllAsync()
+        {
+            var projectAggregates = await _projectRepository.GetAllAsync();
+            return projectAggregates.ToProjectsDto();
         }
     }
 }

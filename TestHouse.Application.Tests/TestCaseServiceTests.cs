@@ -8,7 +8,6 @@ using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
 using TestHouse.Domain.Models;
 using TestHouse.Infrastructure.Repositories;
-using TestHouse.Persistence;
 using Xunit;
 
 namespace TestHouse.Application.Tests
@@ -37,7 +36,7 @@ namespace TestHouse.Application.Tests
                     context.Database.EnsureCreated();
 
                     var projectService = new ProjectService(context);
-                    var project = await projectService.AddProject("test name", "test description");
+                    var project = await projectService.AddProjectAsync("test name", "test description");
                     projectId = project.Id;
                     rootSuitId = project.RootSuit.Id;
 
