@@ -8,6 +8,8 @@ namespace TestHouse.Application.Models
     public class SuitDto
     {
         public long Id { get; set; }
+
+        public IEnumerable<SuitDto> Suits { get; set; }
     }
 
     public static class SuitExtensions
@@ -24,7 +26,7 @@ namespace TestHouse.Application.Models
         {
             return new SuitDto()
             {
-                Id = item.Id,                
+                Id = item.Id           
             };
         }
     }

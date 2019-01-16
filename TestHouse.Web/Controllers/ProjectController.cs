@@ -48,6 +48,17 @@ namespace TestHouse.Web.Controllers
             return await _projectService.GetAllAsync();           
         }
 
-        
+        /// <summary>
+        /// Get project
+        /// </summary>
+        /// <param name="id">project id</param>
+        /// <returns>Project dto</returns>
+        [HttpGet("{id}")]
+        public async Task<ProjectAggregateDto> Get(long id)
+        {
+            return await _projectService.GetAsync(id);
+        }
+
+
     }
 }
