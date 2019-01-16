@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
+using TestHouse.Application.Models;
 using TestHouse.Domain.Models;
 
 namespace TestHouse.Application.Services
@@ -25,7 +26,7 @@ namespace TestHouse.Application.Services
         /// <param name="projectId">Parent project id</param>
         /// <param name="parentId">Parent suit id</param>
         /// <returns>Added suit</returns>
-        public async Task<Suit> AddSuitAsync(string name, string description, long projectId, long? parentId = null)
+        public async Task<SuitDto> AddSuitAsync(string name, string description, long projectId, long? parentId = null)
         {
             var project = await _projectRepository.GetAsync(projectId)
                         ?? throw new ArgumentException("Project with specified id is not found", "projectId");
@@ -35,7 +36,7 @@ namespace TestHouse.Application.Services
 
             await _projectRepository.SaveAsync();
 
-            return suit;
+            return suit.ToSuitDto();
         }
     }
 }
