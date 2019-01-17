@@ -47,7 +47,7 @@ namespace TestHouse.Application.Services
         public async Task<ProjectAggregateDto> GetAsync(long id)
         {
             var project = await _projectRepository.GetAsync(id);
-            return project.ToProjectAggregateDto();
+            return project?.ToProjectAggregateDto();
         }
     }
 }

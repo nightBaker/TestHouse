@@ -61,6 +61,8 @@ namespace TestHouse.Application.Models
             };
 
             dto.RootSuit.Suits = FillSuitsTree(dto.RootSuit.Id, item);
+
+            return dto;
         }
 
         /// <summary>

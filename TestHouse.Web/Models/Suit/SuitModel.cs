@@ -18,18 +18,18 @@ namespace TestHouse.Web.Models.Suit
         /// Suit description
         /// </summary>
         [Required]
-        public string Description { get; internal set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// Project Id
         /// </summary>
         [Required]
-        public long ProjectId { get; internal set; }
+        public long ProjectId { get; set; }
 
         /// <summary>
         /// Parent suit id
         /// </summary>
         [Required]
-        public long? ParentId { get; internal set; }
+        public long ParentId { get; set; }
     }
 }
