@@ -28,11 +28,14 @@ namespace TestHouse.Web.Controllers
         /// <returns>Created project dto</returns>
         [HttpPost]
         [ProducesResponseType(400)]
-        public async Task<ActionResult<ProjectDto>> Post(ProjectModel model)
+        public async Task<ActionResult<ProjectDto>> Post([FromBody] ProjectModel model)
         {
             if (ModelState.IsValid)
             {
-                return await _projectService.AddProjectAsync(model.Name, model.Description);
+                var projectDto = await _projectService.AddProjectAsync(model.Name, model.Description);
+
+                return CreatedAtAction("Get", new { id = projectDto.Id }, projectDto);
+
             }
 
             return BadRequest();
@@ -42,7 +45,7 @@ namespace TestHouse.Web.Controllers
         /// Get all projects
         /// </summary>
         /// <returns>Projects dto</returns>
-        [HttpGet]
+        [HttpGet("all")]
         public async Task<IEnumerable<ProjectDto>> All()
         {
             return await _projectService.GetAllAsync();           
@@ -54,9 +57,13 @@ namespace TestHouse.Web.Controllers
         /// <param name="id">project id</param>
         /// <returns>Project dto</returns>
         [HttpGet("{id}")]
-        public async Task<ProjectAggregateDto> Get(long id)
+        public async Task<ActionResult<ProjectAggregateDto>> Get(long id)
         {
-            return await _projectService.GetAsync(id);
+            var project = await _projectService.GetAsync(id);
+
+            if (project == null) return NotFound();
+
+            return Ok(project);
         }
 
 

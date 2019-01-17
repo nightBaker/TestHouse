@@ -74,9 +74,9 @@ namespace TestHouse.Domain.Models
         /// <returns>Added suit</returns>
         public Suit AddSuit(string name, string description, long? parentSuitId = null)
         {
-            var parentSuit = parentSuitId.HasValue
+            var parentSuit = (parentSuitId.HasValue
                             ? _suits.FirstOrDefault(s => s.Id == parentSuitId)
-                            : RootSuit
+                            : RootSuit)
                             ?? RootSuit; // by default root
             var order = _suits.Any(s => s.Id == parentSuit.Id) 
                     ? _suits.Where(s => s.Id == parentSuit.Id).Max(s => s.Order) + 1

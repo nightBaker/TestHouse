@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using TestHouse.Application.Models;
 using TestHouse.Application.Services;
 using TestHouse.Web.Models.Suit;
 
@@ -26,11 +27,13 @@ namespace TestHouse.Web.Controllers
         /// <param name="model"></param>
         /// <returns>New suit id</returns>
         [HttpPost]
-        public async Task<ActionResult<long>> Post(SuitModel model)
+        public async Task<ActionResult<SuitDto>> Post([FromBody]SuitModel model)
         {
+            if (!ModelState.IsValid) return BadRequest(ModelState);
+
             var suit = await _suitService.AddSuitAsync(model.Name, model.Description, model.ProjectId, model.ParentId);
 
-            return suit.Id;
+            return Created("", suit);
         }
 
      
