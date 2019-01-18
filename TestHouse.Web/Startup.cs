@@ -35,6 +35,7 @@ namespace TestHouse.Web
             services.AddScoped<IProjectRepository,ProjectRespository>();
             services.AddScoped<ProjectService>();
             services.AddScoped<SuitService>();
+            services.AddScoped<TestCaseService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

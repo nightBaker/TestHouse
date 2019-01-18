@@ -1,10 +1,12 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
+using TestHouse.Domain.Models;
 using TestHouse.Infrastructure.Repositories;
 using Xunit;
 
@@ -146,6 +148,21 @@ namespace TestHouse.Application.Tests
                     await suitService.AddSuitAsync("suit level 1.1", "suit description 1.1", 1, 1);
                     await suitService.AddSuitAsync("suit level 3", "suit description 3", 1, 3);
 
+                    var testCaseService = new TestCaseService(repository);
+                    await testCaseService.AddTestCaseAsync("test case 1", "descr 1", "expected 1", 1, 1,
+                                new List<Step> {
+                                    new Step(0,"step descr 1", "expected 1"),
+                                    new Step(1, "step descr 2", "expected 2")
+                                });
+
+                    await testCaseService.AddTestCaseAsync("test case 2", "descr 2", "expected 2", 1, 5,
+                                new List<Step> {
+                                    new Step(0,"step descr 3", "expected 3"),
+                                    new Step(1, "step descr 4", "expected 4")
+                                });
+
+                    await testCaseService.AddTestCaseAsync("test case 3", "descr 3", "expected 3", 1, 5, null);
+
                 }
 
                 // Use a separate instance of the context to verify correct data was saved to database
@@ -157,6 +174,26 @@ namespace TestHouse.Application.Tests
                     Assert.Equal(1, project.RootSuit.Id);
                     Assert.Equal("root", project.RootSuit.Name);
                     Assert.Equal("root", project.RootSuit.Description);
+
+                    Assert.Collection(project.RootSuit.TestCases, testCase =>
+                    {
+                        Assert.Equal("test case 1", testCase.Name);
+                        Assert.Equal("descr 1", testCase.Description);
+                        Assert.Equal("expected 1", testCase.ExpectedResult);
+
+                        Assert.Collection(testCase.Steps, step =>
+                        {
+                            Assert.Equal("step descr 1", step.Description);
+                            Assert.Equal("expected 1", step.ExpectedResult);
+                            Assert.Equal(0, step.Order);
+                        },
+                        step=>
+                        {
+                            Assert.Equal("step descr 2", step.Description);
+                            Assert.Equal("expected 2", step.ExpectedResult);
+                            Assert.Equal(1, step.Order);
+                        });
+                    });
 
                     Assert.Collection(project.RootSuit.Suits, suit =>
                     {
@@ -177,6 +214,32 @@ namespace TestHouse.Application.Tests
                                 Assert.Equal("suit description 3", suit2.Description);
 
                                 Assert.Null(suit2.Suits);
+
+                                Assert.Collection(suit2.TestCases, testCase =>
+                                {
+                                    Assert.Equal("test case 2", testCase.Name);
+                                    Assert.Equal("descr 2", testCase.Description);
+                                    Assert.Equal("expected 2", testCase.ExpectedResult);
+
+                                    Assert.Collection(testCase.Steps, step =>
+                                    {
+                                        Assert.Equal("step descr 3", step.Description);
+                                        Assert.Equal("expected 3", step.ExpectedResult);
+                                        Assert.Equal(0, step.Order);
+                                    },
+                                    step =>
+                                    {
+                                        Assert.Equal("step descr 4", step.Description);
+                                        Assert.Equal("expected 4", step.ExpectedResult);
+                                        Assert.Equal(1, step.Order);
+                                    });
+                                },
+                                testCase =>
+                                {
+                                    Assert.Equal("test case 3", testCase.Name);
+                                    Assert.Equal("descr 3", testCase.Description);
+                                    Assert.Equal("expected 3", testCase.ExpectedResult);                                    
+                                });
                             });
                         });
                     },
