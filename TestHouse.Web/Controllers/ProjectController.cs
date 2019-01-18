@@ -28,6 +28,7 @@ namespace TestHouse.Web.Controllers
         /// <returns>Created project dto</returns>
         [HttpPost]
         [ProducesResponseType(400)]
+        [ProducesResponseType(201)]
         public async Task<ActionResult<ProjectDto>> Post([FromBody] ProjectModel model)
         {
             if (ModelState.IsValid)
