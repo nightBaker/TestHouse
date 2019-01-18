@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
+using TestHouse.Application.Models;
 using TestHouse.Domain.Models;
 
 namespace TestHouse.Application.Services
@@ -17,8 +18,7 @@ namespace TestHouse.Application.Services
         {
             _repository = repository;
         }
-
-
+        
         /// <summary>
         /// Add new run
         /// </summary>
@@ -27,7 +27,7 @@ namespace TestHouse.Application.Services
         /// <param name="description">Run description</param>
         /// <param name="testCasesIds">Test cases which is included in test run</param>
         /// <returns>New test run</returns>
-        public async Task<TestRun> AddTestRunAsync(long projectId, string name, string description, HashSet<long> testCasesIds)
+        public async Task<TestRunDto> AddTestRunAsync(long projectId, string name, string description, HashSet<long> testCasesIds)
         {
             var project = await _repository.GetAsync(projectId);
 
@@ -35,7 +35,7 @@ namespace TestHouse.Application.Services
 
             await _repository.SaveAsync();
 
-            return testRun;
+            return testRun.ToTestRunDto();
         }
         
         /// <summary>

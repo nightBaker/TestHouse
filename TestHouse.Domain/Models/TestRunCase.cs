@@ -33,7 +33,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Status
         /// </summary>
-        public TestCaseStatus Status { get; set; }
+        public TestCaseStatus Status { get; internal set; }
 
         /// <summary>
         /// Steps
