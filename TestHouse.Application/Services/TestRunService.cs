@@ -46,7 +46,7 @@ namespace TestHouse.Application.Services
         /// <returns>Test run with added test cases</returns>
         public async Task<IEnumerable<TestRunCaseDto>> AddTestCases(long projectId, long testRunId, HashSet<long> testCasesIds)
         {
-            var project = await _repository.GetAsync(projectId)
+            var project = await _repository.GetAsync(projectId, testRunId)
                         ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
 
 
