@@ -61,6 +61,7 @@ namespace TestHouse.Application.Models
             };
 
             dto.RootSuit.Suits = _fillSuitsTree(dto.RootSuit.Id, item);
+            dto.RootSuit.TestCases = item.RootSuit.TestCases.ToTestCasesDto();
 
             return dto;
         }
@@ -78,7 +79,8 @@ namespace TestHouse.Application.Models
             {
                 foreach (var suitDto in suitDtos)
                 {
-                    suitDto.Suits = _fillSuitsTree(suitDto.Id, project);                    
+                    suitDto.Suits = _fillSuitsTree(suitDto.Id, project);
+                    suitDto.TestCases = project.Suits.First(s => s.Id == suitDto.Id).TestCases.ToTestCasesDto();
                 }
 
                 return suitDtos;

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
+using TestHouse.Application.Models;
 using TestHouse.Domain.Models;
 
 
@@ -27,7 +28,7 @@ namespace TestHouse.Application.Services
         /// <param name="expectedResult">expected result of the test case</param>
         /// <param name="suitId">parent suit id</param>
         /// <returns>created test case</returns>
-        public async Task<TestCase> AddTestCase(string name, string description, string expectedResult,long projectId, long suitId, List<Step> steps)
+        public async Task<TestCaseDto> AddTestCaseAsync(string name, string description, string expectedResult,long projectId, long suitId, List<Step> steps)
         {
             var project = await _repository.GetAsync(projectId)
                 ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
@@ -37,7 +38,7 @@ namespace TestHouse.Application.Services
 
             await _repository.SaveAsync();
 
-            return testCase;
+            return testCase.ToTestCaseDto();
         }        
 
     }

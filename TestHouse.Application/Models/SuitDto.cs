@@ -10,6 +10,8 @@ namespace TestHouse.Application.Models
         public long Id { get; set; }
 
         public IEnumerable<SuitDto> Suits { get; set; }
+        public IEnumerable<TestCaseDto> TestCases { get; set; }
+
         public string Name { get; set; }
         public string Description { get; set; }
     }

@@ -47,17 +47,17 @@ namespace TestHouse.Application.Tests
 
                     var testCaseService = new TestCaseService(context);
 
-                    var testCase = await testCaseService.AddTestCase(
+                    var testCase = await testCaseService.AddTestCaseAsync(
                         "name0", "description0", "expected0", projectId, rootSuitId,
                         new List<Step> { new Step(0, "description", "expectedResult") });
                     
-                    var testCase1 = await testCaseService.AddTestCase(
+                    var testCase1 = await testCaseService.AddTestCaseAsync(
                         "name1", "description1", "expected1", projectId, rootSuitId, null);
                                       
-                    var testCase2 = await testCaseService.AddTestCase(
+                    var testCase2 = await testCaseService.AddTestCaseAsync(
                         "name2", "description2", "expected2", projectId, suitId, new List<Step> { new Step(1, "description", "expectedResult") });
 
-                    var testCase3 = await testCaseService.AddTestCase(
+                    var testCase3 = await testCaseService.AddTestCaseAsync(
                         "name3", "description3", "expected3", projectId, suitId, null);
                 }
 
@@ -191,17 +191,17 @@ namespace TestHouse.Application.Tests
 
                     var testCaseService = new TestCaseService(context);
 
-                    var testCase = await testCaseService.AddTestCase(
+                    var testCase = await testCaseService.AddTestCaseAsync(
                         "name0", "description0", "expected0", projectId, rootSuitId,
                         new List<Step> { new Step(0, "description", "expectedResult") });
 
-                    var testCase1 = await testCaseService.AddTestCase(
+                    var testCase1 = await testCaseService.AddTestCaseAsync(
                         "name1", "description1", "expected1", projectId, rootSuitId, null);
 
-                    var testCase2 = await testCaseService.AddTestCase(
+                    var testCase2 = await testCaseService.AddTestCaseAsync(
                         "name2", "description2", "expected2", projectId, suitId, new List<Step> { new Step(1, "description", "expectedResult") });
 
-                    var testCase3 = await testCaseService.AddTestCase(
+                    var testCase3 = await testCaseService.AddTestCaseAsync(
                         "name3", "description3", "expected3", projectId, suitId, null);
 
                     var testRunService = new TestRunService(context);
