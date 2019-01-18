@@ -44,15 +44,17 @@ namespace TestHouse.Application.Services
         /// <param name="testCasesIds">Test cases ids</param>
         /// <param name="testRunId">Test run id</param>
         /// <returns>Test run with added test cases</returns>
-        public async Task AddTestCases(long projectId, long testRunId, HashSet<long> testCasesIds)
+        public async Task<IEnumerable<TestRunCaseDto>> AddTestCases(long projectId, long testRunId, HashSet<long> testCasesIds)
         {
             var project = await _repository.GetAsync(projectId)
                         ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
 
 
-            project.AddTestCasesToRun(testCasesIds, testRunId);
+            var testRunCases = project.AddTestCasesToRun(testCasesIds, testRunId);
 
             await _repository.SaveAsync();
+
+            return testRunCases.ToTestRunCasesDtos();
         }               
     }
 }
