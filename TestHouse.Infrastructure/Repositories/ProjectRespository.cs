@@ -49,15 +49,25 @@ namespace TestHouse.Infrastructure.Repositories
                                 .Include(project => project.Suits)
                                     .ThenInclude(suit => suit.TestCases)
                                         .ThenInclude(testCase=> testCase.Steps)
-                                .Include(project => project.TestRuns)
-                                    .ThenInclude(testRun => testRun.TestCases)
-                                        .ThenInclude(testRunCase => testRunCase.Steps )
-                                            .ThenInclude(runStep => runStep.Step)
-                                .Include(project => project.TestRuns)
-                                    .ThenInclude(testRun => testRun.TestCases)
-                                        .ThenInclude(testRunCase => testRunCase.TestCase)
+                                .Include(project => project.TestRuns)                                
                                 .Where(p => p.Id == id)
                                 .SingleOrDefaultAsync();
+        }
+
+        public async Task<ProjectAggregate> GetAsync(long id, long testRunId)
+        {
+            var project = await GetAsync(id);
+
+            //load data for test run to context memory
+            var run = TestRuns.Include(testRun => testRun.TestCases)
+                                .ThenInclude(testRunCase => testRunCase.Steps)
+                                   .ThenInclude(runStep => runStep.Step)
+                            .Include(testRun => testRun.TestCases)
+                                .ThenInclude(testRunCase => testRunCase.TestCase)
+                            .Where(t => t.Id == testRunId)
+                            .Single();
+          
+            return project;
         }
 
         public Task SaveAsync()

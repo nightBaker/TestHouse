@@ -9,6 +9,7 @@ namespace TestHouse.Application.Infastructure.Repositories
     public interface IProjectRepository
     {
         Task<ProjectAggregate> GetAsync(long id);
+        Task<ProjectAggregate> GetAsync(long id, long testRunId);
         Task SaveAsync();
         void Add(ProjectAggregate project);
         Task<List<ProjectAggregate>> GetAllAsync();

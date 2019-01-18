@@ -81,7 +81,8 @@ namespace TestHouse.Application.Tests
                     Assert.Equal(5, context.TestRunCases.Count());
                     Assert.Equal(2, context.TestRunSteps.Count());
 
-                    var project = await context.GetAsync(projectId);
+                    var project = await context.GetAsync(projectId, 1);
+                    await context.GetAsync(projectId, 2); // just for loading data into memory
                     Assert.Collection(project.TestRuns, item =>
                     {
                         Assert.Equal("first test run", item.Name);
@@ -231,7 +232,7 @@ namespace TestHouse.Application.Tests
                     Assert.Equal(2, context.TestRunSteps.Count());
                     Assert.Equal(2, context.TestRuns.Count());
 
-                    var project = await context.GetAsync(projectId);
+                    var project = await context.GetAsync(projectId, testRunId);
                     Assert.Collection(project.TestRuns, item =>
                     {                        
                         Assert.NotNull(item.TestCases);
