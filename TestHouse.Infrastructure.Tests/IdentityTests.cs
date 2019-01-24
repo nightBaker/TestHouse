@@ -11,22 +11,26 @@ namespace TestHouse.Infrastructure.Tests
         [Fact]
         public void CreateUser()
         {
-            
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
             try
             {
-                var options = new DbContextOptionsBuilder<AppIdentityDbContext>().UseSqlServer("Server=(localdb)\\MSSQLLocalDB;Database=TestHouseDb;Trusted_Connection=True;MultipleActiveResultSets=true;Integrated Security=True;").Options;
+                var options = new DbContextOptionsBuilder<AppIdentityDbContext>()
+                .UseSqlite(connection)
+                .Options;
+
                 using (var context = new AppIdentityDbContext(options))
                 {
                     context.Database.EnsureCreated();
                     var user = new ApplicationUser("feisal");
                     context.Add(user);
                     context.SaveChanges();
-                    }
-
-                
+                    Assert.NotEmpty(context.Users);
+                }
             }
-            finally
+            catch (Exception e)
             {
+                System.Console.WriteLine(e.Message);
             }
         }
     }
