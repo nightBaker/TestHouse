@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
+using TestHouse.Infrastructure.Identity;
 using TestHouse.Infrastructure.Repositories;
 
 namespace TestHouse.Web
@@ -31,7 +32,8 @@ namespace TestHouse.Web
 
             services.AddDbContext<ProjectRespository>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("TestHouseConnection")));
-
+            services.AddDbContext <AppIdentityDbContext>
+                (options => options.UseSqlServer(Configuration.GetConnectionString("TestHouseConnection")));
             services.AddScoped<IProjectRepository,ProjectRespository>();
             services.AddScoped<ProjectService>();
             services.AddScoped<SuitService>();
