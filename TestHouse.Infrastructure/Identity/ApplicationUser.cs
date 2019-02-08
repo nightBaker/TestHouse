@@ -7,10 +7,6 @@ namespace TestHouse.Infrastructure.Identity
 {
     public class ApplicationUser : IdentityUser
     {
-        public ApplicationUser(string userName) : base(userName)
-        {
-        }
-
         public virtual ClientProfile ClientProfile { get; set; }
     }
 }
