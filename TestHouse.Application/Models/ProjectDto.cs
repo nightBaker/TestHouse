@@ -3,29 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TestHouse.Domain.Models;
+using TestHouse.DTOs.DTOs;
 
 namespace TestHouse.Application.Models
 {
-    public class ProjectDto
-    {
-        /// <summary>
-        /// Project id
-        /// </summary>
-        public long Id { get; set; }
-
-        /// <summary>
-        /// Project name
-        /// </summary>
-        public string Name { get; set; }
-
-        /// <summary>
-        /// Project description
-        /// </summary>
-        public string Description { get; set; }
-               
-    }
-
-    public class ProjectAggregateDto: ProjectDto
+    public class ProjectAggregateDto : ProjectDto
     {
         public SuitDto RootSuit { get; set; }
     }

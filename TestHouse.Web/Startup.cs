@@ -19,6 +19,7 @@ namespace TestHouse.Web
     public class Startup
     {
         public IConfiguration Configuration { get; }
+        public string _myAllowSpecificOrigins = "_localAllowOrigin";
 
         public Startup(IConfiguration configuration)
         {
@@ -29,6 +30,15 @@ namespace TestHouse.Web
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(_myAllowSpecificOrigins,
+                builder =>
+                {
+                    builder.WithOrigins("http://localhost:60654");
+                });
+            });
+
             services.AddMvc();
 
             services.AddDbContext<ProjectRespository>
@@ -50,6 +60,7 @@ namespace TestHouse.Web
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseCors(_myAllowSpecificOrigins);
             }
 
             app.UseMvc();

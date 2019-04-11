@@ -22,7 +22,7 @@ namespace TestHouse.Infrastructure.Tests
                 using (var context = new AppIdentityDbContext(options))
                 {
                     context.Database.EnsureCreated();
-                    var user = new ApplicationUser("feisal");
+                    var user = new ApplicationUser();
                     context.Add(user);
                     context.SaveChanges();
                     Assert.NotEmpty(context.Users);
