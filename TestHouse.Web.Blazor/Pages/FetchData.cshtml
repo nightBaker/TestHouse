@@ -1,5 +1,6 @@
 ﻿@page "/fetchdata"
 @inject HttpClient Http
+@using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 
 <div class="content">
@@ -69,7 +70,9 @@ else
         try
         {
             var response = await Http.GetAsync("http://localhost:5000/api/project/all");
-            response.EnsureSuccessStatusCode();                        
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            projects = Json.Deserialize<ProjectDto[]>(content);
 
         }catch(Exception e)
         {
