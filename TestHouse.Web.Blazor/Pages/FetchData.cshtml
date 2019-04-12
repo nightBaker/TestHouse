@@ -2,10 +2,11 @@
 @inject HttpClient Http
 @using TestHouse.DTOs.DTOs
 
-<h1>Projects list</h1>
+<div class="content">
+    <h1>Projects list</h1>
 
-<p>This component demonstrates fetching data from the server.</p>
-
+    <p>This component demonstrates fetching data from the server.</p>
+</div>
 @if (projects == null)
 {
     <p><em>Loading...</em></p>
@@ -16,7 +17,7 @@ else
 
     @foreach (var forecast in projects)
     {
-        <div class="column">
+        <div class="column is-3">
 
             <div class="box">
                 <article class="media">
@@ -65,7 +66,15 @@ else
 
     protected override async Task OnInitAsync()
     {
-        projects = await Http.GetJsonAsync<ProjectDto[]>("http://localhost:5000/api/project/all");
+        try
+        {
+            var response = await Http.GetAsync("http://localhost:5000/api/project/all");
+            response.EnsureSuccessStatusCode();                        
+
+        }catch(Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
     }
 
 }
