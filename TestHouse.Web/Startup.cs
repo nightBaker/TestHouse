@@ -35,7 +35,7 @@ namespace TestHouse.Web
                 options.AddPolicy(_myAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:60654");
+                    builder.WithOrigins("http://localhost:54821");
                 });
             });
 
