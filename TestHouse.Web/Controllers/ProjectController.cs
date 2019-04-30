@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestHouse.Application.Models;
 using TestHouse.Application.Services;
 using TestHouse.DTOs.DTOs;
-using TestHouse.Web.Models.Project;
+using TestHouse.DTOs.Models;
 
 namespace TestHouse.Web.Controllers
 {
@@ -30,7 +30,7 @@ namespace TestHouse.Web.Controllers
         [HttpPost]
         [ProducesResponseType(400)]
         [ProducesResponseType(201)]
-        public async Task<ActionResult<ProjectDto>> Post([FromBody] ProjectModel model)
+        public async Task<ActionResult<ProjectDto>> Post(ProjectModel model)
         {
             if (ModelState.IsValid)
             {

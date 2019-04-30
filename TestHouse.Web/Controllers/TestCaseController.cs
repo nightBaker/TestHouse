@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TestHouse.Application.Models;
 using TestHouse.Application.Services;
-using TestHouse.Web.Models.Project;
 using TestHouse.Web.Models.TestCase;
 
 namespace TestHouse.Web.Controllers
