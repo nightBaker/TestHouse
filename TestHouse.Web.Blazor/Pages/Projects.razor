@@ -1,5 +1,5 @@
 ﻿@page "/projects"
-@inject HttpClient Http
+@inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
 @using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
@@ -35,6 +35,12 @@
                             <InputText id="name" class="input" bind-Value="@projectForm.Name" />
                         </div>
                         <p class="help">Введите уникальное название</p>
+                    </div>
+                    <div class="field">
+                        <label class="label">Описаник</label>
+                        <div class="control">
+                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
+                        </div>                        
                     </div>
                     <button type="submit" class="button is-primary">Submit</button>
                 </EditForm>
@@ -90,18 +96,15 @@ else
 }
 
 @functions {
-    ProjectDto[] projects;
-    bool isModalActive;
-    ProjectModel projectForm = new ProjectModel();
+        List<ProjectDto> projects;
+        bool isModalActive;
+        ProjectModel projectForm = new ProjectModel();
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            var response = await Http.GetAsync("http://localhost:5000/api/project/all");
-            response.EnsureSuccessStatusCode();
-            var content = await response.Content.ReadAsStringAsync();
-            projects = Json.Deserialize<ProjectDto[]>(content);
+            projects = await _projectService.GetProjectsAsync();
 
         }
         catch (Exception e)
@@ -112,9 +115,13 @@ else
 
     private void ShowModal() => isModalActive = true;
     private void CloseModal() => isModalActive = false;
-    private void SubmitProjectForm()
+    private async Task SubmitProjectForm()
     {
 
+        var newProject = await _projectService.AddProject(projectForm);
+        projects.Add(newProject);
+        projectForm = new ProjectModel();
+        CloseModal();
     }
 
 
