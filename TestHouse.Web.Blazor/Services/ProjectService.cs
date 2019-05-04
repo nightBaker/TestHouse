@@ -20,6 +20,19 @@ namespace TestHouse.Web.Blazor.Services
             _httpClient = httpClient;
         }
 
+        public async Task<ProjectAggregateDto> GetProject(long id)
+        {
+            Console.WriteLine("getting project");
+            var response = await _httpClient.GetAsync("http://localhost:5000/api/project/" + id);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine("getting project success");
+            var content = await response.Content.ReadAsStringAsync();
+            var project = Json.Deserialize<ProjectAggregateDto>(content);
+            Console.WriteLine("getting deserialized");
+
+            return project;
+        }
+
         public async Task<List<ProjectDto>> GetProjectsAsync()
         {
             var response = await _httpClient.GetAsync("http://localhost:5000/api/project/all");

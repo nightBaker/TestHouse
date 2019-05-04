@@ -2,19 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using TestHouse.Domain.Models;
+using TestHouse.DTOs.DTOs;
 
-namespace TestHouse.Application.Models
+namespace TestHouse.Application.Extensions
 {
-    public class SuitDto
-    {
-        public long Id { get; set; }
-
-        public IEnumerable<SuitDto> Suits { get; set; }
-        public IEnumerable<TestCaseDto> TestCases { get; set; }
-
-        public string Name { get; set; }
-        public string Description { get; set; }
-    }
+    
 
     public static class SuitExtensions
     {

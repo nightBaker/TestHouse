@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TestHouse.Application.Models;
+using TestHouse.Application.Extensions;
 using TestHouse.Application.Services;
 using TestHouse.DTOs.DTOs;
 using TestHouse.DTOs.Models;
