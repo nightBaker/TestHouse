@@ -15,7 +15,7 @@ namespace TestHouse.Domain.Models
         //for ef
         private TestCase() { }
 
-        public TestCase(string name, string description, string expectedResult, Suit suit, uint order)
+        public TestCase(string name, string description, string expectedResult, Suit suit, int order)
         {
             if (string.IsNullOrEmpty(name))
                 throw new ArgumentException("Name is not specified", "name");
@@ -66,7 +66,7 @@ namespace TestHouse.Domain.Models
         /// <summary>
         /// Order in a suit
         /// </summary>
-        public uint Order { get; private set; }
+        public int Order { get; private set; }
 
         /// <summary>
         /// Test case steps
