@@ -35,7 +35,9 @@ namespace TestHouse.Web
                 options.AddPolicy(_myAllowSpecificOrigins,
                 builder =>
                 {
-                    builder.WithOrigins("http://localhost:54821");
+                    builder.AllowAnyOrigin()
+                            .AllowAnyHeader()
+                            .AllowAnyMethod();
                 });
             });
 

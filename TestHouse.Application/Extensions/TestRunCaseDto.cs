@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using TestHouse.Domain.Enums;
 using TestHouse.Domain.Models;
+using TestHouse.DTOs.DTOs;
 
-namespace TestHouse.Application.Models
+namespace TestHouse.Application.Extensions
 {
     public class TestRunCaseDto
     {

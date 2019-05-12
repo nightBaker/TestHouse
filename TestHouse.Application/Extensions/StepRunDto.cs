@@ -4,7 +4,7 @@ using System.Text;
 using TestHouse.Domain.Enums;
 using TestHouse.Domain.Models;
 
-namespace TestHouse.Application.Models
+namespace TestHouse.Application.Extensions
 {
     public class StepRunDto
     {

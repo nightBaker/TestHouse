@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
-using TestHouse.Application.Models;
+using TestHouse.Application.Extensions;
 using TestHouse.Domain.Models;
 
 namespace TestHouse.Application.Services

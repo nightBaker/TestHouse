@@ -21,5 +21,10 @@ namespace TestHouse.DTOs.DTOs
 
     }
 
-    
+    public class ProjectAggregateDto : ProjectDto
+    {
+        public SuitDto RootSuit { get; set; }
+    }
+
+
 }

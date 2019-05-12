@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestHouse.Web.Models.Project
+namespace TestHouse.DTOs.Models
 {
     public class ProjectModel
     {

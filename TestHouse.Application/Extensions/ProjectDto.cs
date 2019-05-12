@@ -5,12 +5,9 @@ using System.Text;
 using TestHouse.Domain.Models;
 using TestHouse.DTOs.DTOs;
 
-namespace TestHouse.Application.Models
+namespace TestHouse.Application.Extensions
 {
-    public class ProjectAggregateDto : ProjectDto
-    {
-        public SuitDto RootSuit { get; set; }
-    }
+    
 
     public static class ProjectAggregateExtensions
     {
