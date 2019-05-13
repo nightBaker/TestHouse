@@ -14,7 +14,7 @@ namespace TestHouse.Domain.Tests.Models
             var tcName = "name";
             var tcDescription = "description";
             var tcExpectedResult = "expectedResult";
-            uint tcOrder = 1;
+            int tcOrder = 1;
 
             var project = new ProjectAggregate("name", "description");
             var suit = new Suit("name", "description",0);

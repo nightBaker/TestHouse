@@ -15,4 +15,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TestHouse.Domain\TestHouse.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

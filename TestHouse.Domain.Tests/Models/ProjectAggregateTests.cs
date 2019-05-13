@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using TestHouse.Domain.Models;
 using Xunit;
+using TestHouse.Domain.Models;
 
 namespace TestHouse.Domain.Tests.Models
 {
@@ -94,7 +93,7 @@ namespace TestHouse.Domain.Tests.Models
                    Assert.NotEmpty(item.Steps);
                    Assert.Equal(2, item.Steps.Count);
                    Assert.NotNull(item.Suit);
-                   Assert.Equal<uint>(0, item.Order);                   
+                   Assert.Equal<int>(0, item.Order);                   
                },
                item =>
                {
@@ -104,7 +103,7 @@ namespace TestHouse.Domain.Tests.Models
                    Assert.NotEmpty(item.Steps);
                    Assert.Equal(2, item.Steps.Count);
                    Assert.NotNull(item.Suit);
-                   Assert.Equal<uint>(1, item.Order);
+                   Assert.Equal<int>(1, item.Order);
                });
         }
 
