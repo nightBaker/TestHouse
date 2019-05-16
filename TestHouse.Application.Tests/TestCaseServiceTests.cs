@@ -65,7 +65,7 @@ namespace TestHouse.Application.Tests
                     var testCase1 = await testCaseService.AddTestCaseAsync(
                         "name1", "description1", "expected1", projectId, rootSuitId, null);
 
-                    Assert.Equal<uint>(1, testCase1.Order);
+                    Assert.Equal<int>(1, testCase1.Order);
 
                     await Assert.ThrowsAsync<ArgumentException>(async () =>
                         await testCaseService.AddTestCaseAsync(
@@ -97,7 +97,7 @@ namespace TestHouse.Application.Tests
                         Assert.Equal("description0", item.Description);
                         Assert.NotNull(item.Steps);
                         Assert.NotEmpty(item.Steps);
-                        Assert.Equal<uint>(0,item.Order);
+                        Assert.Equal<int>(0,item.Order);
 
                         Assert.Collection(item.Steps, step =>
                         {
@@ -111,7 +111,7 @@ namespace TestHouse.Application.Tests
                         Assert.Equal("name1", item.Name);
                         Assert.Equal("description1", item.Description);
                         Assert.NotNull(item.Steps);                        
-                        Assert.Equal<uint>(1, item.Order);
+                        Assert.Equal<int>(1, item.Order);
                     });
 
 
@@ -121,7 +121,7 @@ namespace TestHouse.Application.Tests
                         Assert.Equal("description2", item.Description);
                         Assert.NotNull(item.Steps);
                         Assert.NotEmpty(item.Steps);
-                        Assert.Equal<uint>(0, item.Order);
+                        Assert.Equal<int>(0, item.Order);
 
                         Assert.Collection(item.Steps, step =>
                         {
@@ -135,7 +135,7 @@ namespace TestHouse.Application.Tests
                         Assert.Equal("name3", item.Name);
                         Assert.Equal("description3", item.Description);
                         Assert.NotNull(item.Steps);
-                        Assert.Equal<uint>(1, item.Order);
+                        Assert.Equal<int>(1, item.Order);
                     });
                 }
             }
