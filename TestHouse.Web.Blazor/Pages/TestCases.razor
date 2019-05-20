@@ -1,0 +1,74 @@
+﻿@page "/test-cases"
+@inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+@using Microsoft.AspNetCore.Blazor.Services
+@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
+
+<div class="content">
+    <h1>Suits & Cases</h1>
+    <p>This component demonstrates fetching data from the server.</p>
+    <a class="button is-primary">New Suit</a>
+    <a class="button is-primary">New TestCase</a>
+</div>
+
+@if (projects == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+<div class="columns">
+    @foreach (var project in projects)
+    {
+        <p class="menu-label">
+            project
+        </p>
+        <ul class="menu-list">
+            <li>
+                <a>Manage Your Team</a>
+                <ul>
+                    <li><a>Members</a></li>
+                    <li><a>Plugins</a></li>
+                    <li><a>Add a member</a></li>
+                </ul>
+            </li>
+            <li><a>Invitations</a></li>
+            <li><a>Cloud Storage Environment Settings</a></li>
+            <li><a>Authentication</a></li>
+        </ul>
+    }
+</div>
+}
+
+@functions {
+
+    List<ProjectDto> projects;
+    bool isModalActive;
+    ProjectModel projectForm = new ProjectModel();
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            projects = await _projectService.GetProjectsAsync();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+    private void ShowModal() => isModalActive = true;
+
+    private void CloseModal() => isModalActive = false;
+
+    private async Task SubmitProjectForm()
+    {
+
+        var newProject = await _projectService.AddProject(projectForm);
+        projects.Add(newProject);
+        projectForm = new ProjectModel();
+        CloseModal();
+    }
+}
