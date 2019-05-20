@@ -1,25 +1,22 @@
 @inherits LayoutComponentBase
 
+<nav class="navbar is-spaced">
+    <div class="navbar-brand">
+        <a class="navbar-item" href="https://bulma.io">
+            @*<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">*@
+            <p class="title is-4"><b>TestHouse</b></p>
+        </a>
 
+        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
 
-<div class="container-fluid">
-    <nav class="navbar" role="navigation" aria-label="main navigation">
-        <div class="navbar-brand">
-            <a class="navbar-item" href="https://bulma.io">
-                @*<img src="https://bulma.io/images/bulma-logo.png" width="112" height="28">*@
-                <p class="title is-4"><b>TestHouse</b></p>
-            </a>
-
-            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-                <span aria-hidden="true"></span>
-            </a>
-        </div>
-
-        <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-                <a class="navbar-item">
+    <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+            @*<a class="navbar-item">
                     Home
                 </a>
 
@@ -47,38 +44,22 @@
                             Report an issue
                         </a>
                     </div>
-                </div>
-            </div>
-
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        <a class="button is-primary">
-                            <strong>Sign up</strong>
-                        </a>
-                        <a class="button is-light">
-                            Log in
-                        </a>
-                    </div>
-                </div>
-            </div>
+                </div>*@
         </div>
-    </nav>
-    <div class="notification">
-        This container is <strong>fluid</strong>: it will have a 32px gap on either side, on any
-        viewport size.
-    </div>
-    <div class="columns">
-        <div class="column is-2 is-sidebar-menu is-hidden-mobile">
-            <aside class="menu">
-                <NavMenu />
-            </aside>
-        </div>
-        <div class="column">
 
-            <div class="container">
-                @Body
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+                    <a class="button is-success">
+                        Sign up
+                    </a>
+                    <a class="button is-success">
+                        Log in
+                    </a>
+                </div>
             </div>
         </div>
     </div>
-</div>
+</nav>
+
+@Body

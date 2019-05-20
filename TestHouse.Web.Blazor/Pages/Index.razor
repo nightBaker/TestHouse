@@ -1,7 +1,150 @@
 ﻿@page "/"
+@inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+@using Microsoft.AspNetCore.Blazor.Services
+@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
 
-<h1>Hello, world!</h1>
+<section class="hero is-light">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title is-2 has-text-centered">Modern Test Case Management Software</h1>
+            <h3 class="subtitle is-4 has-text-centered">for QA and Development Teams</h3>
+        </div>
+    </div>
+</section>
 
-Welcome to your new app.
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <div class="content">
+                    <a class="button is-success" onclick="@ShowModal">New Project</a>
+                </div>
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+                <div class="modal @(isModalActive ? "is-active" : "" )">
+                    <div class="modal-background" onclick="@CloseModal"></div>
+                    <div class="modal-content">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    New project
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+                                    <span class="icon">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </header>
+                            <div class="card-content">
+                                <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="field">
+                                        <label class="label">Название</label>
+                                        <div class="control">
+                                            <InputText id="name" class="input" bind-Value="@projectForm.Name" />
+                                        </div>
+                                        <p class="help">Введите уникальное название</p>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Описаник</label>
+                                        <div class="control">
+                                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="button is-primary">Submit</button>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="@CloseModal"></button>
+                </div>
+
+                @if (projects == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    <div class="columns is-multiline is-variable is-1-mobile is-1-tablet is-3-desktop is-8-widescreen is-2-fullhd">
+                        @foreach (var project in projects)
+                        {
+                            <div class="column">
+                                <div class="card">
+                                    <header class="card-header">
+                                        <p class="card-header-title">
+                                            @project.Name #@project.Id
+                                        </p>
+                                        <a href="#" class="card-header-icon" aria-label="more options">
+                                            <span class="icon">
+                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                            </span>
+                                        </a>
+                                    </header>
+                                    <div class="card-content">
+                                        <div class="content">
+                                            <p>@GetShortDescription(project.Description)</p>
+                                            <br>
+                                            <small>
+                                                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                            </small>
+                                        </div>
+                                    </div>
+                                    <footer class="card-footer">
+                                        <a href="/project/@project.Id" class="card-footer-item">Goto</a>
+                                        <a href="#" class="card-footer-item">Edit</a>
+                                        <a href="#" class="card-footer-item">Delete</a>
+                                    </footer>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</main>s
+
+@functions {
+
+        List<ProjectDto> projects;
+        bool isModalActive;
+        ProjectModel projectForm = new ProjectModel();
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            projects = await _projectService.GetProjectsAsync();
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+    private void ShowModal() => isModalActive = true;
+
+    private void CloseModal() => isModalActive = false;
+
+    private async Task SubmitProjectForm()
+    {
+
+        var newProject = await _projectService.AddProject(projectForm);
+        projects.Add(newProject);
+        projectForm = new ProjectModel();
+        CloseModal();
+    }
+
+    private string GetShortDescription(string description)
+    {
+        int descrioptionLimit = 10;
+
+        if (!string.IsNullOrEmpty(description) && description.Count() > descrioptionLimit)
+        {
+            return $"{description.Substring(0, descrioptionLimit)}...";
+        }
+        return description;
+    }
+}
