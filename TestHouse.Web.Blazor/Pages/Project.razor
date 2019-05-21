@@ -5,125 +5,141 @@
 @using TestHouse.DTOs.Models
 
 
-
-<div class="modal @(isModalActive ? "is-active" : "" )">
-    <div class="modal-background" onclick="@CloseModal"></div>
-    <div class="modal-content">
-        <div class="card">
-            <header class="card-header">
-                <p class="card-header-title">
-                    Новый проект
-                </p>
-                <a href="#" class="card-header-icon" aria-label="more options">
-                    <span class="icon">
-                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                    </span>
-                </a>
-            </header>
-            <div class="card-content">
-                <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary />
-                    <div class="field">
-                        <label class="label">Название</label>
-                        <div class="control">
-                            <InputText id="name" class="input" bind-Value="@projectForm.Name" />
-                        </div>
-                        <p class="help">Введите уникальное название</p>
-                    </div>
-                    <div class="field">
-                        <label class="label">Описаник</label>
-                        <div class="control">
-                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
-                        </div>
-                    </div>
-                    <button type="submit" class="button is-primary">Submit</button>
-                </EditForm>
-            </div>
-        </div>
-    </div>
-    <button class="modal-close is-large" aria-label="close" onclick="@CloseModal"></button>
-</div>
-
-@if (project == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-    <NavTabs />
-
+<main class="section">
     <div class="container">
-        <div class="content">
-            <h1>@project.Name</h1>
-            <p>@project.Description</p>
-            <a class="button is-primary" onclick="@ShowModal">New Suit</a>
-            <a class="button is-primary" onclick="@ShowModal">New TestCase</a>
-        </div>
-
         <div class="columns">
-
-            @foreach (var testCase in project.RootSuit.TestCases)
-            {
-                <article class="media">
-                    <figure class="media-left">
-                        <p class="image is-64x64">
-                            <img src="https://bulma.io/images/placeholders/128x128.png">
-                        </p>
-                    </figure>
-                    <div class="media-content">
-                        <div class="content">
-                            <p>
-                                <strong> @testCase.Name </strong>
-                            </p>
+            <div class="column">
+                <div class="modal @(isModalActive ? "is-active" : "" )">
+                    <div class="modal-background" onclick="@CloseModal"></div>
+                    <div class="modal-content">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    Новый проект
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+                                    <span class="icon">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </header>
+                            <div class="card-content">
+                                <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="field">
+                                        <label class="label">Название</label>
+                                        <div class="control">
+                                            <InputText id="name" class="input" bind-Value="@projectForm.Name" />
+                                        </div>
+                                        <p class="help">Введите уникальное название</p>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Описаник</label>
+                                        <div class="control">
+                                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="button is-primary">Submit</button>
+                                </EditForm>
+                            </div>
                         </div>
                     </div>
-                </article>
-            }
+                    <button class="modal-close is-large" aria-label="close" onclick="@CloseModal"></button>
+                </div>
 
-            @if (project.RootSuit.Suits != null)
-            {
-                @foreach (var suit in project.RootSuit.Suits)
+                @if (project == null)
                 {
-                    <article class="media">
-                        <figure class="media-left">
-                            <p class="image is-64x64">
-                                <img src="https://bulma.io/images/placeholders/128x128.png">
-                            </p>
-                        </figure>
-                        <div class="media-content">
-                            <div class="content">
-                                <p>
-                                    <strong> @suit.Name </strong>
-                                    <br> @suit.Description <br>
-                                </p>
-                            </div>
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    <nav class="breadcrumb" aria-label="breadcrumbs">
+                        <ul>
+                            <li><a href="#">Projects</a></li>
+                            <li class="is-active"><a href="#" aria-current="page">TestCases</a></li>
+                        </ul>
+                    </nav>
 
-                            @foreach (var testCase in suit.TestCases)
+                    <NavTabs />
+
+                    <div class="container">
+                        <div class="content">
+                            <h1>@project.Name</h1>
+                            <p>@project.Description</p>
+                            <a class="button is-success" onclick="@ShowModal">New Suit</a>
+                            <a class="button is-success" onclick="@ShowModal">New TestCase</a>
+                        </div>
+
+                        <div class="columns">
+
+                            @foreach (var testCase in project.RootSuit.TestCases)
                             {
                                 <article class="media">
                                     <figure class="media-left">
-                                        <p class="image is-48x48">
-                                            <img src="https://bulma.io/images/placeholders/96x96.png">
+                                        <p class="image is-64x64">
+                                            <img src="https://bulma.io/images/placeholders/128x128.png">
                                         </p>
                                     </figure>
                                     <div class="media-content">
                                         <div class="content">
                                             <p>
-                                                <strong>@testCase.Name</strong>
+                                                <strong> @testCase.Name </strong>
                                             </p>
                                         </div>
                                     </div>
                                 </article>
                             }
-                        </div>
-                    </article>
-                }
-            }
 
+                            @if (project.RootSuit.Suits != null)
+                            {
+                                @foreach (var suit in project.RootSuit.Suits)
+                                {
+                                    <article class="media">
+                                        <figure class="media-left">
+                                            <p class="image is-64x64">
+                                                <img src="https://bulma.io/images/placeholders/128x128.png">
+                                            </p>
+                                        </figure>
+                                        <div class="media-content">
+                                            <div class="content">
+                                                <p>
+                                                    <strong> @suit.Name </strong>
+                                                    <br> @suit.Description <br>
+                                                </p>
+                                            </div>
+
+                                            @foreach (var testCase in suit.TestCases)
+                                            {
+                                                <article class="media">
+                                                    <figure class="media-left">
+                                                        <p class="image is-48x48">
+                                                            <img src="https://bulma.io/images/placeholders/96x96.png">
+                                                        </p>
+                                                    </figure>
+                                                    <div class="media-content">
+                                                        <div class="content">
+                                                            <p>
+                                                                <strong>@testCase.Name</strong>
+                                                            </p>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            }
+                                        </div>
+                                    </article>
+                                }
+                            }
+
+                        </div>
+                    </div>
+                }
+
+            </div>
         </div>
     </div>
-}
+</main>
+
 
 @functions {
     [Parameter]
