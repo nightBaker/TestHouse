@@ -57,7 +57,7 @@ namespace TestHouse.Domain.Models
 
             Name = name;
             Description = description;
-            CreatedAt = DateTime.UtcNow;
+            CreatedAt = DateTime.Now;
 
             RootSuit = new Suit("root", "root", 0);
             _testRuns = new List<TestRun>();

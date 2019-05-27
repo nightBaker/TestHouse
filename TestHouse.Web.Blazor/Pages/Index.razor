@@ -85,15 +85,15 @@
                                         <div class="content">
                                             <p>@GetShortDescription(project.Description)</p>
                                             <br>
-                                            <small>
-                                                <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+                                            <small class="has-text-grey-light">
+                                                <time datetime="@project.CreatedAt.ToString("yyyy-mm-dd")">@project.CreatedAt.ToString("dd.MM.yy")</time>
                                             </small>
                                         </div>
                                     </div>
                                     <footer class="card-footer">
-                                        <a href="/project/@project.Id" class="card-footer-item">Goto</a>
-                                        <a href="#" class="card-footer-item">Edit</a>
-                                        <a href="#" class="card-footer-item">Delete</a>
+                                        <a href="/project/@project.Id" class="card-footer-item"><span class="icon"><i class="fas fa-angle-right"></i></span></a>
+                                        <a href="#" class="card-footer-item"><span class="icon"><i class="fas fa-edit"></i></span></a>
+                                        <a href="#" class="card-footer-item"> <span class="icon"><i class="fas fa-trash"></i></span></a>
                                     </footer>
                                 </div>
                             </div>

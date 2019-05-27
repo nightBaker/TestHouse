@@ -25,7 +25,8 @@ namespace TestHouse.Application.Extensions
             {
                 Id = item.Id,
                 Name = item.Name,
-                Description = item.Description
+                Description = item.Description,
+                CreatedAt = item.CreatedAt
             };
         }
 
