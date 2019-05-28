@@ -18,7 +18,7 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-success" onclick="@ShowModal">New Project</a>
+                    <a class="button is-success" onclick="@ShowModal"> <span class="icon"><i class="fas fa-plus"></i></span><span>New project</span></a>
                 </div>
 
                 <div class="modal @(isModalActive ? "is-active" : "" )">
@@ -85,13 +85,13 @@
                                         <div class="content">
                                             <p>@GetShortDescription(project.Description)</p>
                                             <br>
-                                            <small class="has-text-grey-light">
+                                            <small class="has-text-grey-light is-pulled-right">
                                                 <time datetime="@project.CreatedAt.ToString("yyyy-mm-dd")">@project.CreatedAt.ToString("dd.MM.yy")</time>
                                             </small>
                                         </div>
                                     </div>
                                     <footer class="card-footer">
-                                        <a href="/project/@project.Id" class="card-footer-item"><span class="icon"><i class="fas fa-angle-right"></i></span></a>
+                                        <a href="/project/@project.Id" class="card-footer-item"><span class="icon"><i class="fas fa-angle-right" style="font-size:1.5em"></i></span></a>
                                         <a href="#" class="card-footer-item"><span class="icon"><i class="fas fa-edit"></i></span></a>
                                         <a href="#" class="card-footer-item"> <span class="icon"><i class="fas fa-trash"></i></span></a>
                                     </footer>
