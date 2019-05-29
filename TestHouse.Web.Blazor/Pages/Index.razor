@@ -47,7 +47,7 @@
                                         <p class="help">Введите уникальное название</p>
                                     </div>
                                     <div class="field">
-                                        <label class="label">Описаник</label>
+                                        <label class="label">Описание</label>
                                         <div class="control">
                                             <InputText id="description" class="input" bind-Value="@projectForm.Description" />
                                         </div>
@@ -75,19 +75,16 @@
                                         <p class="card-header-title">
                                             @project.Name #@project.Id
                                         </p>
-                                        <a href="#" class="card-header-icon" aria-label="more options">
-                                            <span class="icon">
-                                                <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                            </span>
-                                        </a>
+                                        <div class="card-header-icon" aria-label="more options">
+                                            <small class="has-text-grey-light is-pulled-right">
+                                                <time datetime="@project.CreatedAt.ToString("yyyy-mm-dd")">@project.CreatedAt.ToString("dd.MM.yy")</time>
+                                            </small>
+                                        </div>
                                     </header>
                                     <div class="card-content">
                                         <div class="content">
                                             <p>@GetShortDescription(project.Description)</p>
-                                            <br>
-                                            <small class="has-text-grey-light is-pulled-right">
-                                                <time datetime="@project.CreatedAt.ToString("yyyy-mm-dd")">@project.CreatedAt.ToString("dd.MM.yy")</time>
-                                            </small>
+                                            <br>                                            
                                         </div>
                                     </div>
                                     <footer class="card-footer">
