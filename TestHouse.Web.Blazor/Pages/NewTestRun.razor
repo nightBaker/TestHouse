@@ -10,32 +10,23 @@
     <div class="container">
         <div class="columns">
             <div class="column">
-                <div class="card">
-                    <header class="card-header">
-                        <p class="card-header-title">
-                            New test run
-                        </p>
-                        <a href="#" class="card-header-icon" aria-label="more options">
-                            <span class="icon">
-                                <i class="fas fa-angle-down" aria-hidden="true"></i>
-                            </span>
-                        </a>
-                    </header>
-                    <div class="card-content">
+                <div class="">
+
+                    <div class="">                                        
                         <div class="steps" id="stepsDemo">
                             <div class="step-item @(step == 1 ? "is-active" : "") @(step > 1 ? "is-completed is-success" : "") ">
                                 <div class="step-marker">
                                     @if (step > 1)
                                     {
-                                    <span class="icon">
-                                        <i class="fa fa-check"></i>
-                                    </span>
+                                        <span class="icon">
+                                            <i class="fa fa-check"></i>
+                                        </span>
                                     }
-                                </div>                                                   
-                                <div class="step-details">                                                        
-                                    <p class="step-title">Info</p>                                                
-                                </div>                                                                            
-                            </div>                                                                                
+                                </div>
+                                <div class="step-details">
+                                    <p class="step-title">Info</p>
+                                </div>
+                            </div>
                             <div class="step-item @(step == 2 ? "is-active" : "") @(step > 2 ? "is-completed is-success" : "") ">
                                 <div class="step-marker">
                                     @if (step > 2)
@@ -44,11 +35,11 @@
                                             <i class="fa fa-check"></i>
                                         </span>
                                     }
-                                </div>                                                   
-                                <div class="step-details">                                                        
-                                    <p class="step-title">Test cases</p>                                          
-                                </div>                                                                            
-                            </div>                                                                                
+                                </div>
+                                <div class="step-details">
+                                    <p class="step-title">Test cases</p>
+                                </div>
+                            </div>
                             <div class="step-item @(step == 3 ? "is-active" : "") @(step > 2 ? "is-completed is-success" : "") ">
                                 <div class="step-marker">
                                     @if (step > 2)
@@ -70,23 +61,35 @@
                             </div>
                             <div class="steps-content">
                                 <div class="step-content has-text-centered @(step == 1 ? "is-active" : "")">
-                                    <EditForm Model="@testRunForm" OnValidSubmit="@SubmitTestRunForm">
-                                        <DataAnnotationsValidator />
-                                        <ValidationSummary />
-                                        <div class="field">
-                                            <label class="label">Name</label>
-                                            <div class="control">
-                                                <InputText id="name" class="input" bind-Value="@testRunForm.Name" />
+                                    <div class="columns is-mobile">
+                                        <div class="column is-half is-offset-one-quarter">
+                                            <div class="card">
+                                                <div class="card-content">
+                                                    <br />
+                                                    <EditForm Model="@testRunForm" OnValidSubmit="@SubmitTestRunForm">
+                                                        <DataAnnotationsValidator />
+                                                        <ValidationSummary />
+                                                        <div class="field">
+                                                            <label class="label is-pulled-left">Name</label>
+                                                            <div class="control">
+                                                                <InputText id="name" class="input" bind-Value="@testRunForm.Name" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="field">
+                                                            <label class="label is-pulled-left">Description</label>
+                                                            <div class="control">
+                                                                <InputText id="description" class="input" bind-Value="@testRunForm.Description" />
+                                                            </div>
+                                                        </div>
+                                                    </EditForm>
+                                                    <br />
+                                                </div>
                                             </div>
+
                                         </div>
-                                        <div class="field">
-                                            <label class="label">Description</label>
-                                            <div class="control">
-                                                <InputText id="description" class="input" bind-Value="@testRunForm.Description" />
-                                            </div>
-                                        </div>
-                                        <button type="submit" class="button is-link">Add</button>
-                                    </EditForm>
+                                    </div>
+
+
                                 </div>
                                 <div class="step-content has-text-centered @(step == 2 ? "is-active" : "")">
                                     <h1 class="title is-4">All test cases included</h1>
@@ -95,18 +98,19 @@
                                     <h1 class="title is-4">Your account is now created!</h1>
                                 </div>
                             </div>
+                            
                             <div class="steps-actions">
                                 <div class="steps-action">
                                     <button disabled="@(step == 1)" onclick="@PrevStep" data-nav="previous" class="button is-light">Previous</button>
                                 </div>
                                 <div class="steps-action">
-                                    <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light">Next</button>
+                                    <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light is-primary">Next</button>
                                 </div>
                             </div>
                         </div>
-                       
+
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
@@ -117,7 +121,7 @@
     [Parameter]
     int ProjectId { get; set; }
 
-    TestRunModel testRunForm = new TestRunModel() ;
+    TestRunModel testRunForm = new TestRunModel();
     ProjectAggregateDto project;
     int step = 1;
 
