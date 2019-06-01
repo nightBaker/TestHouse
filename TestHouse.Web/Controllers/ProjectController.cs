@@ -68,6 +68,26 @@ namespace TestHouse.Web.Controllers
             return Ok(project);
         }
 
+        /// <summary>
+        /// Update project info
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <param name="model">Project model</param>
+        /// <returns></returns>
+        [HttpPatch("{id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult<ProjectDto>> Patch(long id, ProjectModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                await _projectService.UpdateProject(id,model.Name, model.Description);
+
+                return NoContent();
+            }
+
+            return BadRequest();
+        }
 
     }
 }

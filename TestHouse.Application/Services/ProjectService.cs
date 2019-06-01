@@ -44,10 +44,30 @@ namespace TestHouse.Application.Services
             return projectAggregates.ToProjectsDto();
         }
 
+        /// <summary>
+        /// Get project aggregate
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <returns></returns>
         public async Task<ProjectAggregateDto> GetAsync(long id)
         {
             var project = await _projectRepository.GetAsync(id);
             return project?.ToProjectAggregateDto();
+        }
+
+        /// <summary>
+        /// Update project info
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <param name="name">Project name</param>
+        /// <param name="description">Project description</param>
+        /// <returns></returns>
+        public async Task UpdateProject(long id, string name, string description)
+        {
+            var project = await _projectRepository.GetAsync(id);
+            project.UpdateInfo(name, description);
+
+            await _projectRepository.SaveAsync();
         }
     }
 }
