@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace TestHouse.DTOs.DTOs
 {
@@ -29,6 +30,7 @@ namespace TestHouse.DTOs.DTOs
     public class ProjectAggregateDto : ProjectDto
     {
         public SuitDto RootSuit { get; set; }
+        public IEnumerable<TestRunDto> TestRuns { get; set; }
     }
 
 

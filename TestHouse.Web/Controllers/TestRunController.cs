@@ -5,6 +5,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestHouse.Application.Extensions;
 using TestHouse.Application.Services;
+using TestHouse.DTOs.DTOs;
+using TestHouse.DTOs.Models;
 using TestHouse.Web.Models.TestRun;
 
 namespace TestHouse.Web.Controllers

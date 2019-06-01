@@ -10,22 +10,22 @@ namespace TestHouse.DTOs.DTOs
         /// <summary>
         /// Test run id
         /// </summary>
-        public long Id { get; internal set; }
+        public long Id { get; set; }
 
         /// <summary>
         /// Test run name
         /// </summary>
-        public string Name { get; internal set; }
+        public string Name { get; set; }
 
         /// <summary>
         /// Test run description
         /// </summary>
-        public string Description { get; internal set; }
+        public string Description { get; set; }
 
         /// <summary>
         /// List of test cases
         /// </summary>
-        public IEnumerable<TestRunCaseDto> TestCases { get; internal set; }
+        public IEnumerable<TestRunCaseDto> TestCases { get; set; }
     }
 
     

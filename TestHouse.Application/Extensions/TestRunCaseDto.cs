@@ -7,29 +7,7 @@ using TestHouse.DTOs.DTOs;
 
 namespace TestHouse.Application.Extensions
 {
-    public class TestRunCaseDto
-    {
-        /// <summary>
-        /// Test run case id
-        /// </summary>
-        public long Id { get; internal set; }
-
-        /// <summary>
-        /// Test case
-        /// </summary>
-        public TestCaseDto TestCase { get; internal set; }
-
-        /// <summary>
-        /// Status
-        /// </summary>
-        public TestCaseStatus Status { get; internal set; }
-
-        /// <summary>
-        /// Steps
-        /// </summary>
-        public IEnumerable<StepRunDto> Steps { get; internal set; }
-    }
-
+   
     public static class TestRunCaseExtensions
     {
         public static IEnumerable<TestRunCaseDto> ToTestRunCasesDtos(this IEnumerable<TestRunCase> testRuns)
