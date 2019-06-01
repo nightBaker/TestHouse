@@ -20,4 +20,8 @@
     <ProjectReference Include="..\TestHouse.DTOs\TestHouse.DTOs.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\bulma-extensions\" />
+  </ItemGroup>
+
 </Project>

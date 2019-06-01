@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace TestHouse.Web.Models.TestRun
+namespace TestHouse.DTOs.Models
 {
     public class TestRunModel
     {
@@ -12,22 +12,22 @@ namespace TestHouse.Web.Models.TestRun
         /// Project id
         /// </summary>
         [Required]
-        public long ProjectId { get; internal set; }
+        public int ProjectId { get;  set; }
 
         /// <summary>
         /// Test run name
         /// </summary>
         [Required(AllowEmptyStrings = false)]
-        public string Name { get; internal set; }
+        public string Name { get;  set; }
 
         /// <summary>
         /// Test run description
         /// </summary>
-        public string Description { get; internal set; }
+        public string Description { get;  set; }
 
         /// <summary>
         /// Test cases ids for including into test run
         /// </summary>
-        public HashSet<long> TestCasesIds { get; internal set; }
+        public HashSet<long> TestCasesIds { get;  set; }
     }
 }

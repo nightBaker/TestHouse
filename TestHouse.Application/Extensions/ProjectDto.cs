@@ -42,6 +42,7 @@ namespace TestHouse.Application.Extensions
 
             dto.RootSuit.Suits = _fillSuitsTree(dto.RootSuit.Id, item);
             dto.RootSuit.TestCases = item.RootSuit.TestCases.ToTestCasesDto();
+            dto.TestRuns = item.TestRuns.ToTestRunDtos();
 
             return dto;
         }

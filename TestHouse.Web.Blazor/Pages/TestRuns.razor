@@ -22,7 +22,9 @@
                     <div class="container">
 
                         <div class="content">
-                            <a class="button is-primary" onclick="">New Suit</a>                            
+                            <NavLink href="@($"/project/{ProjectId}/testRuns/new")" class="button is-primary">
+                                <span>New test run</span>
+                            </NavLink>                            
                         </div>
 
                         <div class="content">
@@ -30,16 +32,13 @@
                             <p>@project.Description</p>
                         </div>
 
-                        @if (project.RootSuit.Suits != null)
+                        @if (project.TestRuns != null)
                         {
                             <ul class="menu-list">
-                                @foreach (var suit in project.RootSuit.Suits)
+                                @foreach (var testRun in project.TestRuns)
                                 {
                                     <li>
-                                        <a class="@(suit == project.RootSuit.Suits.First() ? "is-active" : "")">@suit.Name</a>
-                                        <ul>
-                                            <li><a>Add a member</a></li>
-                                        </ul>
+                                        <p>@testRun.Name - @testRun.Description</p>
                                     </li>
                                 }
                             </ul>

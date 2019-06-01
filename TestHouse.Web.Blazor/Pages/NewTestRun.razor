@@ -1,0 +1,158 @@
+﻿@page "/project/{ProjectId:int}/testRuns/new"
+@inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+@using Microsoft.AspNetCore.Blazor.Services
+@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
+@using TestHouse.Web.Blazor.Components;
+
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                <div class="card">
+                    <header class="card-header">
+                        <p class="card-header-title">
+                            New test run
+                        </p>
+                        <a href="#" class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </a>
+                    </header>
+                    <div class="card-content">
+                        <div class="steps" id="stepsDemo">
+                            <div class="step-item @(step == 1 ? "is-active" : "") @(step > 1 ? "is-completed is-success" : "") ">
+                                <div class="step-marker">
+                                    @if (step > 1)
+                                    {
+                                    <span class="icon">
+                                        <i class="fa fa-check"></i>
+                                    </span>
+                                    }
+                                </div>                                                   
+                                <div class="step-details">                                                        
+                                    <p class="step-title">Info</p>                                                
+                                </div>                                                                            
+                            </div>                                                                                
+                            <div class="step-item @(step == 2 ? "is-active" : "") @(step > 2 ? "is-completed is-success" : "") ">
+                                <div class="step-marker">
+                                    @if (step > 2)
+                                    {
+                                        <span class="icon">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                    }
+                                </div>                                                   
+                                <div class="step-details">                                                        
+                                    <p class="step-title">Test cases</p>                                          
+                                </div>                                                                            
+                            </div>                                                                                
+                            <div class="step-item @(step == 3 ? "is-active" : "") @(step > 2 ? "is-completed is-success" : "") ">
+                                <div class="step-marker">
+                                    @if (step > 2)
+                                    {
+                                        <span class="icon">
+                                            <i class="fa fa-check"></i>
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="icon">
+                                            <i class="fa fa-flag"></i>
+                                        </span>
+                                    }
+                                </div>
+                                <div class="step-details">
+                                    <p class="step-title">Success</p>
+                                </div>
+                            </div>
+                            <div class="steps-content">
+                                <div class="step-content has-text-centered @(step == 1 ? "is-active" : "")">
+                                    <EditForm Model="@testRunForm" OnValidSubmit="@SubmitTestRunForm">
+                                        <DataAnnotationsValidator />
+                                        <ValidationSummary />
+                                        <div class="field">
+                                            <label class="label">Name</label>
+                                            <div class="control">
+                                                <InputText id="name" class="input" bind-Value="@testRunForm.Name" />
+                                            </div>
+                                        </div>
+                                        <div class="field">
+                                            <label class="label">Description</label>
+                                            <div class="control">
+                                                <InputText id="description" class="input" bind-Value="@testRunForm.Description" />
+                                            </div>
+                                        </div>
+                                        <button type="submit" class="button is-link">Add</button>
+                                    </EditForm>
+                                </div>
+                                <div class="step-content has-text-centered @(step == 2 ? "is-active" : "")">
+                                    <h1 class="title is-4">All test cases included</h1>
+                                </div>
+                                <div class="step-content has-text-centered @(step == 3 ? "is-active" : "") ">
+                                    <h1 class="title is-4">Your account is now created!</h1>
+                                </div>
+                            </div>
+                            <div class="steps-actions">
+                                <div class="steps-action">
+                                    <button disabled="@(step == 1)" onclick="@PrevStep" data-nav="previous" class="button is-light">Previous</button>
+                                </div>
+                                <div class="steps-action">
+                                    <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light">Next</button>
+                                </div>
+                            </div>
+                        </div>
+                       
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@functions {
+    [Parameter]
+    int ProjectId { get; set; }
+
+    TestRunModel testRunForm = new TestRunModel() ;
+    ProjectAggregateDto project;
+    int step = 1;
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            project = await _projectService.GetProject(ProjectId);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+
+    private async Task SubmitTestRunForm()
+    {
+        testRunForm.ProjectId = ProjectId;
+        //var newSuit = await _suitService.Add(suitForm);
+
+
+        testRunForm = new TestRunModel();
+
+    }
+
+    private void NextStep()
+    {
+        step++;
+    }
+
+    private void PrevStep()
+    {
+        step--;
+    }
+
+}
