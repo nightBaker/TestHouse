@@ -53,7 +53,7 @@ namespace TestHouse.Domain.Models
 
         public ProjectAggregate(string name, string description)
         {
-            if (string.IsNullOrEmpty(name)) throw new ArgumentException("Name is not specified", "name");
+            if (string.IsNullOrWhiteSpace(name)) throw new ArgumentException("Name is not specified", "name");
 
             Name = name;
             Description = description;
@@ -62,6 +62,22 @@ namespace TestHouse.Domain.Models
             RootSuit = new Suit("root", "root", 0);
             _testRuns = new List<TestRun>();
             _suits = new List<Suit>() { };
+        }
+
+        /// <summary>
+        /// Update project info 
+        /// </summary>
+        /// <param name="name">Project name</param>
+        /// <param name="description">Project description</param>
+        public void UpdateInfo(string name, string description)
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                throw new ArgumentException("Name is not specified", nameof(name));
+            }
+
+            Name = name;
+            Description = description;                 
         }
 
         /// <summary>
@@ -169,7 +185,6 @@ namespace TestHouse.Domain.Models
 
             return testRunCases;
         }
-
 
         /// <summary>
         /// Look for test case in all suits
