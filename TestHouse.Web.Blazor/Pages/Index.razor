@@ -18,7 +18,12 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-link" onclick="@ShowModal"> <span class="icon"><i class="fas fa-plus"></i></span><span>New project</span></a>
+                    <a class="button is-primary" onclick="@ShowModal">
+                        <span class="icon">
+                            <i class="fas fa-plus" />
+                        </span>
+                        <span>New project</span>
+                    </a>
                 </div>
 
                 <div class="modal @(isModalActive ? "is-active" : "" )">
@@ -52,7 +57,7 @@
                                             <InputText id="description" class="input" bind-Value="@projectForm.Description" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="button is-link">Add</button>
+                                    <button type="submit" class="button is-primary">Add</button>
                                 </EditForm>
                             </div>
                         </div>
@@ -84,7 +89,7 @@
                                     <div class="card-content">
                                         <div class="content">
                                             <p>@GetShortDescription(project.Description)</p>
-                                            <br>                                            
+                                            <br>
                                         </div>
                                     </div>
                                     <footer class="card-footer">
