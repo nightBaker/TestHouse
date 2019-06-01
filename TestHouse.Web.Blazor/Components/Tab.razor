@@ -1,0 +1,24 @@
+﻿<div class="tabs is-centered">
+    <ul>
+        <li class="@(ActiveName == "TestCases" ? "is-active" : "")">
+            <a>
+                <span>TestCases</span>
+            </a>
+        </li>
+        <li class="@(ActiveName == "Test Runs & Results" ? "is-active" : "")">
+            <a>
+                <span>Test Runs & Results</span>
+            </a>
+        </li>
+        <li class="@(ActiveName == "Reports" ? "is-active" : "")">
+            <a>
+                <span>Reports</span>
+            </a>
+        </li>
+    </ul>
+</div>
+
+@functions {
+    [Parameter]
+    private string ActiveName { get; set; }
+}

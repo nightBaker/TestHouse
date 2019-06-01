@@ -1,56 +1,155 @@
-﻿@page "/test-cases"
+﻿@page "/project/{ProjectId:int}"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
 @using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
+@using TestHouse.Web.Blazor.Components;
 
-<div class="content">
-    <h1>Suits & Cases</h1>
-    <p>This component demonstrates fetching data from the server.</p>
-    <a class="button is-primary">New Suit</a>
-    <a class="button is-primary">New TestCase</a>
-</div>
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
 
-@if (projects == null)
-{
-    <p><em>Loading...</em></p>
-}
-else
-{
-<div class="columns">
-    @foreach (var project in projects)
-    {
-        <p class="menu-label">
-            project
-        </p>
-        <ul class="menu-list">
-            <li>
-                <a>Manage Your Team</a>
-                <ul>
-                    <li><a>Members</a></li>
-                    <li><a>Plugins</a></li>
-                    <li><a>Add a member</a></li>
-                </ul>
-            </li>
-            <li><a>Invitations</a></li>
-            <li><a>Cloud Storage Environment Settings</a></li>
-            <li><a>Authentication</a></li>
-        </ul>
-    }
-</div>
-}
+                <div class="modal @(isSuitModalActive ? "is-active" : "" )">
+                    <div class="modal-background" onclick="@CloseSuiteModal"></div>
+                    <div class="modal-content">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    New Suit
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+                                    <span class="icon">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </header>
+                            <div class="card-content">
+                                <EditForm Model="@suitForm" OnValidSubmit="@SubmitProjectForm">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="field">
+                                        <label class="label">Name</label>
+                                        <div class="control">
+                                            <InputText id="name" class="input" bind-Value="@suitForm.Name" />
+                                        </div>
+                                        <p class="help">Enter a unique name</p>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Description</label>
+                                        <div class="control">
+                                            <InputText id="description" class="input" bind-Value="@suitForm.Description" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="button is-primary">Add</button>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="@CloseSuiteModal"></button>
+                </div>
+
+                <div class="modal @(isTestCaseModalActive ? "is-active" : "" )">
+                    <div class="modal-background" onclick="@CloseTestCaseModal"></div>
+                    <div class="modal-content">
+                        <div class="card">
+                            <header class="card-header">
+                                <p class="card-header-title">
+                                    New TestCase
+                                </p>
+                                <a href="#" class="card-header-icon" aria-label="more options">
+                                    <span class="icon">
+                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                    </span>
+                                </a>
+                            </header>
+                            <div class="card-content">
+                                <EditForm Model="@suitForm" OnValidSubmit="@SubmitProjectForm">
+                                    <DataAnnotationsValidator />
+                                    <ValidationSummary />
+                                    <div class="field">
+                                        <label class="label">Name</label>
+                                        <div class="control">
+                                            <InputText id="name" class="input" bind-Value="@suitForm.Name" />
+                                        </div>
+                                        <p class="help">Enter a unique name</p>
+                                    </div>
+                                    <div class="field">
+                                        <label class="label">Description</label>
+                                        <div class="control">
+                                            <InputText id="description" class="input" bind-Value="@suitForm.Description" />
+                                        </div>
+                                    </div>
+                                    <button type="submit" class="button is-primary">Add</button>
+                                </EditForm>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="modal-close is-large" aria-label="close" onclick="@CloseTestCaseModal"></button>
+                </div>
+
+                @if (project == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    <Tab ActiveName="TestCases" />
+
+                    <div class="container">
+
+                        <div class="content">
+                            <a class="button is-primary" onclick="@ShowSuitModal">New Suit</a>
+                            <a class="button is-primary" onclick="@ShowTestCaseModal">New TestCase</a>
+                        </div>
+
+                        <div class="content">
+                            <h1>@project.Name</h1>
+                            <p>@project.Description</p>
+                        </div>
+
+                        @if (project.RootSuit.Suits != null)
+                        {
+                            <ul class="menu-list">
+                                @foreach (var suit in project.RootSuit.Suits)
+                                {
+                                    <li>
+                                        <a class="@(suit == project.RootSuit.Suits.First() ? "is-active" : "")">@suit.Name</a>
+                                        <ul>
+                                            <li><a>Add a member</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+
 
 @functions {
+    [Parameter]
+    int ProjectId { get; set; }
 
-    List<ProjectDto> projects;
-    bool isModalActive;
-    ProjectModel projectForm = new ProjectModel();
+    List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
+
+    bool isSuitModalActive;
+    bool isTestCaseModalActive;
+
+    ProjectAggregateDto project;
+    SuitModel suitForm = new SuitModel();
 
     protected override async Task OnInitAsync()
     {
         try
         {
-            projects = await _projectService.GetProjectsAsync();
+            project = await _projectService.GetProject(ProjectId);
 
         }
         catch (Exception e)
@@ -59,16 +158,27 @@ else
         }
     }
 
-    private void ShowModal() => isModalActive = true;
+    private void ShowSuitModal() => isSuitModalActive = true;
+    private void CloseSuiteModal() => isSuitModalActive = false;
 
-    private void CloseModal() => isModalActive = false;
+    private void ShowTestCaseModal() => isTestCaseModalActive = true;
+    private void CloseTestCaseModal() => isTestCaseModalActive = false;
 
     private async Task SubmitProjectForm()
     {
+        suitForm.ProjectId = project.Id;
+        var newSuit = await _suitService.Add(suitForm);
 
-        var newProject = await _projectService.AddProject(projectForm);
-        projects.Add(newProject);
-        projectForm = new ProjectModel();
-        CloseModal();
+        //if (project.RootSuit.Suits == null)
+        //{
+        //    project.RootSuit.Suits = new List<SuitDto>() { newSuit };
+        //}
+        //else
+        //{
+        //    project.RootSuit.Suits.ToList().Add(newSuit);
+        //}
+
+        suitForm = new SuitModel();
+        CloseSuiteModal();
     }
 }

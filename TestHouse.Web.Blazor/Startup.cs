@@ -9,6 +9,7 @@ namespace TestHouse.Web.Blazor
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<ProjectService>();
+            services.AddSingleton<SuitService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)
