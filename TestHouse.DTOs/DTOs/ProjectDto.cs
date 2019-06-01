@@ -19,6 +19,11 @@ namespace TestHouse.DTOs.DTOs
         /// </summary>
         public string Description { get; set; }
 
+        /// <summary>
+        /// Creation date
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
+
     }
 
     public class ProjectAggregateDto : ProjectDto

@@ -12,7 +12,7 @@ namespace TestHouse.Domain.Models
 
         public Suit(string name, string description,uint order)
         {
-            if (string.IsNullOrEmpty(name))
+            if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentException("Name is not specified", nameof(name));
 
             Name = name;

@@ -1,5 +1,6 @@
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Moq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -257,6 +258,31 @@ namespace TestHouse.Application.Tests
             {
                 connection.Close();
             }
+        }
+
+        [Theory]
+        [InlineData("new name 1", "new description")]
+        [InlineData("new name 2", "")]
+        [InlineData("new name 3", " ")]
+        [InlineData("new name 4", null)]
+        public async Task UpdateInfoTest(string newName, string newDescription)
+        {
+            //ARRANGE
+            var project = new ProjectAggregate("name", "description");
+
+            var repo = new Mock<IProjectRepository>();
+            repo.Setup(x => x.GetAsync(It.IsAny<long>())).ReturnsAsync(project).Verifiable();
+
+            var projectService = new ProjectService(repo.Object);
+            //ACT
+            await projectService.UpdateProject(1, newName, newDescription);
+
+            //ASSERT
+            repo.Verify(x => x.SaveAsync());
+            repo.Verify();
+
+            Assert.Equal(newName, project.Name);
+            Assert.Equal(newDescription, project.Description);
         }
     }
 }
