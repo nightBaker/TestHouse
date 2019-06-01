@@ -1,4 +1,4 @@
-﻿@page "/project/{ProjectId:int}/testRuns"
+﻿@page "/project/{ProjectId:int}/test-run"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
 @inject TestHouse.Web.Blazor.Services.SuitService _suitService;
 @using Microsoft.AspNetCore.Blazor.Services
@@ -10,21 +10,23 @@
     <div class="container">
         <div class="columns">
             <div class="column">
-                                
+
                 @if (project == null)
                 {
                     <p><em>Loading...</em></p>
                 }
                 else
                 {
-                    <Tab ActiveName="Test Runs & Results" ProjectId="@ProjectId"/>
+                    <Breadcrumb ActivePages=@ActivePages />
+
+                    <Tab ActiveName="Test Runs & Results" ProjectId="@ProjectId" />
 
                     <div class="container">
 
                         <div class="content">
-                            <NavLink href="@($"/project/{ProjectId}/testRuns/new")" class="button is-primary">
+                            <NavLink href="@($"/project/{ProjectId}/test-run/new")" class="button is-primary">
                                 <span>New test run</span>
-                            </NavLink>                            
+                            </NavLink>
                         </div>
 
                         <div class="content">
@@ -57,7 +59,7 @@
     [Parameter]
     int ProjectId { get; set; }
 
-    List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
+    List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Runs };
 
     bool isSuitModalActive;
     bool isTestCaseModalActive;

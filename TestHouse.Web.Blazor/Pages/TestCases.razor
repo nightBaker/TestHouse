@@ -17,7 +17,7 @@
                         <div class="card">
                             <header class="card-header">
                                 <p class="card-header-title">
-                                    New Suit
+                                    New Section
                                 </p>
                                 <a href="#" class="card-header-icon" aria-label="more options">
                                     <span class="icon">
@@ -34,7 +34,7 @@
                                         <div class="control">
                                             <InputText id="name" class="input" bind-Value="@suitForm.Name" />
                                         </div>
-                                        <p class="help">Enter a unique name</p>
+                                        <p class="help">Ex: Save Dialog Tests, Contact Form or Performance Tests</p>
                                     </div>
                                     <div class="field">
                                         <label class="label">Description</label>
@@ -97,58 +97,75 @@
                 {
                     <Breadcrumb ActivePages=@ActivePages />
 
-                    <Tab ActiveName="TestCases" ProjectId="@ProjectId"/>
+                    <Tab ActiveName="TestCases" ProjectId="@ProjectId" />
 
                     <div class="columns">
                         <div class="column">
 
-                            <nav class="level">
-                                <div class="level-left">
-                                    <p class="level-item">
-                                        <h4 class="title is-4">
-                                            @project.Name (@project.Description)
-                                        </h4>
-                                    </p>
-                                </div>
-                                <div class="level-right">
-                                    <p class="level-item">
-                                        <a class="button is-small is-primary" onclick="@ShowSuitModal">
-                                            <span class="icon">
-                                                <i class="fas fa-plus" />
-                                            </span>
-                                            <span>Section</span>
-                                        </a>
-                                    </p>
-                                    <p class="level-item">
-                                        <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
-                                            <span class="icon">
-                                                <i class="fas fa-plus" />
-                                            </span>
-                                            <span>TestCase</span>
-                                        </a>
-                                    </p>
-                                </div>
-                            </nav>
-
-                            @*<ul class="menu-list">
-
-                                    <li>
-
-                                        @if (project.RootSuit.Suits != null)
-                                        {
-                                            <ul>
-                                                @foreach (var suit in project.RootSuit.Suits)
-                                                {
-                                                    <li>
-                                                        <a>@suit.Name</a>
-                                                    </li>
-                                                }
-                                            </ul>
-                                        }
-
-                                    </li>
-
-                                </ul>*@
+                            <ul class="suit-list">
+                                <li>
+                                    <nav class="level suit-root">
+                                        <div class="level-left">
+                                            <div class="level-item">
+                                                <p class="subtitle is-5">@project.Name&nbsp;(@(project.RootSuit.Suits != null ? @project.RootSuit.Suits.Count() : 0))</p>
+                                            </div>
+                                        </div>
+                                        <div class="level-right">
+                                            <div class="level-item">
+                                                <a class="button is-small is-primary" onclick="@ShowSuitModal">
+                                                    <span class="icon">
+                                                        <i class="fas fa-plus" />
+                                                    </span>
+                                                    <span>Section</span>
+                                                </a>
+                                            </div>
+                                            <div class="level-item">
+                                                <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
+                                                    <span class="icon">
+                                                        <i class="fas fa-plus" />
+                                                    </span>
+                                                    <span>TestCase</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </nav>
+                                    @if (project.RootSuit.Suits != null)
+                                    {
+                                        <ul>
+                                            @foreach (var suit in project.RootSuit.Suits)
+                                            {
+                                            <li>
+                                                <nav class="level suit">
+                                                    <div class="level-left">
+                                                        <div class="level-item">
+                                                            <p class="subtitle is-6">@suit.Name&nbsp;(@(suit.TestCases != null ? @suit.TestCases.Count() : 0))</p>
+                                                        </div>
+                                                    </div>
+                                                    <div class="level-right">
+                                                        <div class="level-item">
+                                                            <a class="button is-small is-primary" onclick="@ShowSuitModal">
+                                                                <span class="icon">
+                                                                    <i class="fas fa-plus" />
+                                                                </span>
+                                                                <span>Subsection</span>
+                                                            </a>
+                                                        </div>
+                                                        <div class="level-item">
+                                                            <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
+                                                                <span class="icon">
+                                                                    <i class="fas fa-plus" />
+                                                                </span>
+                                                                <span>TestCase</span>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </nav>
+                                            </li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 }
