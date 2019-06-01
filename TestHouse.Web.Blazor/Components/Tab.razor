@@ -6,9 +6,9 @@
             </a>
         </li>
         <li class="@(ActiveName == "Test Runs & Results" ? "is-active" : "")">
-            <a>
+            <NavLink href="@($"/project/{ProjectId}/testRuns")">
                 <span>Test Runs & Results</span>
-            </a>
+            </NavLink>
         </li>
         <li class="@(ActiveName == "Reports" ? "is-active" : "")">
             <a>
@@ -21,4 +21,7 @@
 @functions {
     [Parameter]
     private string ActiveName { get; set; }
+
+    [Parameter]
+    private int ProjectId { get; set; }
 }

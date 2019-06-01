@@ -2,31 +2,25 @@
 using System.Collections.Generic;
 using System.Text;
 using TestHouse.Domain.Enums;
+using TestHouse.Domain.Models;
 
 namespace TestHouse.DTOs.DTOs
 {
-    public class TestRunCaseDto
+    public class StepRunDto
     {
         /// <summary>
-        /// Test run case id
+        /// Step run id
         /// </summary>
         public long Id { get; set; }
 
         /// <summary>
-        /// Test case
+        /// Step
         /// </summary>
-        public TestCaseDto TestCase { get; set; }
+        public Step Step { get; set; }
 
         /// <summary>
         /// Status
         /// </summary>
-        public TestCaseStatus Status { get; set; }
-
-        ///// <summary>
-        ///// Steps
-        ///// </summary>
-        public IEnumerable<StepRunDto> Steps { get; set; }
+        public StepRunStatus Status { get; set; }
     }
-
-    
 }

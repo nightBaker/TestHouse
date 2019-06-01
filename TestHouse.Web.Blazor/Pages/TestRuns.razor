@@ -1,0 +1,100 @@
+﻿@page "/project/{ProjectId:int}/testRuns"
+@inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+@using Microsoft.AspNetCore.Blazor.Services
+@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
+@using TestHouse.Web.Blazor.Components;
+
+<main class="section">
+    <div class="container">
+        <div class="columns">
+            <div class="column">
+                                
+                @if (project == null)
+                {
+                    <p><em>Loading...</em></p>
+                }
+                else
+                {
+                    <Tab ActiveName="Test Runs & Results" ProjectId="@ProjectId"/>
+
+                    <div class="container">
+
+                        <div class="content">
+                            <a class="button is-primary" onclick="">New Suit</a>                            
+                        </div>
+
+                        <div class="content">
+                            <h1>@project.Name</h1>
+                            <p>@project.Description</p>
+                        </div>
+
+                        @if (project.RootSuit.Suits != null)
+                        {
+                            <ul class="menu-list">
+                                @foreach (var suit in project.RootSuit.Suits)
+                                {
+                                    <li>
+                                        <a class="@(suit == project.RootSuit.Suits.First() ? "is-active" : "")">@suit.Name</a>
+                                        <ul>
+                                            <li><a>Add a member</a></li>
+                                        </ul>
+                                    </li>
+                                }
+                            </ul>
+                        }
+
+                    </div>
+                }
+
+            </div>
+        </div>
+    </div>
+</main>
+
+
+@functions {
+    [Parameter]
+    int ProjectId { get; set; }
+
+    List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
+
+    bool isSuitModalActive;
+    bool isTestCaseModalActive;
+
+    ProjectAggregateDto project;
+    SuitModel suitForm = new SuitModel();
+
+    protected override async Task OnInitAsync()
+    {
+        try
+        {
+            project = await _projectService.GetProject(ProjectId);
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+    
+
+    private async Task SubmitProjectForm()
+    {
+        suitForm.ProjectId = project.Id;
+        var newSuit = await _suitService.Add(suitForm);
+
+        //if (project.RootSuit.Suits == null)
+        //{
+        //    project.RootSuit.Suits = new List<SuitDto>() { newSuit };
+        //}
+        //else
+        //{
+        //    project.RootSuit.Suits.ToList().Add(newSuit);
+        //}
+
+        suitForm = new SuitModel();
+        
+    }
+}
