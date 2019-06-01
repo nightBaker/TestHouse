@@ -1,0 +1,21 @@
+﻿<nav class="breadcrumb" aria-label="breadcrumbs">
+    <ul>
+        @foreach (PageId pageId in ActivePages)
+        {
+            <li class="@(pageId == ActivePages.Last() ? "is-active" : "")"><a href="@PageCatalog[pageId].Uri">@PageCatalog[pageId].Description</a></li>
+        }
+    </ul>
+</nav>
+
+@functions {
+
+    private static Dictionary<PageId, Page> PageCatalog { get; } =
+        new Dictionary<PageId, Page>()
+        {
+            { PageId.Projects, new Page() { Description = "Projects", Uri = "/" } },
+            { PageId.Cases, new Page() { Description = "Test Cases", Uri = "/test-cases" } }
+        };
+
+    [Parameter]
+    private List<PageId> ActivePages { get; set; }
+}

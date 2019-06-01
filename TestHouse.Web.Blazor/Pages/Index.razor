@@ -18,7 +18,7 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-success" onclick="@ShowModal"> <span class="icon"><i class="fas fa-plus"></i></span><span>New project</span></a>
+                    <a class="button is-link" onclick="@ShowModal"> <span class="icon"><i class="fas fa-plus"></i></span><span>New project</span></a>
                 </div>
 
                 <div class="modal @(isModalActive ? "is-active" : "" )">
@@ -40,19 +40,19 @@
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
                                     <div class="field">
-                                        <label class="label">Название</label>
+                                        <label class="label">Name</label>
                                         <div class="control">
                                             <InputText id="name" class="input" bind-Value="@projectForm.Name" />
                                         </div>
-                                        <p class="help">Введите уникальное название</p>
+                                        <p class="help">Enter a unique name</p>
                                     </div>
                                     <div class="field">
-                                        <label class="label">Описание</label>
+                                        <label class="label">Description</label>
                                         <div class="control">
                                             <InputText id="description" class="input" bind-Value="@projectForm.Description" />
                                         </div>
                                     </div>
-                                    <button type="submit" class="button is-primary">Submit</button>
+                                    <button type="submit" class="button is-link">Add</button>
                                 </EditForm>
                             </div>
                         </div>
@@ -73,7 +73,7 @@
                                 <div class="card">
                                     <header class="card-header">
                                         <p class="card-header-title">
-                                            @project.Name #@project.Id
+                                            @project.Name
                                         </p>
                                         <div class="card-header-icon" aria-label="more options">
                                             <small class="has-text-grey-light is-pulled-right">
@@ -100,13 +100,13 @@
             </div>
         </div>
     </div>
-</main>s
+</main>
 
 @functions {
 
-        List<ProjectDto> projects;
-        bool isModalActive;
-        ProjectModel projectForm = new ProjectModel();
+    List<ProjectDto> projects;
+    bool isModalActive;
+    ProjectModel projectForm = new ProjectModel();
 
     protected override async Task OnInitAsync()
     {
@@ -127,7 +127,6 @@
 
     private async Task SubmitProjectForm()
     {
-
         var newProject = await _projectService.AddProject(projectForm);
         projects.Add(newProject);
         projectForm = new ProjectModel();
