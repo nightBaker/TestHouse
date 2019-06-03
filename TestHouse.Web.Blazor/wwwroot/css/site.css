@@ -16,3 +16,16 @@
 .suit {
     margin-bottom: .5rem;
 }
+
+.new-item-input {
+    margin-top: .5rem;
+    margin-right: .5em;
+}
+
+.add-item-input {
+    width: 20rem;
+}
+
+.last-child {
+    margin-right: 0 !important;
+}

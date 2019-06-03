@@ -11,84 +11,6 @@
         <div class="columns">
             <div class="column">
 
-                <div class="modal @(isSuitModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseSuiteModal"></div>
-                    <div class="modal-content">
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    New Section
-                                </p>
-                                <a href="#" class="card-header-icon" aria-label="more options">
-                                    <span class="icon">
-                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                            </header>
-                            <div class="card-content">
-                                <EditForm Model="@suitForm" OnValidSubmit="@SubmitProjectForm">
-                                    <DataAnnotationsValidator />
-                                    <ValidationSummary />
-                                    <div class="field">
-                                        <label class="label">Name</label>
-                                        <div class="control">
-                                            <InputText id="name" class="input" bind-Value="@suitForm.Name" />
-                                        </div>
-                                        <p class="help">Ex: Save Dialog Tests, Contact Form or Performance Tests</p>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Description</label>
-                                        <div class="control">
-                                            <InputText id="description" class="input" bind-Value="@suitForm.Description" />
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="button is-primary">Add</button>
-                                </EditForm>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="@CloseSuiteModal"></button>
-                </div>
-
-                <div class="modal @(isTestCaseModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseTestCaseModal"></div>
-                    <div class="modal-content">
-                        <div class="card">
-                            <header class="card-header">
-                                <p class="card-header-title">
-                                    New TestCase
-                                </p>
-                                <a href="#" class="card-header-icon" aria-label="more options">
-                                    <span class="icon">
-                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
-                                    </span>
-                                </a>
-                            </header>
-                            <div class="card-content">
-                                <EditForm Model="@suitForm" OnValidSubmit="@SubmitProjectForm">
-                                    <DataAnnotationsValidator />
-                                    <ValidationSummary />
-                                    <div class="field">
-                                        <label class="label">Name</label>
-                                        <div class="control">
-                                            <InputText id="name" class="input" bind-Value="@suitForm.Name" />
-                                        </div>
-                                        <p class="help">Enter a unique name</p>
-                                    </div>
-                                    <div class="field">
-                                        <label class="label">Description</label>
-                                        <div class="control">
-                                            <InputText id="description" class="input" bind-Value="@suitForm.Description" />
-                                        </div>
-                                    </div>
-                                    <button type="submit" class="button is-primary">Add</button>
-                                </EditForm>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="@CloseTestCaseModal"></button>
-                </div>
-
                 @if (project == null)
                 {
                     <p><em>Loading...</em></p>
@@ -111,7 +33,8 @@
                                             </div>
                                         </div>
                                         <div class="level-right">
-                                            <div class="level-item">
+
+                                            <div class="level-item @(isSuitModalActive ? " is-hidden")">
                                                 <a class="button is-small is-primary" onclick="@ShowSuitModal">
                                                     <span class="icon">
                                                         <i class="fas fa-plus" />
@@ -119,7 +42,8 @@
                                                     <span>Section</span>
                                                 </a>
                                             </div>
-                                            <div class="level-item">
+
+                                            <div class="level-item last-child @(isSuitModalActive ? " is-hidden")">
                                                 <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
                                                     <span class="icon">
                                                         <i class="fas fa-plus" />
@@ -127,40 +51,64 @@
                                                     <span>TestCase</span>
                                                 </a>
                                             </div>
+
+                                            <div class="level-item @(!isSuitModalActive ? "" : " is-hidden")">
+                                                <div class="field has-addons">
+                                                    <p class="control">
+                                                        <input class="input is-small add-item-input" type="text" placeholder="New section name">
+                                                    </p>
+                                                    <p class="control">
+                                                        <button class="button is-small is-success" onclick="@ShowSuitModal">
+                                                            <span class="icon">
+                                                                <i class="fas fa-plus" />
+                                                            </span>
+                                                        </button>
+                                                    </p>
+                                                    <p class="control">
+                                                        <button class="button is-small is-danger" onclick="@CloseSuiteModal">
+                                                            <span class="icon">
+                                                                <i class="fas fa-minus" />
+                                                            </span>
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                            </div>
+
                                         </div>
                                     </nav>
+
                                     @if (project.RootSuit.Suits != null)
                                     {
                                         <ul>
                                             @foreach (var suit in project.RootSuit.Suits)
                                             {
-                                            <li>
-                                                <nav class="level suit">
-                                                    <div class="level-left">
-                                                        <div class="level-item">
-                                                            <p class="subtitle is-6">@suit.Name&nbsp;(@(suit.TestCases != null ? @suit.TestCases.Count() : 0))</p>
+                                                <li>
+                                                    <nav class="level suit">
+                                                        <div class="level-left">
+                                                            <div class="level-item">
+                                                                <p class="subtitle is-6">@suit.Name&nbsp;(@(suit.TestCases != null ? @suit.TestCases.Count() : 0))</p>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                    <div class="level-right">
-                                                        <div class="level-item">
-                                                            <a class="button is-small is-primary" onclick="@ShowSuitModal">
-                                                                <span class="icon">
-                                                                    <i class="fas fa-plus" />
-                                                                </span>
-                                                                <span>Subsection</span>
-                                                            </a>
+                                                        <div class="level-right">
+                                                            <div class="level-item">
+                                                                <a class="button is-small is-primary" onclick="@ShowSuitModal">
+                                                                    <span class="icon">
+                                                                        <i class="fas fa-plus" />
+                                                                    </span>
+                                                                    <span>Subsection</span>
+                                                                </a>
+                                                            </div>
+                                                            <div class="level-item">
+                                                                <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
+                                                                    <span class="icon">
+                                                                        <i class="fas fa-plus" />
+                                                                    </span>
+                                                                    <span>TestCase</span>
+                                                                </a>
+                                                            </div>
                                                         </div>
-                                                        <div class="level-item">
-                                                            <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
-                                                                <span class="icon">
-                                                                    <i class="fas fa-plus" />
-                                                                </span>
-                                                                <span>TestCase</span>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </nav>
-                                            </li>
+                                                    </nav>
+                                                </li>
                                             }
                                         </ul>
                                     }
@@ -180,7 +128,9 @@
     [Parameter]
     int ProjectId { get; set; }
 
-    List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
+    List<PageId>
+    ActivePages = new List<PageId>
+        () { PageId.Projects, PageId.Cases };
 
     bool isSuitModalActive;
     bool isTestCaseModalActive;
