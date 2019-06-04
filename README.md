@@ -1,5 +1,5 @@
 # TestHouse
-Test cases management system
+Modern Test Cases Management System
 
 Based on asp.net core 3 + blazor + bulma css framework
 
