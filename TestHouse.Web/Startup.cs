@@ -51,6 +51,7 @@ namespace TestHouse.Web
             services.AddScoped<ProjectService>();
             services.AddScoped<SuitService>();
             services.AddScoped<TestCaseService>();
+            services.AddScoped<TestRunService>();
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>();
 

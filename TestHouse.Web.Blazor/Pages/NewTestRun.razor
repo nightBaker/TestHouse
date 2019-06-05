@@ -1,10 +1,11 @@
 ﻿@page "/project/{ProjectId:int}/testRuns/new"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
-@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+@inject TestHouse.Web.Blazor.Services.TestRunSerevice _testRunService;
 @using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
 @using TestHouse.Web.Blazor.Components;
+@using System.Linq;
 
 <main class="section">
     <div class="container">
@@ -12,7 +13,7 @@
             <div class="column">
                 <div class="">
 
-                    <div class="">                                        
+                    <div class="">
                         <div class="steps" id="stepsDemo">
                             <div class="step-item @(step == 1 ? "is-active" : "") @(step > 1 ? "is-completed is-success" : "") ">
                                 <div class="step-marker">
@@ -98,13 +99,21 @@
                                     <h1 class="title is-4">Your account is now created!</h1>
                                 </div>
                             </div>
-                            
+
                             <div class="steps-actions">
                                 <div class="steps-action">
                                     <button disabled="@(step == 1)" onclick="@PrevStep" data-nav="previous" class="button is-light">Previous</button>
                                 </div>
                                 <div class="steps-action">
-                                    <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light is-primary">Next</button>
+                                    @if (step == 2)
+                                    {
+                                        <button onclick="@SubmitForm" data-nav="next" class="button is-light is-primary">Submit</button>
+                                    }
+                                    else
+                                    {
+                                        <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light is-primary">Next</button>
+                                    }
+
                                 </div>
                             </div>
                         </div>
@@ -121,7 +130,7 @@
     [Parameter]
     int ProjectId { get; set; }
 
-    TestRunModel testRunForm = new TestRunModel();
+    TestRunModel testRunForm = new TestRunModel() ;
     ProjectAggregateDto project;
     int step = 1;
 
@@ -131,6 +140,8 @@
         {
             project = await _projectService.GetProject(ProjectId);
 
+            testRunForm.ProjectId = ProjectId;
+            testRunForm.TestCasesIds = new HashSet<long>( GetAllTestCasesIds(project.RootSuit));
         }
         catch (Exception e)
         {
@@ -138,6 +149,22 @@
         }
     }
 
+    private List<long> GetAllTestCasesIds(SuitDto suit)
+    {
+        if (suit.TestCases == null) { return new List<long>(); }
+
+        var list = suit.TestCases.Select(tc => tc.Id).ToList();
+        if(suit.Suits?.Any() == true)
+        {
+            foreach(var child in suit.Suits)
+            {
+                list.AddRange(GetAllTestCasesIds(child));
+            }
+        }
+
+        return list;
+
+    }
 
     private async Task SubmitTestRunForm()
     {
@@ -157,6 +184,13 @@
     private void PrevStep()
     {
         step--;
+    }
+
+    private async Task SubmitForm()
+    {
+
+        await _testRunService.AddTestRun(testRunForm);
+        NextStep();
     }
 
 }
