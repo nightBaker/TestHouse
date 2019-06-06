@@ -26,6 +26,11 @@ namespace TestHouse.DTOs.DTOs
         /// List of test cases
         /// </summary>
         public IEnumerable<TestRunCaseDto> TestCases { get; set; }
+
+        /// <summary>
+        /// Creation date
+        /// </summary>
+        public DateTime CreatedAt { get; set; }
     }
 
     

@@ -23,7 +23,8 @@ namespace TestHouse.Application.Extensions
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                TestCases = item.TestCases?.ToTestRunCasesDtos()
+                TestCases = item.TestCases?.ToTestRunCasesDtos(),
+                CreatedAt = item.CreatedAt
             };
         }
     }
