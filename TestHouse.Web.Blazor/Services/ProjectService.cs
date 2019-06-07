@@ -45,10 +45,15 @@ namespace TestHouse.Web.Blazor.Services
 
         public async Task<ProjectDto> AddProject(ProjectModel model)
         {
-            var content = new StringContent( Json.Serialize(model) , Encoding.UTF8, "application/json");
+            var content = new StringContent(Json.Serialize(model), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("http://localhost:5000/api/project", content);
             var result = await response.Content.ReadAsStringAsync();
             return Json.Deserialize<ProjectDto>(result);
+        }
+        public async Task EditProject(long projectId, ProjectModel model)
+        {
+            var content = new StringContent(Json.Serialize(model), Encoding.UTF8, "application/json");
+            await _httpClient.PatchAsync($"http://localhost:5000/api/project/{projectId}", content);
         }
     }
 }
