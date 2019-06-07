@@ -1,0 +1,42 @@
+﻿article.media {
+    width: 100%;
+}
+
+.test-run {
+    &-card {
+        border: 1px solid #dbdbdb;
+        padding: 12px;
+
+        .info {
+            border-left: 1px solid #dbdbdb;
+        }
+
+        &-actions {
+            display: none;
+        }
+
+        &:hover &-actions {
+
+            font-size:14px;
+
+            display: block;
+
+            & > a {
+                padding: 0 36px;
+                border-left: 1px solid #dbdbdb;
+            }
+
+            & > a:first-child {
+                border-left: 0;
+            }
+        }
+    }
+}
+
+.heading{
+    margin-bottom:25px;
+}
+
+.timeline-content{
+    width:100%;
+}

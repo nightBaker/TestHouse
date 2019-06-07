@@ -45,8 +45,27 @@
                             <div class="timeline-item">
                                 <div class="timeline-marker"></div>
                                 <div class="timeline-content">
-                                    <p class="heading">@testRun.CreatedAt.ToString("dd MMMM yyyy")</p>
-                                    <p>@testRun.Name - @testRun.Description</p>
+                                    <p class="heading">@testRun.CreatedAt.ToString("dd MMMM yyyy")</p>                                    
+                                    <div class="test-run-card columns">
+                                        <div class="column is-half">
+                                            <h3 class="title is-4">@testRun.Name</h3>
+                                            <p class="subtitle is-6">@testRun.Description</p>
+                                            <span class="test-run-card-actions">
+                                                <a href="/project/@project.Id" class=""><span class="icon is-small"><i class="fas fa-angle-right" ></i></span></a>
+                                                <a href="#" class=""><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
+                                                <a href="#" class=""> <span class="icon is-small"><i class="fas fa-trash"></i></span></a>
+                                            </span>
+                                        </div>                                        
+                                        <div class="column info">
+                                            <p class="subtitle is-4">@(testRun.TestCases?.Count() ?? 0)</p>
+                                            <p>Test cases number</p>
+                                        </div>                                        
+                                        <div class="column info">
+                                            <p class="subtitle is-4">@(testRun.TestCases?.Count() ?? 0)</p>
+                                            <p>Test cases number</p>
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
                         }                        
