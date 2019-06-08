@@ -99,6 +99,22 @@
                     <button class="modal-close is-large" aria-label="close" onclick="@CloseEditModal"></button>
                 </div>
 
+                <div class="modal  @(isRemoveModalActive ? "is-active" : "" )">
+                    <div class="modal-background" onclick="@CloseEditModal"></div>
+                    <div class="modal-card">
+                        <header class="modal-card-head">
+                            <p class="modal-card-title">Confirm delete</p>
+                            <button class="delete" aria-label="close" onclick="@CloseRemoveModal"></button>
+                        </header>
+                        <section class="modal-card-body">
+                            Are you sure you want to delete project <span id="bookTitleField">@removeProjectForm.Name</span>?
+                        </section>
+                        <footer class="modal-card-foot">
+                            <button class="button is-danger" onclick="@RemoveProject">Delete</button>
+                            <button class="button" onclick="@CloseRemoveModal">Cancel</button>
+                        </footer>
+                    </div>
+                </div>
                 @if (projects == null)
                 {
                     <p><em>Loading...</em></p>
@@ -128,8 +144,8 @@
                                     </div>
                                     <footer class="card-footer">
                                         <a href="/project/@project.Id" class="card-footer-item"><span class="icon"><i class="fas fa-angle-right" style="font-size:1.5em"></i></span></a>
-                                        <a href="#" class="card-footer-item btn btn-link"  onclick="@(() => FillEditProjectForm(project.Id))"><span class="icon"><i class="fas fa-edit"></i></span></a>
-                                        <a href="#" class="card-footer-item"> <span class="icon"><i class="fas fa-trash"></i></span></a>
+                                        <a href="#" class="card-footer-item btn btn-link" onclick="@(() => FillEditProjectForm(project.Id))"><span class="icon"><i class="fas fa-edit"></i></span></a>
+                                        <a href="#" class="card-footer-item btn btn-link" onclick="@(() => FillRemoveProjectForm(project.Id))"><span class="icon"><i class="fas fa-trash"></i></span></a>
                                     </footer>
                                 </div>
                             </div>
@@ -146,9 +162,12 @@
     List<ProjectDto> projects;
     bool isModalActive;
     bool isEditModalActive;
+    bool isRemoveModalActive;
     ProjectModel projectForm = new ProjectModel();
     ProjectModel editProjectForm = new ProjectModel();
+    ProjectModel removeProjectForm = new ProjectModel();
     long editProjectId;
+    long removeProjectId;
     protected override async Task OnInitAsync()
     {
         try
@@ -168,6 +187,10 @@
 
     private void ShowEditModal() => isEditModalActive = true;
     private void CloseEditModal() => isEditModalActive = false;
+    
+    private void ShowRemoveModal() => isRemoveModalActive = true;
+    private void CloseRemoveModal() => isRemoveModalActive = false;
+
     private async Task SubmitProjectForm()
     {
         var newProject = await _projectService.AddProject(projectForm);
@@ -182,6 +205,13 @@
         editProjectForm = new ProjectModel() { Name = project.Name, Description = project.Description };
         ShowEditModal();
     }
+    private void FillRemoveProjectForm(long id)
+    {
+        var project = projects.FirstOrDefault(x => x.Id == id);
+        removeProjectId = id;
+        removeProjectForm = new ProjectModel() { Name = project.Name, Description = project.Description };
+        ShowRemoveModal();
+    }
     private async Task EditProjectForm()
     {
         await _projectService.EditProject(editProjectId, editProjectForm);
@@ -193,6 +223,17 @@
             project.Description = editProjectForm.Description;
         }
     }
+    private async Task RemoveProject()
+    {
+        await _projectService.RemoveProject(removeProjectId);
+        CloseRemoveModal();
+        var project = projects.FirstOrDefault(x => x.Id == editProjectId);
+        if (project != null)
+        {
+            projects.Remove(project);
+        }
+   }
+
     private string GetShortDescription(string description)
     {
         int descrioptionLimit = 10;

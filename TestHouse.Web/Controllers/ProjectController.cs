@@ -88,6 +88,19 @@ namespace TestHouse.Web.Controllers
 
             return BadRequest();
         }
+        /// <summary>
+        /// Remove project
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <returns></returns>
+        [HttpDelete("{id}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        public async Task<ActionResult> Delete(long id)
+        {
+            await _projectService.RemoveAsync(id);
+            return NoContent();
+        }
 
     }
 }

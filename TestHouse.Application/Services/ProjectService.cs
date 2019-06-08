@@ -69,5 +69,14 @@ namespace TestHouse.Application.Services
 
             await _projectRepository.SaveAsync();
         }
+        /// <summary>
+        /// Remove project aggregate
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <returns></returns>
+        public async Task RemoveAsync(long id)
+        {
+            await _projectRepository.RemoveAsync(id);
+        }
     }
 }

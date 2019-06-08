@@ -53,7 +53,12 @@ namespace TestHouse.Infrastructure.Repositories
                                 .Where(p => p.Id == id)
                                 .SingleOrDefaultAsync();
         }
-
+        public async Task RemoveAsync(long id)
+        {
+            var removableProject = Projects.Where(p => p.Id == id).FirstOrDefault();
+            Projects.Remove(removableProject);
+            await SaveChangesAsync();
+        }
         public async Task<ProjectAggregate> GetAsync(long id, long testRunId)
         {
             var project = await GetAsync(id);

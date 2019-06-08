@@ -55,5 +55,10 @@ namespace TestHouse.Web.Blazor.Services
             var content = new StringContent(Json.Serialize(model), Encoding.UTF8, "application/json");
             await _httpClient.PatchAsync($"http://localhost:5000/api/project/{projectId}", content);
         }
+
+        public async Task RemoveProject(long id)
+        {
+            await _httpClient.DeleteAsync("http://localhost:5000/api/project/" + id);
+        }
     }
 }
