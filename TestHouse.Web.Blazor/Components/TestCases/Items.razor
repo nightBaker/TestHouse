@@ -1,0 +1,183 @@
+﻿@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
+@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+
+@*@if (RootSuit.Suits != null)
+{
+    <ul>
+        @foreach (var item in Items)
+        {
+            <li>
+                <nav class="level suit">
+
+                    <div class="level-left">
+                        <div class="level-item">
+                            <p class="subtitle is-6">@item.Name</p>
+                        </div>
+                    </div>
+
+                    <div class="level-right">
+                        <div class="level-item">
+                            <a class="button is-small is-primary" onclick="">
+                                <span class="icon">
+                                    <i class="fas fa-plus" />
+                                </span>
+                                <span>Subsection</span>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a class="button is-small is-primary" onclick="">
+                                <span class="icon">
+                                    <i class="fas fa-plus" />
+                                </span>
+                                <span>TestCase</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="level-right is-hidden">
+                        <div class="level-item">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <input class="input is-small add-item-input" type="text" placeholder="New subsection name" />
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-success" onclick="">
+                                        <span class="icon">
+                                            <i class="fas fa-plus" />
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-danger" onclick="">
+                                        <span class="icon">
+                                            <i class="fas fa-minus" />
+                                        </span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="level-right is-hidden">
+                        <div class="level-item">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <input class="input is-small add-item-input" type="text" placeholder="New testcase name">
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-success" onclick="">
+                                        <span class="icon">
+                                            <i class="fas fa-plus" />
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-danger" onclick="">
+                                        <span class="icon">
+                                            <i class="fas fa-minus" />
+                                        </span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </nav>
+            </li>
+        }
+    </ul>
+}*@
+
+@functions{
+
+    [Parameter] private SuitDto Suit { get; set; }
+    private List<Item> ItemList { get; set; }
+
+    protected override void OnInit()
+    {
+        try
+        {
+            Console.WriteLine("OnInit");
+            //Items = GetItems(RootSuit.Suits, RootSuit.TestCases);
+            Console.WriteLine("Tree: \r\n" + Json.Serialize(ItemList));
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+    //private async Task AddNewSuit(long projectId, SuitDto suit, ViewSubSuit viewSuit)
+    //{
+    //    SuitModel newSuitModel = new SuitModel()
+    //    {
+    //        Name = viewSuit.Name,
+    //        ProjectId = projectId,
+    //        ParentId = suit.Id,
+    //    };
+
+    //    try
+    //    {
+    //        var newSuit = await _suitService.Add(newSuitModel);
+
+    //        RootSuit.Suits = (RootSuit.Suits != null)
+    //            ? RootSuit.Suits.Append(newSuit)
+    //            : new List<SuitDto>() { newSuit };
+
+    //        viewSuit.Name = "";
+    //        viewSuit.IsSuitActive = false;
+
+    //        ViewSubSuits.Add(newSuit.Id, new ViewSubSuit());
+    //    }
+    //    catch (Exception e)
+    //    {
+    //        Console.WriteLine("exc" + e.GetType() + e.Message);
+    //    }
+    //}
+
+    private List<Item> GetItems(IEnumerable<SuitDto> suits, IEnumerable<TestCaseDto> testCases)
+    {
+        if (suits == null) { return null; }
+
+        List<Item> items = new List<Item>();
+
+        foreach (var suit in suits)
+        {
+            items.Add(
+                new Item()
+                {
+                    Type = ItemType.Suit,
+                    Name = suit.Name,
+                    Items = GetItems(suit.Suits, suit.TestCases)
+                }
+            );
+        }
+
+        foreach (var testCase in testCases)
+        {
+            items.Add(
+                new Item()
+                {
+                    Type = ItemType.TestCase,
+                    Name = testCase.Name
+                }
+            );
+        }
+
+        return items;
+    }
+
+    private class Item
+    {
+        public ItemType Type { get; set; }
+        public string Name { get; set; }
+        public List<Item> Items { get; set; }
+    }
+
+    private enum ItemType : byte
+    {
+        Suit,
+        TestCase
+    }
+}

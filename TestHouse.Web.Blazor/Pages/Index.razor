@@ -18,7 +18,7 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-primary" onclick="@ShowModal">
+                    <a class="button is-primary" onclick=@ShowModal>
                         <span class="icon">
                             <i class="fas fa-plus" />
                         </span>
@@ -26,8 +26,8 @@
                     </a>
                 </div>
 
-                <div class="modal @(isModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseModal"></div>
+                <div class="modal @(isModalActive ? "is-active" : "")">
+                    <div class="modal-background" onclick=@CloseModal></div>
                     <div class="modal-content">
                         <div class="card">
                             <header class="card-header">
@@ -41,20 +41,20 @@
                                 </a>
                             </header>
                             <div class="card-content">
-                                <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
+                                <EditForm Model="@projectForm" OnValidSubmit=@SubmitProjectForm">
                                     <DataAnnotationsValidator />
                                     <ValidationSummary />
                                     <div class="field">
                                         <label class="label">Name</label>
                                         <div class="control">
-                                            <InputText id="name" class="input" bind-Value="@projectForm.Name" />
+                                            <InputText id="name" class="input" bind-Value=@projectForm.Name />
                                         </div>
                                         <p class="help">Enter a unique name</p>
                                     </div>
                                     <div class="field">
                                         <label class="label">Description</label>
                                         <div class="control">
-                                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
+                                            <InputText id="description" class="input" bind-Value=@projectForm.Description />
                                         </div>
                                     </div>
                                     <button type="submit" class="button is-primary">Add</button>
@@ -62,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="@CloseModal"></button>
+                    <button class="modal-close is-large" aria-label="close" onclick=@CloseModal></button>
                 </div>
 
                 @if (projects == null)
@@ -113,11 +113,11 @@
     bool isModalActive;
     ProjectModel projectForm = new ProjectModel();
 
-    protected override async Task OnInitAsync()
+    protected override void OnInit()
     {
         try
         {
-            projects = await _projectService.GetProjectsAsync();
+            projects = await _projectService.GetProjectsAsync().Result;
 
         }
         catch (Exception e)

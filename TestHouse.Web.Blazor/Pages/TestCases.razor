@@ -1,7 +1,6 @@
 ﻿@page "/project/{ProjectId:int}"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
 @inject TestHouse.Web.Blazor.Services.SuitService _suitService;
-@using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
 @using TestHouse.Web.Blazor.Components;
@@ -11,7 +10,7 @@
         <div class="columns">
             <div class="column">
 
-                @if (project == null)
+                @if (Project == null)
                 {
                     <p><em>Loading...</em></p>
                 }
@@ -27,15 +26,16 @@
                             <ul class="suit-list">
                                 <li>
                                     <nav class="level suit-root">
+
                                         <div class="level-left">
                                             <div class="level-item">
-                                                <p class="subtitle is-5">@project.Name&nbsp;(@(project.RootSuit.Suits != null ? @project.RootSuit.Suits.Count() : 0))</p>
+                                                <p class="subtitle is-5">@Project.Name&nbsp;(@(Project.RootSuit.Suits != null ? Project.RootSuit.Suits.Count() : 0))</p>
                                             </div>
                                         </div>
-                                        <div class="level-right">
 
-                                            <div class="level-item @(isSuitModalActive ? " is-hidden")">
-                                                <a class="button is-small is-primary" onclick="@ShowSuitModal">
+                                        <div class="level-right @(IsSuitActive || IsTestCaseActive ? " is-hidden" : "")">
+                                            <div class="level-item">
+                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity()">
                                                     <span class="icon">
                                                         <i class="fas fa-plus" />
                                                     </span>
@@ -43,29 +43,31 @@
                                                 </a>
                                             </div>
 
-                                            <div class="level-item last-child @(isSuitModalActive ? " is-hidden")">
-                                                <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
+                                            <div class="level-item last-child">
+                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity">
                                                     <span class="icon">
                                                         <i class="fas fa-plus" />
                                                     </span>
                                                     <span>TestCase</span>
                                                 </a>
                                             </div>
+                                        </div>
 
-                                            <div class="level-item @(!isSuitModalActive ? "" : " is-hidden")">
+                                        <div class="level-right @(IsSuitActive ? "" : " is-hidden")">
+                                            <div class="level-item">
                                                 <div class="field has-addons">
                                                     <p class="control">
-                                                        <input class="input is-small add-item-input" type="text" placeholder="New section name">
+                                                        <input class="input is-small add-item-input" type="text" placeholder="New section name" bind="@NewSuitName" />
                                                     </p>
                                                     <p class="control">
-                                                        <button class="button is-small is-success" onclick="@ShowSuitModal">
+                                                        <button class="button is-small is-success" onclick="@(AddNewSuit(NewSuitName, Project.RootSuit.Id))">
                                                             <span class="icon">
                                                                 <i class="fas fa-plus" />
                                                             </span>
                                                         </button>
                                                     </p>
                                                     <p class="control">
-                                                        <button class="button is-small is-danger" onclick="@CloseSuiteModal">
+                                                        <button class="button is-small is-danger" onclick="@ChangeSuitActivity">
                                                             <span class="icon">
                                                                 <i class="fas fa-minus" />
                                                             </span>
@@ -73,45 +75,36 @@
                                                     </p>
                                                 </div>
                                             </div>
-
                                         </div>
+
+                                        <div class="level-right @(IsTestCaseActive ? " " : " is-hidden")">
+                                            <div class="level-item">
+                                                <div class="field has-addons">
+                                                    <p class="control">
+                                                        <input class="input is-small add-item-input" type="text" placeholder="New testcase name">
+                                                    </p>
+                                                    <p class="control">
+                                                        <button class="button is-small is-success" onclick="@ChangeTestCaseActivity">
+                                                            <span class="icon">
+                                                                <i class="fas fa-plus" />
+                                                            </span>
+                                                        </button>
+                                                    </p>
+                                                    <p class="control">
+                                                        <button class="button is-small is-danger" onclick="@ChangeTestCaseActivity">
+                                                            <span class="icon">
+                                                                <i class="fas fa-minus" />
+                                                            </span>
+                                                        </button>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+
                                     </nav>
 
-                                    @if (project.RootSuit.Suits != null)
-                                    {
-                                        <ul>
-                                            @foreach (var suit in project.RootSuit.Suits)
-                                            {
-                                                <li>
-                                                    <nav class="level suit">
-                                                        <div class="level-left">
-                                                            <div class="level-item">
-                                                                <p class="subtitle is-6">@suit.Name&nbsp;(@(suit.TestCases != null ? @suit.TestCases.Count() : 0))</p>
-                                                            </div>
-                                                        </div>
-                                                        <div class="level-right">
-                                                            <div class="level-item">
-                                                                <a class="button is-small is-primary" onclick="@ShowSuitModal">
-                                                                    <span class="icon">
-                                                                        <i class="fas fa-plus" />
-                                                                    </span>
-                                                                    <span>Subsection</span>
-                                                                </a>
-                                                            </div>
-                                                            <div class="level-item">
-                                                                <a class="button is-small is-primary" onclick="@ShowTestCaseModal">
-                                                                    <span class="icon">
-                                                                        <i class="fas fa-plus" />
-                                                                    </span>
-                                                                    <span>TestCase</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </nav>
-                                                </li>
-                                            }
-                                        </ul>
-                                    }
+                                    <Items Suit=Project.RootSuit />
+
                                 </li>
                             </ul>
                         </div>
@@ -123,27 +116,20 @@
     </div>
 </main>
 
+@functions{
+    [Parameter] private int ProjectId { get; set; } = 0;
+    private bool IsSuitActive { get; set; } = false;
+    private bool IsTestCaseActive { get; set; } = false;
+    private string NewSuitName { get; set; } = "";
+    private ProjectAggregateDto Project { get; set; } = null;
 
-@functions {
-    [Parameter]
-    int ProjectId { get; set; }
+    private List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
 
-    List<PageId>
-    ActivePages = new List<PageId>
-        () { PageId.Projects, PageId.Cases };
-
-    bool isSuitModalActive;
-    bool isTestCaseModalActive;
-
-    ProjectAggregateDto project;
-    SuitModel suitForm = new SuitModel();
-
-    protected override async Task OnInitAsync()
+    protected override void OnInit()
     {
         try
         {
-            project = await _projectService.GetProject(ProjectId);
-
+            Project = _projectService.GetProject(ProjectId).Result;
         }
         catch (Exception e)
         {
@@ -151,27 +137,41 @@
         }
     }
 
-    private void ShowSuitModal() => isSuitModalActive = true;
-    private void CloseSuiteModal() => isSuitModalActive = false;
-
-    private void ShowTestCaseModal() => isTestCaseModalActive = true;
-    private void CloseTestCaseModal() => isTestCaseModalActive = false;
-
-    private async Task SubmitProjectForm()
+    private object ChangeSuitActivity()
     {
-        suitForm.ProjectId = project.Id;
-        var newSuit = await _suitService.Add(suitForm);
+        IsSuitActive = IsSuitActive ? false : true;
+        return null;
+    }
 
-        //if (project.RootSuit.Suits == null)
-        //{
-        //    project.RootSuit.Suits = new List<SuitDto>() { newSuit };
-        //}
-        //else
-        //{
-        //    project.RootSuit.Suits.ToList().Add(newSuit);
-        //}
+    private object ChangeTestCaseActivity()
+    {
+        IsTestCaseActive = IsTestCaseActive ? false : true;
+        return null;
+    }
 
-        suitForm = new SuitModel();
-        CloseSuiteModal();
+    private async Task AddNewSuit(string name, long parentId)
+    {
+        SuitModel suit = new SuitModel()
+        {
+            Name = name,
+            ProjectId = Project.Id
+        };
+
+        try
+        {
+            var newSuit = await _suitService.Add(suit);
+
+            Project.RootSuit.Suits = (Project.RootSuit.Suits != null)
+                ? Project.RootSuit.Suits.Append(newSuit)
+                : new List<SuitDto>() { newSuit };
+
+            NewSuitName = "";
+
+            IsSuitActive = false;
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
     }
 }

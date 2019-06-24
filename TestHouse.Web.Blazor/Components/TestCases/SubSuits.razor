@@ -1,0 +1,139 @@
+﻿@*@using TestHouse.DTOs.DTOs
+    @using TestHouse.DTOs.Models
+    @inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+
+    @foreach (var suit in Project.RootSuit.Suits)
+    {
+        <ul>
+
+            <li>
+                <nav class="level suit">
+
+                    <div class="level-left">
+                        <div class="level-item">
+                            <p class="subtitle is-6">@suit.Name&nbsp;(@(suit.TestCases != null ? @suit.TestCases.Count() : 0))</p>
+                        </div>
+                    </div>
+
+                    <div class="level-right @(ViewSubSuits[suit.Id].IsSuitActive || ViewSubSuits[suit.Id].IsTestCaseActive ? " is-hidden" : "")">
+                        <div class="level-item">
+                            <a class="button is-small is-primary" onclick="@(() => ViewSubSuits[suit.Id].IsSuitActive = true)">
+                                <span class="icon">
+                                    <i class="fas fa-plus" />
+                                </span>
+                                <span>Subsection</span>
+                            </a>
+                        </div>
+                        <div class="level-item">
+                            <a class="button is-small is-primary" onclick="@(() => ViewSubSuits[suit.Id].IsTestCaseActive = true)">
+                                <span class="icon">
+                                    <i class="fas fa-plus" />
+                                </span>
+                                <span>TestCase</span>
+                            </a>
+                        </div>
+                    </div>
+
+                    <div class="level-right @(ViewSubSuits[suit.Id].IsSuitActive ? "" : " is-hidden")">
+                        <div class="level-item">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <input class="input is-small add-item-input" type="text" placeholder="New subsection name" bind="@ViewSubSuits[suit.Id].Name" />
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-success" onclick="@(() => AddNewSuit(Project.Id, suit, ViewSubSuits[suit.Id]))">
+                                        <span class="icon">
+                                            <i class="fas fa-plus" />
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-danger" onclick="@(() => ViewSubSuits[suit.Id].IsSuitActive = false)">
+                                        <span class="icon">
+                                            <i class="fas fa-minus" />
+                                        </span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="level-right @(ViewSubSuits[suit.Id].IsTestCaseActive ? "" : " is-hidden")">
+                        <div class="level-item">
+                            <div class="field has-addons">
+                                <p class="control">
+                                    <input class="input is-small add-item-input" type="text" placeholder="New testcase name">
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-success" onclick="">
+                                        <span class="icon">
+                                            <i class="fas fa-plus" />
+                                        </span>
+                                    </button>
+                                </p>
+                                <p class="control">
+                                    <button class="button is-small is-danger" onclick="@(() => ViewSubSuits[suit.Id].IsTestCaseActive = false)">
+                                        <span class="icon">
+                                            <i class="fas fa-minus" />
+                                        </span>
+                                    </button>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </nav>
+            </li>
+        </ul>
+        @*}*@
+
+@*@functions {
+
+        [Parameter] private ProjectAggregateDto Project { get; set; }
+        private Dictionary<long, ViewSubSuit> ViewSubSuits { get; set; } = new Dictionary<long, ViewSubSuit>();
+
+        protected override async Task OnInitAsync()
+        {
+            try
+            {
+                Console.WriteLine("On init");
+
+                foreach (var suit in Project.RootSuit.Suits)
+                {
+                    ViewSubSuits.Add(suit.Id, new ViewSubSuit());
+                }
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("exc" + e.GetType() + e.Message);
+            }
+        }
+
+        private async Task AddNewSuit(long projectId, SuitDto suit, ViewSubSuit viewSuit)
+        {
+            SuitModel newSuitModel = new SuitModel()
+            {
+                Name = viewSuit.Name,
+                ProjectId = projectId,
+                ParentId = suit.Id,
+            };
+
+            try
+            {
+                var newSuit = await _suitService.Add(newSuitModel);
+
+                Project.RootSuit.Suits = (Project.RootSuit.Suits != null)
+                    ? Project.RootSuit.Suits.Append(newSuit)
+                    : new List<SuitDto>() { newSuit };
+
+                viewSuit.Name = "";
+                viewSuit.IsSuitActive = false;
+
+                ViewSubSuits.Add(newSuit.Id, new ViewSubSuit());
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("exc" + e.GetType() + e.Message);
+            }
+        }
+    }*@

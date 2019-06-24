@@ -1,10 +1,14 @@
-﻿.suit-list li ul {
+﻿.suit-list ul {
     border-left: 1px solid #dbdbdb;
     margin-top: .5em;
     margin-bottom: .75em;
     margin-left: .75em;
     margin-right: .5em;
     padding-left: .75em;
+}
+
+.suit-list ul > ul {
+    margin-right: 0;
 }
 
 .suit-root {

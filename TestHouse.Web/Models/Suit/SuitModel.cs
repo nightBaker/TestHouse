@@ -17,7 +17,6 @@ namespace TestHouse.Web.Models.Suit
         /// <summary>
         /// Suit description
         /// </summary>
-        [Required]
         public string Description { get; set; }
 
         /// <summary>
