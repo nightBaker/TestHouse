@@ -118,6 +118,7 @@
 
 @functions{
     [Parameter] private int ProjectId { get; set; } = 0;
+
     private bool IsSuitActive { get; set; } = false;
     private bool IsTestCaseActive { get; set; } = false;
     private string NewSuitName { get; set; } = "";
@@ -125,11 +126,12 @@
 
     private List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
 
-    protected override void OnInit()
+    protected override async Task OnInitAsync()
     {
         try
         {
-            Project = _projectService.GetProject(ProjectId).Result;
+            Console.WriteLine("getting project");
+            Project = await _projectService.GetProject(ProjectId);
         }
         catch (Exception e)
         {
