@@ -35,7 +35,7 @@
 
                                         <div class="level-right @(IsSuitActive || IsTestCaseActive ? " is-hidden" : "")">
                                             <div class="level-item">
-                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity()">
+                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity">
                                                     <span class="icon">
                                                         <i class="fas fa-plus" />
                                                     </span>
@@ -60,7 +60,7 @@
                                                         <input class="input is-small add-item-input" type="text" placeholder="New section name" bind="@NewSuitName" />
                                                     </p>
                                                     <p class="control">
-                                                        <button class="button is-small is-success" onclick="@(AddNewSuit(NewSuitName, Project.RootSuit.Id))">
+                                                        <button class="button is-small is-success" onclick="@(()=>AddNewSuit(NewSuitName, Project.RootSuit.Id))">
                                                             <span class="icon">
                                                                 <i class="fas fa-plus" />
                                                             </span>
@@ -137,16 +137,14 @@
         }
     }
 
-    private object ChangeSuitActivity()
+    private void ChangeSuitActivity()
     {
-        IsSuitActive = IsSuitActive ? false : true;
-        return null;
+        IsSuitActive = !IsSuitActive;        
     }
 
-    private object ChangeTestCaseActivity()
+    private void ChangeTestCaseActivity()
     {
-        IsTestCaseActive = IsTestCaseActive ? false : true;
-        return null;
+        IsTestCaseActive = !IsTestCaseActive;        
     }
 
     private async Task AddNewSuit(string name, long parentId)
