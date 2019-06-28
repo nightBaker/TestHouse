@@ -2,10 +2,10 @@
 @using TestHouse.DTOs.Models
 @inject TestHouse.Web.Blazor.Services.SuitService _suitService;
 
-@*@if (RootSuit.Suits != null)
+@if (Suit.Suits != null)
 {
     <ul>
-        @foreach (var item in Items)
+        @foreach (var item in ItemList)
         {
             <li>
                 <nav class="level suit">
@@ -87,7 +87,7 @@
             </li>
         }
     </ul>
-}*@
+}
 
 @functions{
 
@@ -99,7 +99,7 @@
         try
         {
             Console.WriteLine("OnInit");
-            //Items = GetItems(RootSuit.Suits, RootSuit.TestCases);
+            ItemList = GetItems(Suit.Suits, Suit.TestCases);
             Console.WriteLine("Tree: \r\n" + Json.Serialize(ItemList));
         }
         catch (Exception e)
@@ -121,8 +121,8 @@
     //    {
     //        var newSuit = await _suitService.Add(newSuitModel);
 
-    //        RootSuit.Suits = (RootSuit.Suits != null)
-    //            ? RootSuit.Suits.Append(newSuit)
+    //        Suit.Suits = (Suit.Suits != null)
+    //            ? Suit.Suits.Append(newSuit)
     //            : new List<SuitDto>() { newSuit };
 
     //        viewSuit.Name = "";

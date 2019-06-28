@@ -4,6 +4,7 @@
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
 @using TestHouse.Web.Blazor.Components;
+@using TestHouse.Web.Blazor.Components.TestCases;
 
 <main class="section">
     <div class="container">
@@ -141,12 +142,12 @@
 
     private void ChangeSuitActivity()
     {
-        IsSuitActive = !IsSuitActive;        
+        IsSuitActive = !IsSuitActive;
     }
 
     private void ChangeTestCaseActivity()
     {
-        IsTestCaseActive = !IsTestCaseActive;        
+        IsTestCaseActive = !IsTestCaseActive;
     }
 
     private async Task AddNewSuit(string name, long parentId)
