@@ -1,5 +1,7 @@
+![Alt text](TestHouse.png?raw=true "TestHouse")
+
 # TestHouse
-Test cases management system
+Modern Test Cases Management System for QA and Development teams
 
 Based on asp.net core 3 + blazor + bulma css framework
 

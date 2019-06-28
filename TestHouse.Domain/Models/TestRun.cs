@@ -16,7 +16,8 @@ namespace TestHouse.Domain.Models
 
             Name = name;
             Description = description;
-            TestCases = testCases ?? throw new ArgumentNullException(nameof(testCases));           
+            TestCases = testCases ?? throw new ArgumentNullException(nameof(testCases));
+            CreatedAt = DateTime.Now;
         }
 
         /// <summary>
@@ -33,6 +34,11 @@ namespace TestHouse.Domain.Models
         /// Test run description
         /// </summary>
         public string Description { get; private set; }
+
+        /// <summary>
+        /// Creation date
+        /// </summary>
+        public DateTime CreatedAt { get; private set; }
 
         /// <summary>
         /// List of test cases

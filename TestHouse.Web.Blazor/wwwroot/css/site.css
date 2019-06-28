@@ -1,4 +1,28 @@
-﻿.suit-list ul {
+﻿article.media {
+  width: 100%; }
+
+.test-run-card {
+  border: 1px solid #dbdbdb;
+  padding: 12px; }
+  .test-run-card .info {
+    border-left: 1px solid #dbdbdb; }
+  .test-run-card-actions {
+    display: none; }
+  .test-run-card:hover .test-run-card-actions {
+    font-size: 14px;
+    display: block; }
+    .test-run-card:hover .test-run-card-actions > a {
+      padding: 0 36px;
+      border-left: 1px solid #dbdbdb; }
+    .test-run-card:hover .test-run-card-actions > a:first-child {
+      border-left: 0; }
+
+.heading {
+  margin-bottom: 25px; }
+
+.timeline-content {
+  width: 100%; }
+.suit-list ul {
     border-left: 1px solid #dbdbdb;
     margin-top: .5em;
     margin-bottom: .75em;

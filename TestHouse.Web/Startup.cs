@@ -51,6 +51,7 @@ namespace TestHouse.Web
             services.AddScoped<ProjectService>();
             services.AddScoped<SuitService>();
             services.AddScoped<TestCaseService>();
+            services.AddScoped<TestRunService>();
             services.AddIdentity<ApplicationUser, IdentityRole>()
             .AddEntityFrameworkStores<AppIdentityDbContext>();
 
@@ -66,6 +67,18 @@ namespace TestHouse.Web
             }
 
             app.UseMvc();
+
+            _initializeDatabase(app);
+        }
+
+        private void _initializeDatabase(IApplicationBuilder app)
+        {
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                var context = scope.ServiceProvider.GetRequiredService<ProjectRespository>();
+                context.Database.SetCommandTimeout(300);
+                context.Database.Migrate();
+            }
         }
     }
 }
