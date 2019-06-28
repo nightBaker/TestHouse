@@ -51,12 +51,39 @@
     background-color: #f5f5f5;
 }
 
-.suit {
-    margin-bottom: .5rem;
+.suit-list {
+
+    .suit-list {
+        margin-left: 15px;
+        padding-left: 5px;
+        //border-left: 1px solid red;
+    }
+
+    .test-case {
+        margin-left: 30px;
+        padding-left: 5px;
+        //border-left: 1px solid green;
+    }
+}
+
+.suit {    
+    height: 40px;
+    background:hsl(0, 0%, 96%);
+    margin-bottom:5px !important;
+    padding: 0 5px 0 15px;
+    border-radius:4px;
+
+    &-actions {
+        display: none;
+    }
+
+    &:hover &-actions {
+        display: flex;
+    }
 }
 
 .new-item-input {
-    margin-top: .5rem;
+    
     margin-right: .5em;
 }
 

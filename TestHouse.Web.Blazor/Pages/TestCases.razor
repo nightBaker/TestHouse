@@ -22,91 +22,9 @@
                     <Tab ActiveName="TestCases" ProjectId="@ProjectId" />
 
                     <div class="columns">
-                        <div class="column">
-
+                        <div class="column">                            
                             <ul class="suit-list">
-                                <li>
-                                    <nav class="level suit-root">
-
-                                        <div class="level-left">
-                                            <div class="level-item">
-                                                <p class="subtitle is-5">@Project.Name&nbsp;(@(Project.RootSuit.Suits != null ? Project.RootSuit.Suits.Count() : 0))</p>
-                                            </div>
-                                        </div>
-
-                                        <div class="level-right @(IsSuitActive || IsTestCaseActive ? " is-hidden" : "")">
-                                            <div class="level-item">
-                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity">
-                                                    <span class="icon">
-                                                        <i class="fas fa-plus" />
-                                                    </span>
-                                                    <span>Section</span>
-                                                </a>
-                                            </div>
-
-                                            <div class="level-item last-child">
-                                                <a class="button is-small is-primary" onclick="@ChangeSuitActivity">
-                                                    <span class="icon">
-                                                        <i class="fas fa-plus" />
-                                                    </span>
-                                                    <span>TestCase</span>
-                                                </a>
-                                            </div>
-                                        </div>
-
-                                        <div class="level-right @(IsSuitActive ? "" : " is-hidden")">
-                                            <div class="level-item">
-                                                <div class="field has-addons">
-                                                    <p class="control">
-                                                        <input class="input is-small add-item-input" type="text" placeholder="New section name" bind="@NewSuitName" />
-                                                    </p>
-                                                    <p class="control">
-                                                        <button class="button is-small is-success" onclick="@(()=>AddNewSuit(NewSuitName, Project.RootSuit.Id))">
-                                                            <span class="icon">
-                                                                <i class="fas fa-plus" />
-                                                            </span>
-                                                        </button>
-                                                    </p>
-                                                    <p class="control">
-                                                        <button class="button is-small is-danger" onclick="@ChangeSuitActivity">
-                                                            <span class="icon">
-                                                                <i class="fas fa-minus" />
-                                                            </span>
-                                                        </button>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <div class="level-right @(IsTestCaseActive ? " " : " is-hidden")">
-                                            <div class="level-item">
-                                                <div class="field has-addons">
-                                                    <p class="control">
-                                                        <input class="input is-small add-item-input" type="text" placeholder="New testcase name">
-                                                    </p>
-                                                    <p class="control">
-                                                        <button class="button is-small is-success" onclick="@ChangeTestCaseActivity">
-                                                            <span class="icon">
-                                                                <i class="fas fa-plus" />
-                                                            </span>
-                                                        </button>
-                                                    </p>
-                                                    <p class="control">
-                                                        <button class="button is-small is-danger" onclick="@ChangeTestCaseActivity">
-                                                            <span class="icon">
-                                                                <i class="fas fa-minus" />
-                                                            </span>
-                                                        </button>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </nav>
-
-                                    <Items Suit=Project.RootSuit />
-
-                                </li>
+                                <Items Suit="Project.RootSuit" ProjectId="ProjectId"></Items>                            
                             </ul>
                         </div>
                     </div>
