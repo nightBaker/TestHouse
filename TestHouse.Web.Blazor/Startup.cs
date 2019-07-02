@@ -11,6 +11,7 @@ namespace TestHouse.Web.Blazor
             services.AddSingleton<ProjectService>();
             services.AddSingleton<SuitService>();
             services.AddSingleton<TestRunSerevice>();
+            services.AddSingleton<TestCasesService>();
         }
 
         public void Configure(IComponentsApplicationBuilder app)

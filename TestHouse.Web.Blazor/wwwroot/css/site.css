@@ -22,3 +22,42 @@
 
 .timeline-content {
   width: 100%; }
+
+.suit-list ul > ul {
+  margin-right: 0; }
+
+.suit-root {
+  padding: .75rem .5rem;
+  margin-bottom: 0 !important;
+  background-color: #f5f5f5; }
+
+.suit-list .suit-list {
+  margin-left: 15px;
+  padding-left: 5px; }
+
+.suit {
+  height: 40px;
+  margin-bottom: 5px !important;
+  padding: 0 5px 0 15px;
+  border-left: 2px solid #209cee;
+  background: whitesmoke; }
+
+.test-case:hover {
+  background: #cccccc; }
+
+.test-case {
+  margin-left: 20px;
+  padding: 0 5px 0 15px;
+  height: 40px;
+  background: whitesmoke;
+  margin-bottom: 5px !important;
+  border-left: 2px solid #00d1b2; }
+
+.new-item-input {
+  margin-right: .5em; }
+
+.add-item-input {
+  width: 20rem; }
+
+.last-child {
+  margin-right: 0 !important; }

@@ -18,11 +18,16 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-link" onclick="@ShowModal">New Project</a>
+                    <a class="button is-primary" onclick=@ShowModal>
+                        <span class="icon">
+                            <i class="fas fa-plus" />
+                        </span>
+                        <span>New project</span>
+                    </a>
                 </div>
 
-                <div class="modal @(isModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseModal"></div>
+                <div class="modal @(isModalActive ? "is-active" : "")">
+                    <div class="modal-background" onclick=@CloseModal></div>
                     <div class="modal-content">
                         <div class="card">
                             <header class="card-header">
@@ -57,7 +62,7 @@
                             </div>
                         </div>
                     </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="@CloseModal"></button>
+                    <button class="modal-close is-large" aria-label="close" onclick=@CloseModal></button>
                 </div>
 
 
