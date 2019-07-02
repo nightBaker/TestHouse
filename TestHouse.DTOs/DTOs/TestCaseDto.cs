@@ -14,5 +14,7 @@ namespace TestHouse.DTOs.DTOs
         public string ExpectedResult { get;  set; }
         public int Order { get;  set; }
         public List<Step> Steps { get;  set; }
+
+        public bool IsSelected { get; set; }
     }    
 }
