@@ -5,6 +5,7 @@
 @using TestHouse.DTOs.Models
 @using TestHouse.Web.Blazor.Components;
 @using TestHouse.Web.Blazor.Components.TestCases;
+@using TestHouse.Web.Blazor.Components.Project;
 
 <main class="section">
     <div class="container">
@@ -17,14 +18,14 @@
                 }
                 else
                 {
-                    <Breadcrumb ActivePages=@ActivePages />
-
                     <Tab ActiveName="TestCases" ProjectId="@ProjectId" />
 
+                    <Breadcrumb ActivePages=@ActivePages />
+
                     <div class="columns">
-                        <div class="column">                            
+                        <div class="column">
                             <ul class="suit-list">
-                                <Items Suit="Project.RootSuit" ProjectId="ProjectId"></Items>                            
+                                <Items Suit="Project.RootSuit" ProjectId="ProjectId"></Items>
                             </ul>
                         </div>
                     </div>
