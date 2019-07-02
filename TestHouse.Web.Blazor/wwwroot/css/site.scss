@@ -60,30 +60,40 @@
     }   
 }
 
-.suit {    
+.suit {
     height: 40px;
-    background:hsl(0, 0%, 96%);
-    margin-bottom:5px !important;
+    margin-bottom: 5px !important;
     padding: 0 5px 0 15px;
-    border-radius:4px;
+    //border-radius: 4px;
+    border-left: 2px solid hsl(204, 86%, 53%);
+    background: hsl(0, 0%, 96%);
 
     &-actions {
-        display: none;
+        //display: none;
     }
 
     &:hover &-actions {
-        display: flex;
+        //display: flex;
     }
 }
 
+.suit:hover {
+  //  background: hsl(0, 0%, 80%);
+}
+
+.test-case:hover {
+    background: hsl(0, 0%, 80%);
+}
+
 .test-case {
-    margin-left: 30px;
-    padding-left: 5px;
+    margin-left: 20px;
+    padding: 0 5px 0 15px;
     //border-left: 1px solid green;
-    background: hsl(0, 0%, 96%);
-    border-radius: 4px;
+    //border-radius: 4px;
     height: 40px;
-    background: hsl(0, 0%, 100%)
+    background: hsl(0, 0%, 96%);
+    margin-bottom: 5px !important;
+    border-left: 2px solid hsl(171, 100%, 41%);
 }
 
 .new-item-input {

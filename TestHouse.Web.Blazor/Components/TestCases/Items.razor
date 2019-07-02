@@ -86,14 +86,10 @@
     <ul class="test-case-list">
         @foreach (var testCase in Suit.TestCases)
         {
-            <li class="test-case">
-                <div class="level">
+            <li class="test-case level">
+                <div class="level-left">
 
-                    <div class="level-left">
-                        <div class="level-item">
-                            <p class="subtitle is-6">@testCase.Name</p>
-                        </div>
-                    </div>
+                    @testCase.Name
                 </div>
             </li>
         }
