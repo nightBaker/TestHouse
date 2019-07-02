@@ -57,13 +57,7 @@
         margin-left: 15px;
         padding-left: 5px;
         //border-left: 1px solid red;
-    }
-
-    .test-case {
-        margin-left: 30px;
-        padding-left: 5px;
-        //border-left: 1px solid green;
-    }
+    }   
 }
 
 .suit {    
@@ -80,6 +74,16 @@
     &:hover &-actions {
         display: flex;
     }
+}
+
+.test-case {
+    margin-left: 30px;
+    padding-left: 5px;
+    //border-left: 1px solid green;
+    background: hsl(0, 0%, 96%);
+    border-radius: 4px;
+    height: 40px;
+    background: hsl(0, 0%, 100%)
 }
 
 .new-item-input {

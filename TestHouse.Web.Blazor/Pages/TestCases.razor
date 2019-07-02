@@ -57,40 +57,4 @@
             Console.WriteLine("exc" + e.GetType() + e.Message);
         }
     }
-
-    private void ChangeSuitActivity()
-    {
-        IsSuitActive = !IsSuitActive;
-    }
-
-    private void ChangeTestCaseActivity()
-    {
-        IsTestCaseActive = !IsTestCaseActive;
-    }
-
-    private async Task AddNewSuit(string name, long parentId)
-    {
-        SuitModel suit = new SuitModel()
-        {
-            Name = name,
-            ProjectId = Project.Id
-        };
-
-        try
-        {
-            var newSuit = await _suitService.Add(suit);
-
-            Project.RootSuit.Suits = (Project.RootSuit.Suits != null)
-                ? Project.RootSuit.Suits.Append(newSuit)
-                : new List<SuitDto>() { newSuit };
-
-            NewSuitName = "";
-
-            IsSuitActive = false;
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine("exc" + e.GetType() + e.Message);
-        }
-    }
 }

@@ -1,11 +1,12 @@
 ﻿@using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
 @inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+@inject TestHouse.Web.Blazor.Services.TestCasesService _testCasesService;
 
 
 
 <li class="level suit">
-    
+
     <div class="level-left">
         @Suit.Name - @Suit.Description
     </div>
@@ -34,7 +35,7 @@
         <div class="level-item">
             <div class="field has-addons">
                 <p class="control">
-                    <input class="input is-small add-item-input" type="text" placeholder="New subsection name" bind="@NewSuitName"/>
+                    <input class="input is-small add-item-input" type="text" placeholder="New subsection name" bind="@NewSuitName" />
                 </p>
                 <p class="control">
                     <button class="button is-small is-success" onclick="@AddNewSuit">
@@ -61,7 +62,7 @@
                     <input class="input is-small add-item-input" type="text" placeholder="New testcase name" bind="@NewTestCaseName" />
                 </p>
                 <p class="control">
-                    <button class="button is-small is-success" onclick="">
+                    <button class="button is-small is-success" onclick="@AddNewTestCase">
                         <span class="icon">
                             <i class="fas fa-plus" />
                         </span>
@@ -79,19 +80,14 @@
     </div>
 </li>
 
-@if (Suit.Suits != null && Suit.Suits.Any())
+
+@if (Suit.TestCases != null && Suit.TestCases.Any())
 {
-    <ul class="suit-list">
-        @foreach (var suit in Suit.Suits)
-        {
-            <Items Suit="suit" ProjectId="ProjectId"></Items>
-        }
-
-
+    <ul class="test-case-list">
         @foreach (var testCase in Suit.TestCases)
         {
             <li class="test-case">
-                <div class="level suit">
+                <div class="level">
 
                     <div class="level-left">
                         <div class="level-item">
@@ -103,6 +99,22 @@
         }
     </ul>
 }
+
+@if (Suit.Suits != null && Suit.Suits.Any())
+{
+    <ul class="suit-list">
+        @foreach (var suit in Suit.Suits)
+        {
+            <Items Suit="suit" ProjectId="ProjectId"></Items>
+        }
+    </ul>
+}
+
+
+
+
+
+
 
 
 
@@ -149,7 +161,7 @@
 
             NewSuitName = "";
             IsSuitFormActive = false;
-            
+
         }
         catch (Exception e)
         {
@@ -157,17 +169,30 @@
         }
     }
 
-
-    private class Item
+    private async Task AddNewTestCase()
     {
-        public ItemType Type { get; set; }
-        public string Name { get; set; }
-        public List<Item> Items { get; set; }
-    }
+        var newTestCaseModel = new TestCaseModel()
+        {
+            Name = NewTestCaseName,
+            SuitId = Suit.Id,
+            ProjectId = ProjectId
+        };
 
-    private enum ItemType : byte
-    {
-        Suit,
-        TestCase
+        try
+        {
+            var newTestCase = await _testCasesService.Add(newTestCaseModel);
+
+            Suit.TestCases = (Suit.TestCases != null)
+                ? Suit.TestCases.Append(newTestCase)
+                : new List<TestCaseDto>() { newTestCase };
+
+            NewTestCaseName = "";
+            IsTestCaseFormActive = false;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
     }
 }
