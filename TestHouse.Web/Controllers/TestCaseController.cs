@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using TestHouse.Application.Extensions;
 using TestHouse.Application.Services;
 using TestHouse.DTOs.DTOs;
-using TestHouse.Web.Models.TestCase;
+using TestHouse.DTOs.Models;
 
 namespace TestHouse.Web.Controllers
 {
@@ -38,7 +38,9 @@ namespace TestHouse.Web.Controllers
                                                                 model.ExpectedResult,
                                                                 model.ProjectId,
                                                                 model.SuitId,
-                                                                model.Steps);
+                                                                model.Steps
+                                                                ?.Select(s=> new Domain.Models.Step(s.Order,s.Description,s.ExpectedResult))
+                                                                .ToList());
 
                 return Created("",testCase);
 

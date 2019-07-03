@@ -18,9 +18,7 @@ namespace TestHouse.Domain.Models
         public TestCase(string name, string description, string expectedResult, Suit suit, int order)
         {
             if (string.IsNullOrEmpty(name))
-                throw new ArgumentException("Name is not specified", "name");
-            if (string.IsNullOrEmpty(expectedResult))
-                throw new ArgumentException("Expected result is not specified", "expectedResult");
+                throw new ArgumentException("Name is not specified", "name");            
 
             Name = name;
             Description = description;

@@ -1,4 +1,4 @@
-﻿@page "/project/{ProjectId:int}/testRuns/new"
+﻿@page "/project/{ProjectId:int}/test-run/new"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
 @inject TestHouse.Web.Blazor.Services.TestRunSerevice _testRunService;
 @using Microsoft.AspNetCore.Blazor.Services
@@ -6,6 +6,7 @@
 @using TestHouse.DTOs.Models
 @using TestHouse.Web.Blazor.Components;
 @using System.Linq;
+@using TestHouse.Web.Blazor.Components.TestCases;
 
 <main class="section">
     <div class="container">
@@ -93,7 +94,20 @@
 
                                 </div>
                                 <div class="step-content has-text-centered @(step == 2 ? "is-active" : "")">
-                                    <h1 class="title is-4">All test cases included</h1>
+
+                                    @if (project != null)
+                                    {
+
+                                        <div class="columns is-mobile">
+                                            <div class="column is-half is-offset-one-quarter">
+
+                                                <ul class="suit-list">
+                                                    <Items Suit="project.RootSuit" ProjectId="ProjectId"></Items>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    }
+
                                 </div>
                                 <div class="step-content has-text-centered @(step == 3 ? "is-active" : "") ">
                                     <h1 class="title is-4">Your account is now created!</h1>
@@ -130,7 +144,7 @@
     [Parameter]
     int ProjectId { get; set; }
 
-    TestRunModel testRunForm = new TestRunModel() ;
+    TestRunModel testRunForm = new TestRunModel();
     ProjectAggregateDto project;
     int step = 1;
 
@@ -141,7 +155,7 @@
             project = await _projectService.GetProject(ProjectId);
 
             testRunForm.ProjectId = ProjectId;
-            testRunForm.TestCasesIds = new HashSet<long>( GetAllTestCasesIds(project.RootSuit));
+            testRunForm.TestCasesIds = new HashSet<long>(GetAllTestCasesIds(project.RootSuit));
         }
         catch (Exception e)
         {
@@ -154,9 +168,9 @@
         if (suit.TestCases == null) { return new List<long>(); }
 
         var list = suit.TestCases.Select(tc => tc.Id).ToList();
-        if(suit.Suits?.Any() == true)
+        if (suit.Suits?.Any() == true)
         {
-            foreach(var child in suit.Suits)
+            foreach (var child in suit.Suits)
             {
                 list.AddRange(GetAllTestCasesIds(child));
             }

@@ -30,8 +30,7 @@ namespace TestHouse.Domain.Tests.Models
             Assert.Equal(testCase.Order, tcOrder);
             Assert.Equal(testCase.Suit, suit);
 
-            Assert.Throws<ArgumentException>(() => new TestCase("", "descr", "result", suit, 0));
-            Assert.Throws<ArgumentException>(() => new TestCase("name", "descr", "", suit, 0));
+            Assert.Throws<ArgumentException>(() => new TestCase("", "descr", "result", suit, 0));            
             Assert.Throws<ArgumentException>(() => new TestCase("name", "descr", "result", null, 0));  
             
 

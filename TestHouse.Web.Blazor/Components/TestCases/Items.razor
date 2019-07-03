@@ -1,0 +1,194 @@
+﻿@using TestHouse.DTOs.DTOs
+@using TestHouse.DTOs.Models
+@inject TestHouse.Web.Blazor.Services.SuitService _suitService;
+@inject TestHouse.Web.Blazor.Services.TestCasesService _testCasesService;
+
+
+
+<li class="level suit">
+
+    <div class="level-left">
+        @Suit.Name - @Suit.Description
+    </div>
+
+    <div class="level-right suit-actions @(IsSuitFormActive || IsTestCaseFormActive ? " is-hidden" : "")">
+        <div class="level-item">
+            <a class="button is-small is-primary" onclick="@(()=>IsSuitFormActive = true)">
+                <span class="icon">
+                    <i class="fas fa-plus" />
+                </span>
+                <span>Subsection</span>
+            </a>
+        </div>
+        <div class="level-item">
+            <a class="button is-small is-primary" onclick="@(()=>IsTestCaseFormActive = true)">
+                <span class="icon">
+                    <i class="fas fa-plus" />
+                </span>
+                <span>TestCase</span>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="level-right  @(IsSuitFormActive ? "" : " is-hidden")">
+        <div class="level-item">
+            <div class="field has-addons">
+                <p class="control">
+                    <input class="input is-small add-item-input" type="text" placeholder="New subsection name" bind="@NewSuitName" />
+                </p>
+                <p class="control">
+                    <button class="button is-small is-success" onclick="@AddNewSuit">
+                        <span class="icon">
+                            <i class="fas fa-plus" />
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-small is-danger" onclick="@(()=>IsSuitFormActive = false)">
+                        <span class="icon">
+                            <i class="fas fa-minus" />
+                        </span>
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="level-right @(IsTestCaseFormActive ? "" : " is-hidden")">
+        <div class="level-item">
+            <div class="field has-addons">
+                <p class="control">
+                    <input class="input is-small add-item-input" type="text" placeholder="New testcase name" bind="@NewTestCaseName" />
+                </p>
+                <p class="control">
+                    <button class="button is-small is-success" onclick="@AddNewTestCase">
+                        <span class="icon">
+                            <i class="fas fa-plus" />
+                        </span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button class="button is-small is-danger" onclick="@(()=>IsTestCaseFormActive = false)">
+                        <span class="icon">
+                            <i class="fas fa-minus" />
+                        </span>
+                    </button>
+                </p>
+            </div>
+        </div>
+    </div>
+</li>
+
+
+@if (Suit.TestCases != null && Suit.TestCases.Any())
+{
+    <ul class="test-case-list">
+        @foreach (var testCase in Suit.TestCases)
+        {
+            <li class="test-case level">
+                <div class="level-left">
+
+                    @testCase.Name
+                </div>
+            </li>
+        }
+    </ul>
+}
+
+@if (Suit.Suits != null && Suit.Suits.Any())
+{
+    <ul class="suit-list">
+        @foreach (var suit in Suit.Suits)
+        {
+            <Items Suit="suit" ProjectId="ProjectId"></Items>
+        }
+    </ul>
+}
+
+
+
+
+
+
+
+
+
+
+
+@functions{
+
+    [Parameter] private SuitDto Suit { get; set; }
+    [Parameter] private long ProjectId { get; set; }
+
+    bool IsSuitFormActive { get; set; }
+    bool IsTestCaseFormActive { get; set; }
+    string NewSuitName { get; set; }
+    string NewTestCaseName { get; set; }
+
+    protected override void OnInit()
+    {
+        try
+        {
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+    private async Task AddNewSuit()
+    {
+        SuitModel newSuitModel = new SuitModel()
+        {
+            Name = NewSuitName,
+            ProjectId = ProjectId,
+            ParentId = Suit.Id,
+        };
+
+        try
+        {
+            var newSuit = await _suitService.Add(newSuitModel);
+
+            Suit.Suits = (Suit.Suits != null)
+                ? Suit.Suits.Append(newSuit)
+                : new List<SuitDto>() { newSuit };
+
+            NewSuitName = "";
+            IsSuitFormActive = false;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+
+    private async Task AddNewTestCase()
+    {
+        var newTestCaseModel = new TestCaseModel()
+        {
+            Name = NewTestCaseName,
+            SuitId = Suit.Id,
+            ProjectId = ProjectId
+        };
+
+        try
+        {
+            var newTestCase = await _testCasesService.Add(newTestCaseModel);
+
+            Suit.TestCases = (Suit.TestCases != null)
+                ? Suit.TestCases.Append(newTestCase)
+                : new List<TestCaseDto>() { newTestCase };
+
+            NewTestCaseName = "";
+            IsTestCaseFormActive = false;
+
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine("exc" + e.GetType() + e.Message);
+        }
+    }
+}
