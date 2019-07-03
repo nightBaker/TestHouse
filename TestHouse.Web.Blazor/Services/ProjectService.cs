@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using TestHouse.Domain.Enums;
 using TestHouse.DTOs.DTOs;
 using TestHouse.DTOs.Models;
 
@@ -40,7 +41,7 @@ namespace TestHouse.Web.Blazor.Services
             var content = await response.Content.ReadAsStringAsync();
             var projects = Json.Deserialize<List<ProjectDto>>(content);
 
-            return projects;
+            return projects.Where(x => x.State != ProjectAggregateState.Deleted).ToList();
         }
 
         public async Task<ProjectDto> AddProject(ProjectModel model)

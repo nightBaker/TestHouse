@@ -3,7 +3,6 @@
 @using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
-
 <section class="hero is-light">
     <div class="hero-body">
         <div class="container">
@@ -227,7 +226,7 @@
     {
         await _projectService.RemoveProject(removeProjectId);
         CloseRemoveModal();
-        var project = projects.FirstOrDefault(x => x.Id == editProjectId);
+        var project = projects.FirstOrDefault(x => x.Id == removeProjectId);
         if (project != null)
         {
             projects.Remove(project);

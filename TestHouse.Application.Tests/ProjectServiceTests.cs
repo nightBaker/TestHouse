@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
+using TestHouse.Domain.Enums;
 using TestHouse.Domain.Models;
 using TestHouse.Infrastructure.Repositories;
 using Xunit;
@@ -314,10 +315,9 @@ namespace TestHouse.Application.Tests
                 {
                     var projectService = new ProjectService(context);
                     await projectService.RemoveAsync(1);
-                    Assert.Empty(context.Suits.ToList());
-                    Assert.Empty(context.TestCases.ToList());
-                    Assert.Empty(context.Steps.ToList());
-                    Assert.Empty(context.Projects.ToList());
+                    var project = projectService.GetAsync(1).Result;
+                    Assert.NotNull(project);
+                    Assert.True(project.State == ProjectAggregateState.Deleted);
                 }
             }
             finally

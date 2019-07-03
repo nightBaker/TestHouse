@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TestHouse.Domain.Enums;
 
 namespace TestHouse.Domain.Models
 {
@@ -48,6 +49,11 @@ namespace TestHouse.Domain.Models
         /// </summary>
         public List<Suit> Suits => _suits;
 
+        /// <summary>
+        /// Project State
+        /// </summary>
+        public ProjectAggregateState State { get; private set; }
+
         // for ef core
         private ProjectAggregate() { }
 
@@ -58,7 +64,7 @@ namespace TestHouse.Domain.Models
             Name = name;
             Description = description;
             CreatedAt = DateTime.Now;
-
+            State = ProjectAggregateState.Created;
             RootSuit = new Suit("root", "root", 0);
             _testRuns = new List<TestRun>();
             _suits = new List<Suit>() { };
@@ -78,6 +84,15 @@ namespace TestHouse.Domain.Models
 
             Name = name;
             Description = description;                 
+        }
+
+        /// <summary>
+        /// Update status
+        /// </summary>
+        /// <param name="state">ProjectAggregateState</param>
+        public void UpdateState(ProjectAggregateState state)
+        {
+            State = state;
         }
 
         /// <summary>
