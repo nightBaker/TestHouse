@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Extensions;
 using TestHouse.Domain.Models;
+using TestHouse.Domain.Enums;
 using TestHouse.DTOs.DTOs;
 
 namespace TestHouse.Application.Services
@@ -68,6 +69,19 @@ namespace TestHouse.Application.Services
             project.UpdateInfo(name, description);
 
             await _projectRepository.SaveAsync();
+        }
+        /// <summary>
+        /// Remove project aggregate
+        /// </summary>
+        /// <param name="id">Project id</param>
+        /// <returns></returns>
+        public async Task RemoveAsync(long id)
+        {
+            var project = await _projectRepository.GetAsync(id);
+            project.UpdateState(ProjectAggregateState.Deleted);
+
+            await _projectRepository.SaveAsync();
+
         }
     }
 }

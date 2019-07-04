@@ -52,8 +52,7 @@ namespace TestHouse.Infrastructure.Repositories
                                 .Include(project => project.TestRuns)                                
                                 .Where(p => p.Id == id)
                                 .SingleOrDefaultAsync();
-        }
-
+        }        
         public async Task<ProjectAggregate> GetAsync(long id, long testRunId)
         {
             var project = await GetAsync(id);

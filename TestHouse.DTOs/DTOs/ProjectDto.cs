@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using TestHouse.Domain.Enums;
 
 namespace TestHouse.DTOs.DTOs
 {
@@ -24,6 +25,11 @@ namespace TestHouse.DTOs.DTOs
         /// Creation date
         /// </summary>
         public DateTime CreatedAt { get; set; }
+
+        /// <summary>
+        /// ProjectState
+        /// </summary>
+        public ProjectAggregateState State { get; set; }
 
     }
 
