@@ -26,7 +26,8 @@ namespace TestHouse.Application.Extensions
                 Id = item.Id,
                 Name = item.Name,
                 Description = item.Description,
-                CreatedAt = item.CreatedAt
+                CreatedAt = item.CreatedAt,
+                State = item.State
             };
         }
 
@@ -38,6 +39,7 @@ namespace TestHouse.Application.Extensions
                 Name = item.Name,
                 Description = item.Description,
                 RootSuit = item.RootSuit.ToSuitDto(),
+                State = item.State
             };
 
             dto.RootSuit.Suits = _fillSuitsTree(dto.RootSuit.Id, item);

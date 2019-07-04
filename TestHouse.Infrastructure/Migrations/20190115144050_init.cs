@@ -40,6 +40,7 @@ namespace TestHouse.Infrastructure.Migrations
                     Name = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
                     CreatedAt = table.Column<DateTime>(nullable: false),
+                    State = table.Column<int> (nullable: false),
                     RootSuitId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>

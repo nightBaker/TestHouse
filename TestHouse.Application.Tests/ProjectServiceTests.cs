@@ -7,6 +7,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TestHouse.Application.Infastructure.Repositories;
 using TestHouse.Application.Services;
+using TestHouse.Domain.Enums;
 using TestHouse.Domain.Models;
 using TestHouse.Infrastructure.Repositories;
 using Xunit;
@@ -260,6 +261,70 @@ namespace TestHouse.Application.Tests
             }
         }
 
+        [Fact]
+        public async Task RemoveTest()
+        {
+            // In-memory database only exists while the connection is open
+            var connection = new SqliteConnection("DataSource=:memory:");
+            connection.Open();
+
+            try
+            {
+                var options = new DbContextOptionsBuilder<ProjectRespository>()
+                    .UseSqlite(connection)
+                    .Options;
+
+                // Create the schema in the database
+                using (var context = new ProjectRespository(options))
+                {
+                    context.Database.EnsureCreated();
+                }
+
+                // Run the test against one instance of the context
+                using (var repository = new ProjectRespository(options))
+                {
+                    var projectService = new ProjectService(repository);
+                    await projectService.AddProjectAsync("test name 1", "test description 1");
+
+                    var suitService = new SuitService(repository);
+
+                    await suitService.AddSuitAsync("suit level 1", "suit description 1", 1, 1);
+                    await suitService.AddSuitAsync("suit level 2", "suit description 2", 1, 2);
+                    await suitService.AddSuitAsync("suit level 1.1", "suit description 1.1", 1, 1);
+                    await suitService.AddSuitAsync("suit level 3", "suit description 3", 1, 3);
+
+                    var testCaseService = new TestCaseService(repository);
+                    await testCaseService.AddTestCaseAsync("test case 1", "descr 1", "expected 1", 1, 1,
+                                new List<Step> {
+                                    new Step(0,"step descr 1", "expected 1"),
+                                    new Step(1, "step descr 2", "expected 2")
+                                });
+
+                    await testCaseService.AddTestCaseAsync("test case 2", "descr 2", "expected 2", 1, 5,
+                                new List<Step> {
+                                    new Step(0,"step descr 3", "expected 3"),
+                                    new Step(1, "step descr 4", "expected 4")
+                                });
+
+                    await testCaseService.AddTestCaseAsync("test case 3", "descr 3", "expected 3", 1, 5, null);
+
+                }
+
+                // Use a separate instance of the context to verify correct data was saved to database
+                using (var context = new ProjectRespository(options))
+                {
+                    var projectService = new ProjectService(context);
+                    await projectService.RemoveAsync(1);
+                    var project = projectService.GetAsync(1).Result;
+                    Assert.NotNull(project);
+                    Assert.True(project.State == ProjectAggregateState.Deleted);
+                }
+            }
+            finally
+            {
+                connection.Close();
+            }
+        }
         [Theory]
         [InlineData("new name 1", "new description")]
         [InlineData("new name 2", "")]
