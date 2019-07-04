@@ -11,7 +11,7 @@
         @if (SelectMode)
         {
             <div class="level-item">
-                <input type="checkbox" onchange="@SuitSelectChange" />
+                <input type="checkbox" bind=@IsSuitSelected  />
             </div>
         }
         <div class="level-item">@Suit.Name - @Suit.Description</div>
@@ -142,12 +142,30 @@
     bool IsTestCaseFormActive { get; set; }
     string NewSuitName { get; set; }
     string NewTestCaseName { get; set; }
+    public bool IsSuitSelected
+    {
+        get
+        {
+            return Suit.IsSelected;
+        }
+        set
+        {
+            Suit.IsSelected = value;
+              ChangeChildsSelection(Suit,value);
+        }
+    }
+    
 
     protected override void OnInit()
     {
         try
         {
+            Suit.IsSelected = true;
 
+            foreach(var testCase in Suit.TestCases)
+            {
+                testCase.IsSelected = true;
+            }
         }
         catch (Exception e)
         {
@@ -209,12 +227,43 @@
         }
     }
 
-    private void SuitSelectChange(UIChangeEventArgs evt)
+
+    //change select value for all childs recursively
+    private void ChangeChildsSelection(SuitDto suit, bool value)
     {
-        Suit.IsSelected = (bool)evt.Value;
-        foreach (var testCase in Suit.TestCases)
+
+        if (suit.TestCases != null)
         {
-            testCase.IsSelected = Suit.IsSelected;
+            foreach (var testCase in suit.TestCases)
+            {
+                testCase.IsSelected = value;
+            }
+        }
+
+        //CAN'T USE RECURSION, recursion causes - rangeerror maximum call stack size exceeded
+        var suits = suit.Suits;
+        while (suits != null && suits.Any())
+        {
+            var newLevelSuits = new List<SuitDto>();
+            foreach (var subSuit in suits)
+            {
+                subSuit.IsSelected = value;
+
+                if (subSuit.TestCases != null)
+                {
+                    foreach (var testCase in subSuit.TestCases)
+                    {
+                        testCase.IsSelected = value;
+                    }
+                }
+
+                if (subSuit.Suits != null)
+                {
+                    newLevelSuits.AddRange(subSuit.Suits);
+                }
+            }
+
+            suits = newLevelSuits;
         }
     }
 }

@@ -110,7 +110,7 @@
 
                                 </div>
                                 <div class="step-content has-text-centered @(step == 3 ? "is-active" : "") ">
-                                    <h1 class="title is-4">Your account is now created!</h1>
+                                    <h1 class="title is-4">Test run is created!</h1>
                                 </div>
                             </div>
 
@@ -119,13 +119,17 @@
                                     <button disabled="@(step == 1)" onclick="@PrevStep" data-nav="previous" class="button is-light">Previous</button>
                                 </div>
                                 <div class="steps-action">
-                                    @if (step == 2)
+                                    @if (step == 1)
+                                    {
+                                        <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light is-primary">Next</button>
+                                    }
+                                    else if (step == 2)
                                     {
                                         <button onclick="@SubmitForm" data-nav="next" class="button is-light is-primary">Submit</button>
                                     }
                                     else
                                     {
-                                        <button disabled="@(step == 3)" onclick="@NextStep" data-nav="next" class="button is-light is-primary">Next</button>
+                                        <a class="button is-light is-primary" href="@($"/project/{ProjectId}/test-run")">Go to all test runs</a>
                                     }
 
                                 </div>
@@ -167,7 +171,7 @@
     {
         if (suit.TestCases == null) { return new List<long>(); }
 
-        var list = suit.TestCases.Select(tc => tc.Id).ToList();
+        var list = suit.TestCases.Where(tc=>tc.IsSelected).Select(tc => tc.Id).ToList();
         if (suit.Suits?.Any() == true)
         {
             foreach (var child in suit.Suits)
