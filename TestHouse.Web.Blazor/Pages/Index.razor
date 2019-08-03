@@ -46,14 +46,14 @@
                                     <div class="field">
                                         <label class="label">Name</label>
                                         <div class="control">
-                                            <InputText id="name" class="input" bind-Value="@projectForm.Name" />
+                                            <InputText id="name" class="input" @bind-Value="@projectForm.Name" />
                                         </div>
                                         <p class="help">Enter a unique name</p>
                                     </div>
-                                    <div class="field">
+                                    <div class="field">@*  *@
                                         <label class="label">Description</label>
                                         <div class="control">
-                                            <InputText id="description" class="input" bind-Value="@projectForm.Description" />
+                                            <InputText id="description" class="input" @bind-Value="@projectForm.Description" />
                                         </div>
                                     </div>
                                     <button type="submit" class="button is-link">Add</button>
@@ -86,13 +86,13 @@
                                     <div class="field">
                                         <label class="label">Name</label>
                                         <div class="control">
-                                            <InputText id="name" class="input" bind-Value="@editProjectForm.Name" />
+                                            <InputText id="name" class="input" @bind-Value="@editProjectForm.Name" />
                                         </div>
                                     </div>
                                     <div class="field">
                                         <label class="label">Description</label>
                                         <div class="control">
-                                            <InputText id="description" class="input" bind-Value="@editProjectForm.Description" />
+                                            <InputText id="description" class="input" @bind-Value="@editProjectForm.Description" />
                                         </div>
                                     </div>
                                     <button type="submit" class="button is-link">Edit</button>

@@ -11,7 +11,7 @@
         @if (SelectMode)
         {
             <div class="level-item">
-                <input type="checkbox" bind=@IsSuitSelected  />
+                <input type="checkbox" checked="@IsSuitSelected" @onchange="@((UIChangeEventArgs __e) => IsSuitSelected = (bool) __e.Value  )"  />
             </div>
         }
         <div class="level-item">@Suit.Name - @Suit.Description</div>
@@ -101,7 +101,7 @@
                     @if (SelectMode)
                     {
                         <div class="level-item">
-                            <input type="checkbox" bind="@testCase.IsSelected" />
+                            <input type="checkbox" checked="@testCase.IsSelected" @onchange="@((UIChangeEventArgs __e) => testCase.IsSelected = (bool) __e.Value  )" />
                         </div>
                     }
                     <div>@testCase.Name</div>
@@ -150,6 +150,7 @@
         }
         set
         {
+            Console.WriteLine("Suit is selected " + value);
             Suit.IsSelected = value;
               ChangeChildsSelection(Suit,value);
         }
