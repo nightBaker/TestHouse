@@ -22,7 +22,7 @@
     {
         <div class="level-right suit-actions @(IsSuitFormActive || IsTestCaseFormActive ? " is-hidden" : "")">
             <div class="level-item">
-                <a class="button is-small is-primary" onclick="@(() => IsSuitFormActive = true)">
+                <a class="button is-small is-primary" @onclick="@(() => IsSuitFormActive = true)">
                     <span class="icon">
                         <i class="fas fa-plus" />
                     </span>
@@ -30,7 +30,7 @@
                 </a>
             </div>
             <div class="level-item">
-                <a class="button is-small is-primary" onclick="@(() => IsTestCaseFormActive = true)">
+                <a class="button is-small is-primary" @onclick="@(() => IsTestCaseFormActive = true)">
                     <span class="icon">
                         <i class="fas fa-plus" />
                     </span>
@@ -46,14 +46,14 @@
                         <input class="input is-small add-item-input" type="text" placeholder="New subsection name" bind="@NewSuitName" />
                     </p>
                     <p class="control">
-                        <button class="button is-small is-success" onclick="@AddNewSuit">
+                        <button class="button is-small is-success" @onclick="AddNewSuit">
                             <span class="icon">
                                 <i class="fas fa-plus" />
                             </span>
                         </button>
                     </p>
                     <p class="control">
-                        <button class="button is-small is-danger" onclick="@(() => IsSuitFormActive = false)">
+                        <button class="button is-small is-danger" @onclick="@(() => IsSuitFormActive = false)">
                             <span class="icon">
                                 <i class="fas fa-minus" />
                             </span>
@@ -70,14 +70,14 @@
                         <input class="input is-small add-item-input" type="text" placeholder="New testcase name" bind="@NewTestCaseName" />
                     </p>
                     <p class="control">
-                        <button class="button is-small is-success" onclick="@AddNewTestCase">
+                        <button class="button is-small is-success" @onclick="AddNewTestCase">
                             <span class="icon">
                                 <i class="fas fa-plus" />
                             </span>
                         </button>
                     </p>
                     <p class="control">
-                        <button class="button is-small is-danger" onclick="@(() => IsTestCaseFormActive = false)">
+                        <button class="button is-small is-danger" @onclick="@(() => IsTestCaseFormActive = false)">
                             <span class="icon">
                                 <i class="fas fa-minus" />
                             </span>
@@ -123,15 +123,7 @@
 
 
 
-
-
-
-
-
-
-
-
-@functions{
+@code{
 
     [Parameter] private SuitDto Suit { get; set; }
     [Parameter] private long ProjectId { get; set; }
@@ -157,7 +149,7 @@
     }
     
 
-    protected override void OnInit()
+    protected override void OnInitialized()
     {
         try
         {

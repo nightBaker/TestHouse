@@ -91,7 +91,7 @@
 </main>
 
 
-@functions {
+@code {
     [Parameter]
     int ProjectId { get; set; }
 
@@ -103,7 +103,7 @@
     ProjectAggregateDto project;
     SuitModel suitForm = new SuitModel();
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

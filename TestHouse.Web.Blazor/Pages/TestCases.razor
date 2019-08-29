@@ -36,7 +36,7 @@
     </div>
 </main>
 
-@functions{
+@code{
     [Parameter] private int ProjectId { get; set; } = 0;
 
     private bool IsSuitActive { get; set; } = false;
@@ -46,7 +46,7 @@
 
     private List<PageId> ActivePages = new List<PageId>() { PageId.Projects, PageId.Cases };
 
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {

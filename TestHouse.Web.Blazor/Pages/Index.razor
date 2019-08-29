@@ -1,5 +1,6 @@
 ﻿@page "/"
 @inject TestHouse.Web.Blazor.Services.ProjectService _projectService;
+
 @using Microsoft.AspNetCore.Blazor.Services
 @using TestHouse.DTOs.DTOs
 @using TestHouse.DTOs.Models
@@ -17,7 +18,7 @@
         <div class="columns">
             <div class="column">
                 <div class="content">
-                    <a class="button is-primary" onclick=@ShowModal>
+                    <a class="button is-primary" @onclick="ShowModal">
                         <span class="icon">
                             <i class="fas fa-plus" />
                         </span>
@@ -26,7 +27,7 @@
                 </div>
 
                 <div class="modal @(isModalActive ? "is-active" : "")">
-                    <div class="modal-background" onclick=@CloseModal></div>
+                    <div class="modal-background" @onclick="CloseModal"></div>
                     <div class="modal-content">
                         <div class="card">
                             <header class="card-header">
@@ -61,12 +62,12 @@
                             </div>
                         </div>
                     </div>
-                    <button class="modal-close is-large" aria-label="close" onclick=@CloseModal></button>
+                    <button class="modal-close is-large" aria-label="close" @onclick="CloseModal"></button>
                 </div>
 
 
                 <div class="modal @(isEditModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseEditModal"></div>
+                    <div class="modal-background" @onclick="CloseEditModal"></div>
                     <div class="modal-content">
                         <div class="card">
                             <header class="card-header">
@@ -100,22 +101,22 @@
                             </div>
                         </div>
                     </div>
-                    <button class="modal-close is-large" aria-label="close" onclick="@CloseEditModal"></button>
+                    <button class="modal-close is-large" aria-label="close" @onclick="CloseEditModal"></button>
                 </div>
 
                 <div class="modal  @(isRemoveModalActive ? "is-active" : "" )">
-                    <div class="modal-background" onclick="@CloseEditModal"></div>
+                    <div class="modal-background" @onclick="CloseEditModal"></div>
                     <div class="modal-card">
                         <header class="modal-card-head">
                             <p class="modal-card-title">Confirm delete</p>
-                            <button class="delete" aria-label="close" onclick="@CloseRemoveModal"></button>
+                            <button class="delete" aria-label="close" @onclick="CloseRemoveModal"></button>
                         </header>
                         <section class="modal-card-body">
                             Are you sure you want to delete project <span id="bookTitleField">@removeProjectForm.Name</span>?
                         </section>
                         <footer class="modal-card-foot">
-                            <button class="button is-danger" onclick="@RemoveProject">Delete</button>
-                            <button class="button" onclick="@CloseRemoveModal">Cancel</button>
+                            <button class="button is-danger" @onclick="RemoveProject">Delete</button>
+                            <button class="button" @onclick="CloseRemoveModal">Cancel</button>
                         </footer>
                     </div>
                 </div>
@@ -148,8 +149,8 @@
                                     </div>
                                     <footer class="card-footer">
                                         <a href="/project/@project.Id" class="card-footer-item"><span class="icon"><i class="fas fa-angle-right" style="font-size:1.5em"></i></span></a>
-                                        <a href="#" class="card-footer-item btn btn-link" onclick="@(() => FillEditProjectForm(project.Id))"><span class="icon"><i class="fas fa-edit"></i></span></a>
-                                        <a href="#" class="card-footer-item btn btn-link" onclick="@(() => FillRemoveProjectForm(project.Id))"><span class="icon"><i class="fas fa-trash"></i></span></a>
+                                        <a href="#" class="card-footer-item btn btn-link" @onclick="@(() => FillEditProjectForm(project.Id))"><span class="icon"><i class="fas fa-edit"></i></span></a>
+                                        <a href="#" class="card-footer-item btn btn-link" @onclick="@(() => FillRemoveProjectForm(project.Id))"><span class="icon"><i class="fas fa-trash"></i></span></a>
                                     </footer>
                                 </div>
                             </div>
@@ -161,7 +162,7 @@
     </div>
 </main>
 
-@functions {
+@code {
 
     List<ProjectDto> projects;
     bool isModalActive;
@@ -172,7 +173,7 @@
     ProjectModel removeProjectForm = new ProjectModel();
     long editProjectId;
     long removeProjectId;
-    protected override async Task OnInitAsync()
+    protected override async Task OnInitializedAsync()
     {
         try
         {
