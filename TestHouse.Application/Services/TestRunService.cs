@@ -56,6 +56,20 @@ namespace TestHouse.Application.Services
             await _repository.SaveAsync();
 
             return testRunCases.ToTestRunCasesDtos();
-        }               
+        }
+        
+        /// <summary>
+        /// Get test run by id
+        /// </summary>
+        /// <param name="projectId">Project id</param>
+        /// <param name="testRunId">Test run id</param>
+        /// <returns>Test run dto</returns>
+        public async Task<TestRunDto> GetTestRun(long projectId, long testRunId)
+        {
+            var project = await _repository.GetAsync(projectId, testRunId)
+                        ?? throw new ArgumentException("Project with specified id is not found", nameof(projectId));
+
+            return project.TestRuns.First(tr => tr.Id == testRunId).ToTestRunDto();
+        }
     }
 }

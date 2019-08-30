@@ -14,6 +14,7 @@ using TestHouse.Application.Services;
 using TestHouse.Infrastructure.Identity;
 using TestHouse.Infrastructure.Repositories;
 
+
 namespace TestHouse.Web
 {
     public class Startup
@@ -41,7 +42,7 @@ namespace TestHouse.Web
                 });
             });
 
-            services.AddMvc();
+            services.AddMvc().AddNewtonsoftJson();
 
             services.AddDbContext<ProjectRespository>
                 (options => options.UseSqlServer(Configuration.GetConnectionString("TestHouseConnection")));
@@ -65,8 +66,15 @@ namespace TestHouse.Web
                 app.UseDeveloperExceptionPage();
                 app.UseCors(_myAllowSpecificOrigins);
             }
+            app.UseClientSideBlazorFiles<TestHouse.Web.Blazor.Startup>();
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapDefaultControllerRoute();
+                endpoints.MapFallbackToClientSideBlazor<TestHouse.Web.Blazor.Startup>("index.html");
+            });             
 
             _initializeDatabase(app);
         }
