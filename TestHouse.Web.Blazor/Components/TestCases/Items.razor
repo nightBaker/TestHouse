@@ -22,7 +22,7 @@
     {
         <div class="level-right suit-actions @(IsSuitFormActive || IsTestCaseFormActive ? " is-hidden" : "")">
             <div class="level-item">
-                <a class="button is-small is-primary" @onclick="@(() => IsSuitFormActive = true)">
+                <a class="button is-small is-primary is-outlined" @onclick="@(() => IsSuitFormActive = true)">
                     <span class="icon">
                         <i class="fas fa-plus" />
                     </span>
@@ -30,7 +30,7 @@
                 </a>
             </div>
             <div class="level-item">
-                <a class="button is-small is-primary" @onclick="@(() => IsTestCaseFormActive = true)">
+                <a class="button is-small is-primary is-outlined" @onclick="@(() => IsTestCaseFormActive = true)">
                     <span class="icon">
                         <i class="fas fa-plus" />
                     </span>

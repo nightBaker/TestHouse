@@ -22,12 +22,13 @@
             display: block;
 
             & > a {
-                padding: 0 36px;
-                border-left: 1px solid #dbdbdb;
+                padding: 0 16px;
+               // border-left: 1px solid #dbdbdb;
+                margin-top:2px;
             }
 
             & > a:first-child {
-                border-left: 0;
+               // border-left: 0;
             }
         }
     }
@@ -54,7 +55,7 @@
 .suit-list {
 
     .suit-list {
-        margin-left: 15px;
+        margin-left: 55px;
         padding-left: 5px;
         //border-left: 1px solid red;
     }   
@@ -86,7 +87,7 @@
 }
 
 .test-case {
-    margin-left: 20px;
+    margin-left: 60px;
     padding: 0 5px 0 15px;
     //border-left: 1px solid green;
     //border-radius: 4px;

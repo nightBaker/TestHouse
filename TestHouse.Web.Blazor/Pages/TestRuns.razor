@@ -26,16 +26,25 @@
 
                     <div class="container">
 
-                        <div class="content">
-                            <NavLink href="@($"/project/{ProjectId}/test-run/new")" class="button is-primary">
-                                <span>New test run</span>
-                            </NavLink>
+                        <div class="level">
+                            <div class="level-left">
+                                <div class="content">
+                                    <h1>@project.Name</h1>
+                                    <p>@project.Description</p>
+                                </div>                                
+                            </div>
+                            <div class="level-right">
+                                <NavLink href="@($"/project/{ProjectId}/test-run/new")" class="button is-primary">
+                                    <span class="icon">
+                                        <i class="fas fa-plus" />
+                                    </span>
+                                    <span>New test run</span>
+                                </NavLink>
+                            </div>
                         </div>
+                        
 
-                        <div class="content">
-                            <h1>@project.Name</h1>
-                            <p>@project.Description</p>
-                        </div>
+                        
 
                         @if (project.TestRuns != null)
                         {
@@ -53,13 +62,20 @@
                                             <p class="heading">@testRun.CreatedAt.ToString("dd MMMM yyyy")</p>
                                             <div class="test-run-card columns">
                                                 <div class="column is-half">
-                                                    <h3 class="title is-4">@testRun.Name</h3>
-                                                    <p class="subtitle is-6">@testRun.Description</p>
-                                                    <span class="test-run-card-actions">
-                                                        <a href="/project/@project.Id" class=""><span class="icon is-small"><i class="fas fa-angle-right"></i></span></a>
-                                                        <a href="#" class=""><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
-                                                        <a href="#" class=""> <span class="icon is-small"><i class="fas fa-trash"></i></span></a>
-                                                    </span>
+                                                    <div class="columns">
+                                                        <div class="column is-three-quarters">
+                                                            <h3 class="title is-4">@testRun.Name</h3>
+                                                            <p class="subtitle is-6">@testRun.Description</p>
+                                                        </div>
+                                                        <div class="column is-one-quarter">
+                                                            <span class="test-run-card-actions">
+                                                                <a href="/project/@project.Id" class="button is-small is-primary is-outlined"><span class="icon is-small"><i class="fas fa-angle-right"></i></span></a>
+                                                                <a href="#" class="button is-small is-primary is-outlined"><span class="icon is-small"><i class="fas fa-edit"></i></span></a>
+                                                                <a href="#" class="button is-small is-primary is-outlined"> <span class="icon is-small"><i class="fas fa-trash"></i></span></a>
+                                                            </span>
+                                                        </div>
+
+                                                    </div>                                                                                                        
                                                 </div>
                                                 <div class="column info">
                                                     <p class="subtitle is-4">@(testRun.TestCases?.Count() ?? 0)</p>
