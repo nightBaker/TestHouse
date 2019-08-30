@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,26 +25,37 @@ namespace TestHouse.Web.Blazor.Services
         public async Task<ProjectAggregateDto> GetProject(long id)
         {
             Console.WriteLine("getting project");
-            var project = await _httpClient.GetJsonAsync<ProjectAggregateDto>("http://localhost:5000/api/project/" + id);
-            Console.WriteLine("got project");
+            var response = await _httpClient.GetAsync("http://localhost:5000/api/project/" + id);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine("getting project success");
+            var content = await response.Content.ReadAsStringAsync();
+            var project = JsonConvert.DeserializeObject<ProjectAggregateDto>(content);
+            Console.WriteLine("getting deserialized");
+
             return project;
         }
 
         public async Task<List<ProjectDto>> GetProjectsAsync()
         {
-            var projects = await _httpClient.GetJsonAsync<List<ProjectDto>> ("http://localhost:5000/api/project/all");
-                    
+            var response = await _httpClient.GetAsync("http://localhost:5000/api/project/all");
+            response.EnsureSuccessStatusCode();
+            var content = await response.Content.ReadAsStringAsync();
+            var projects = JsonConvert.DeserializeObject<List<ProjectDto>>(content);
+
             return projects.Where(x => x.State != ProjectAggregateState.Deleted).ToList();
         }
 
         public async Task<ProjectDto> AddProject(ProjectModel model)
-        {            
-            var response = await _httpClient.SendJsonAsync<ProjectDto>(HttpMethod.Post,  "http://localhost:5000/api/project", model);
-            return response;
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("http://localhost:5000/api/project", content);
+            var result = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<ProjectDto>(result);
         }
         public async Task EditProject(long projectId, ProjectModel model)
-        {            
-            await _httpClient.SendJsonAsync(HttpMethod.Put, $"http://localhost:5000/api/project/{projectId}", model);
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync($"http://localhost:5000/api/project/{projectId}", content);
         }
 
         public async Task RemoveProject(long id)

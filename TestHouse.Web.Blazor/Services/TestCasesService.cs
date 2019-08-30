@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
-using Microsoft.JSInterop;
+﻿using Microsoft.JSInterop;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +21,11 @@ namespace TestHouse.Web.Blazor.Services
         }
 
         public async Task<TestCaseDto> Add(TestCaseModel model)
-        {            
-            var response = await _httpClient.SendJsonAsync<TestCaseDto>(HttpMethod.Post, "http://localhost:5000/api/testCase", model);
-            return response;
+        {
+            var content = new StringContent(JsonConvert.SerializeObject(model), Encoding.UTF8, "application/json");
+            var response = await _httpClient.PostAsync("http://localhost:5000/api/testCase", content);
+            var result = await response.Content.ReadAsStringAsync();
+            return JsonConvert.DeserializeObject<TestCaseDto>(result);
         }
     }
 }
