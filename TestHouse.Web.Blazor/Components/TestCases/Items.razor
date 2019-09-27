@@ -11,7 +11,7 @@
         @if (SelectMode)
         {
             <div class="level-item">
-                <input type="checkbox" checked="@IsSuitSelected" @onchange="@((UIChangeEventArgs __e) => IsSuitSelected = (bool) __e.Value  )"  />
+                <input type="checkbox" checked="@IsSuitSelected" @onchange="@((ChangeEventArgs __e) => IsSuitSelected = (bool) __e.Value  )"  />
             </div>
         }
         <div class="level-item">@Suit.Name - @Suit.Description</div>
@@ -101,7 +101,7 @@
                     @if (SelectMode)
                     {
                         <div class="level-item">
-                            <input type="checkbox" checked="@testCase.IsSelected" @onchange="@((UIChangeEventArgs __e) => testCase.IsSelected = (bool) __e.Value  )" />
+                            <input type="checkbox" checked="@testCase.IsSelected" @onchange="@((ChangeEventArgs __e) => testCase.IsSelected = (bool) __e.Value  )" />
                         </div>
                     }
                     <div>@testCase.Name</div>
@@ -125,10 +125,10 @@
 
 @code{
 
-    [Parameter] private SuitDto Suit { get; set; }
-    [Parameter] private long ProjectId { get; set; }
-    [Parameter] private bool EditMode { get; set; }
-    [Parameter] private bool SelectMode { get; set; }
+    [Parameter] public SuitDto Suit { get; set; }
+    [Parameter] public long ProjectId { get; set; }
+    [Parameter] public bool EditMode { get; set; }
+    [Parameter] public bool SelectMode { get; set; }
 
     bool IsSuitFormActive { get; set; }
     bool IsTestCaseFormActive { get; set; }

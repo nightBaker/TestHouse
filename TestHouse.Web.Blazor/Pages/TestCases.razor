@@ -37,7 +37,7 @@
 </main>
 
 @code{
-    [Parameter] private int ProjectId { get; set; } = 0;
+    [Parameter] public int ProjectId { get; set; } = 0;
 
     private bool IsSuitActive { get; set; } = false;
     private bool IsTestCaseActive { get; set; } = false;
