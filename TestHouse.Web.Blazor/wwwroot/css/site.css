@@ -37,19 +37,20 @@
   height: 40px;
   margin-bottom: 5px !important;
   padding: 0 5px 0 15px;
-  border-left: 2px solid #209cee;
-  background: whitesmoke; }
+  background: rgba(32, 156, 238, 0.05); }
+
+.checkbox-label {
+  margin-bottom: 20px !important; }
 
 .test-case:hover {
-  background: #cccccc; }
+  background: rgba(0, 209, 178, 0.1); }
 
 .test-case {
   margin-left: 60px;
   padding: 0 5px 0 15px;
   height: 40px;
-  background: whitesmoke;
-  margin-bottom: 5px !important;
-  border-left: 2px solid #00d1b2; }
+  border: 1px solid rgba(0, 209, 178, 0.1);
+  margin-bottom: 5px !important; }
 
 .new-item-input {
   margin-right: .5em; }

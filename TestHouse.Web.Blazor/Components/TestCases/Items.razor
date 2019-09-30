@@ -10,9 +10,10 @@
     <div class="level-left">
         @if (SelectMode)
         {
-            <div class="level-item">
-                <input type="checkbox" checked="@IsSuitSelected" @onchange="@((ChangeEventArgs __e) => IsSuitSelected = (bool) __e.Value  )"  />
-            </div>
+        <div class="level-item">
+            <input class="is-checkradio is-small" id="checkbox" type="checkbox" checked="@IsSuitSelected" @onchange="@((ChangeEventArgs __e) => IsSuitSelected = (bool) __e.Value  )" />
+            <label class="checkbox-label" for="checkbox"></label>            
+        </div>
         }
         <div class="level-item">@Suit.Name - @Suit.Description</div>
 
@@ -100,9 +101,10 @@
                 <div class="level-left">
                     @if (SelectMode)
                     {
-                        <div class="level-item">
-                            <input type="checkbox" checked="@testCase.IsSelected" @onchange="@((ChangeEventArgs __e) => testCase.IsSelected = (bool) __e.Value  )" />
-                        </div>
+                    <div class="level-item">
+                        <input class="is-checkradio is-small" id="checkbox" type="checkbox" checked="@testCase.IsSelected" @onchange="@((ChangeEventArgs __e) => testCase.IsSelected = (bool) __e.Value  )" />
+                        <label class="checkbox-label" for="checkbox"></label>                        
+                    </div>
                     }
                     <div>@testCase.Name</div>
                 </div>
