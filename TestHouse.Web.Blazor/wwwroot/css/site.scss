@@ -1,4 +1,9 @@
-﻿article.media {
+﻿$base-blue-light-color: hsla(204, 86%, 53%, 0.05 );
+$base-grey-color: #dbdbdb;
+$base-red-color: hsl(348, 100%, 61%) ;
+$base-green-color: hsl(141, 71%, 48%) ;
+
+article.media {
     width: 100%;
 }
 
@@ -67,7 +72,7 @@
     padding: 0 5px 0 15px;
     //border-radius: 4px;
     //border-left: 2px solid hsl(204, 86%, 53%);
-    background: hsla(204, 86%, 53%, 0.05 );
+    background: $base-blue-light-color;
     //border-bottom: 1px solid #dbdbdb;
     &-actions {
         //display: none;
@@ -113,4 +118,21 @@
 
 .last-child {
     margin-right: 0 !important;
+}
+
+.th {
+    &-form {
+        border: 1px solid $base-grey-color;
+        padding: 55px;
+    }
+
+    &-form-content {
+        .input.invalid {
+            border-color: $base-red-color;
+        }
+
+        .input.modified.valid {
+            border-color: $base-green-color;
+        }
+    }
 }

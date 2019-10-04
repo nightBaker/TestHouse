@@ -34,31 +34,36 @@
                                 <p class="card-header-title">
                                     New project
                                 </p>
-                                <a href="#" class="card-header-icon" aria-label="more options">
+                                <a  @onclick="CloseModal" class="card-header-icon" aria-label="more options">
                                     <span class="icon">
-                                        <i class="fas fa-angle-down" aria-hidden="true"></i>
+                                        <i class="fas fa-times" aria-hidden="true"></i>
                                     </span>
                                 </a>
                             </header>
-                            <div class="card-content">
-                                <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
-                                    <DataAnnotationsValidator />
-                                    <ValidationSummary />
-                                    <div class="field">
-                                        <label class="label">Name</label>
-                                        <div class="control">
-                                            <InputText id="name" class="input" @bind-Value="@projectForm.Name" />
+                            <div class="card-content">                                
+                                <div class="th-form-content">
+                                    <EditForm Model="@projectForm" OnValidSubmit="@SubmitProjectForm">
+                                        <DataAnnotationsValidator />
+                                        @*<ValidationSummary />*@
+                                        <div class="field">
+                                            <label class="label  has-text-grey has-text-weight-normal">Name</label>
+                                            <div class="control">
+                                                <InputText id="name" class="input" @bind-Value="@projectForm.Name" />
+                                                <div class="has-text-danger"><ValidationMessage For="@(() => projectForm.Name)" /></div>
+                                            </div>
+                                            <p class="help has-text-grey">Enter a unique name</p>
                                         </div>
-                                        <p class="help">Enter a unique name</p>
-                                    </div>
-                                    <div class="field">@*  *@
-                                        <label class="label">Description</label>
-                                        <div class="control">
-                                            <InputText id="description" class="input" @bind-Value="@projectForm.Description" />
+                                        <div class="field">
+                                            @*  *@
+                                            <label class="label  has-text-grey has-text-weight-normal">Description</label>
+                                            <div class="control">
+                                                <InputText id="description" class="input" @bind-Value="@projectForm.Description" />
+                                                <div class="has-text-danger"><ValidationMessage For="@(() => projectForm.Description)" /></div>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <button type="submit" class="button is-link">Add</button>
-                                </EditForm>
+                                        <button type="submit" class="button is-link">Add</button>
+                                    </EditForm>
+                                </div>                                
                             </div>
                         </div>
                     </div>
@@ -192,7 +197,7 @@
 
     private void ShowEditModal() => isEditModalActive = true;
     private void CloseEditModal() => isEditModalActive = false;
-    
+
     private void ShowRemoveModal() => isRemoveModalActive = true;
     private void CloseRemoveModal() => isRemoveModalActive = false;
 
@@ -237,7 +242,7 @@
         {
             projects.Remove(project);
         }
-   }
+    }
 
     private string GetShortDescription(string description)
     {

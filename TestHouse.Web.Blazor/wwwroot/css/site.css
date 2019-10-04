@@ -60,3 +60,13 @@
 
 .last-child {
   margin-right: 0 !important; }
+
+.th-form {
+  border: 1px solid #dbdbdb;
+  padding: 55px; }
+
+.th-form-content .input.invalid {
+  border-color: #ff3860; }
+
+.th-form-content .input.modified.valid {
+  border-color: #23d160; }

@@ -65,23 +65,30 @@
                                 <div class="step-content has-text-centered @(step == 1 ? "is-active" : "")">
                                     <div class="columns is-mobile">
                                         <div class="column is-half is-offset-one-quarter">
-                                            <div class="card">
-                                                <div class="card-content">
+                                            <div class="th-form">
+                                                <div class="th-form-content">
                                                     <br />
                                                     <EditForm Model="@testRunForm" OnValidSubmit="@SubmitTestRunForm">
+                                                        
                                                         <DataAnnotationsValidator />
-                                                        <ValidationSummary />
+                                                        
+                                                            
+                                                        <div class="has-text-danger"><ValidationSummary /></div>
+                                                        
                                                         <div class="field">
-                                                            <label class="label is-pulled-left">Name</label>
+                                                            <label class="label is-pulled-left has-text-grey has-text-weight-light">Name</label>
                                                             <div class="control">
                                                                 <InputText id="name" class="input" @bind-Value="@testRunForm.Name" />
+                                                                <div class="has-text-danger"><ValidationMessage For="@(() => testRunForm.Name)" /></div>
                                                             </div>
                                                         </div>
                                                         <div class="field">
-                                                            <label class="label is-pulled-left">Description</label>
+                                                            <label class="label is-pulled-left has-text-grey has-text-weight-light">Description</label>
                                                             <div class="control">
                                                                 <InputText id="description" class="input" @bind-Value="@testRunForm.Description" />
-                                                            </div>
+                                                                <div class="has-text-danger">
+                                                                    <ValidationMessage For="@(() => testRunForm.Description)" /></div>
+                                                                </div>
                                                         </div>
                                                     </EditForm>
                                                     <br />
